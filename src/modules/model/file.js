@@ -14,6 +14,14 @@ class File {
         this.name = name;
     }
 
+    getContent = function() {
+        return this.content;
+    }
+
+    setContent = function() {
+        this.content = content;
+    }
+
     eval = function() {
         return eval(this.content);
     }
