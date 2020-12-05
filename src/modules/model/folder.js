@@ -3,7 +3,7 @@ import { File } from './file.js'
 export { Folder }
 
 const FOLDER_EXISTS_MSG = function(folderName) {
-    return `A folder with name ${name} already exists in directory`;
+    return `A folder with name ${folderName} already exists in directory`;
 }
 
 const FILE_EXISTS_MSG = function(fileName) {
@@ -18,14 +18,14 @@ class Folder {
     }
 
     addFolder = function(name, files = {}, folders = {}, shortcut = undefined) {
-        if(!this.folderNameAvailable(name)) {
+        if(!this.hasFolder(name)) {
             throw FOLDER_EXISTS_MSG(name);
         }
         this.folders[name] = new Folder(files, folders, shortcut);
     }
 
     addFile = function(name, content = '') {
-        if(!this.fileNameAvailable(name)) {
+        if(!this.hasFile(name)) {
             throw FILE_EXISTS_MSG(name);
         }
         this.files[name] = new File(name, content);
@@ -39,11 +39,11 @@ class Folder {
         return Object.keys(this.files);
     }
 
-    fileNameAvailable = function(fileName) {
+    hasFolder = function(fileName) {
         return !Object.keys(this.files).includes(fileName);
     }
 
-    folderNameAvailable = function(folderName) {
+    hasFile = function(folderName) {
         return !Object.keys(this.folders).includes(folderName);
     }
 }
