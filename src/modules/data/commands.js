@@ -1,5 +1,4 @@
 import {Command} from '../model/command.js'
-export {commandsList};
 
 
 const pwd = new Command(
@@ -68,3 +67,4 @@ const man = new Command(
 )
 
 const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help}
+export {commandsList};
