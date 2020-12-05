@@ -1,50 +1,50 @@
-let manEcho = "<h2>Name</h2>" ;
-        manEcho += "<p>echo - display a line of text</p>";
-        manEcho += "<h2>Synopsis</h2>";
-        manEcho += "<b>echo</b> [<i>SHORT-OPTION</i>]... [<i>STRING</i>]...<br>";
-        manEcho += "<b>echo</b> <i>LONG-OPTION</i>";
-        manEcho += "<h2>Description</h2>";
-        manEcho += "<p>Echo the <b>STRING</b>(s) to standard output.";
-        manEcho += "<dl compact>";
-        manEcho += "<dt><b>-n</b>";
-        manEcho += "<dd>do not output the trailing newline";
-        manEcho += "<dt><b>-e</b>";
-        manEcho += "<dd>enable interpretation of backslash escapes";
-        manEcho += "<dt><b>-E</b>";
-        manEcho += "<dd>disable interpretation of backslash escapes (default)";
-        manEcho += "<dt><b>--help</b>";
-        manEcho += "<dd>display this help and exit";
-        manEcho += "<dt><b>--version</b>";
-        manEcho += "<dd>output version information and exit</dl>";
-        manEcho += "<p>If <b>-e</b> is in effect, the following sequences are recognized:";
-        manEcho += "<dl compact>";
-        manEcho += "<dt>\\";
-        manEcho += "<dd>backslash";
-        manEcho += "<dt>\a";
-        manEcho += "<dd>alert (BEL)";
-        manEcho += "<dt>\b";
-        manEcho += "<dd>backspace";
-        manEcho += "<dt>\c";
-        manEcho += "<dd>produce no further output";
-        manEcho += "<dt>\e";
-        manEcho += "<dd>escape";
-        manEcho += "<dt>\f";
-        manEcho += "<dd>form feed";
-        manEcho += "<dt>\n";
-        manEcho += "<dd>new line";
-        manEcho += "<dt>\r";
-        manEcho += "<dd>carriage return";
-        manEcho += "<dt>\t";
-        manEcho += "<dd>horizontal tab";
-        manEcho += "<dt>\v";
-        manEcho += "<dd>vertical tab";
-        manEcho += "<dt>\0NNN";
-        manEcho += "<dd>byte with octal value NNN (1 to 3 digits)";
-        manEcho += "<dt>xHH'";
-        manEcho += "<dd>byte with hexadecimal value HH (1 to 2 digits)</dl>";
-        manEcho += "<p>NOTE: your shell may have its own version of echo, which usually supersedes the version described here. Please refer to your shell's documentation for";
-        manEcho += "details about the options it supports. </p>";
-        manEcho += "<h2>Author</h2>";
-        manEcho += "<p>Written by Brian Fox and Chet Ramey.</p>";
+let manEcho = `<h2>Name</h2>
+        <p>echo - display a line of text</p>
+        <h2>Synopsis</h2>
+        <b>echo</b> [<i>SHORT-OPTION</i>]... [<i>STRING</i>]...<br>
+        <b>echo</b> <i>LONG-OPTION</i>
+        <h2>Description</h2>
+        <p>Echo the <b>STRING</b>(s) to standard output.
+        <dl compact>
+        <dt><b>-n</b>
+        <dd>do not output the trailing newline
+        <dt><b>-e</b>
+        <dd>enable interpretation of backslash escapes
+        <dt><b>-E</b>
+        <dd>disable interpretation of backslash escapes (default)
+        <dt><b>--help</b>
+        <dd>display this help and exit
+        <dt><b>--version</b>
+        <dd>output version information and exit</dl>
+        <p>If <b>-e</b> is in effect, the following sequences are recognized:
+        <dl compact>
+        <dt>\\
+        <dd>backslash
+        <dt>\a
+        <dd>alert (BEL)
+        <dt>\b
+        <dd>backspace
+        <dt>\c
+        <dd>produce no further output
+        <dt>\e
+        <dd>escape
+        <dt>\f
+        <dd>form feed
+        <dt>\n
+        <dd>new line
+        <dt>\r
+        <dd>carriage return
+        <dt>\t
+        <dd>horizontal tab
+        <dt>\v
+        <dd>vertical tab
+        <dt>\0NNN
+        <dd>byte with octal value NNN (1 to 3 digits)
+        <dt>xHH'
+        <dd>byte with hexadecimal value HH (1 to 2 digits)</dl>
+        <p>NOTE: your shell may have its own version of echo, which usually supersedes the version described here. Please refer to your shell's documentation for
+        details about the options it supports. </p>
+        <h2>Author</h2>
+        <p>Written by Brian Fox and Chet Ramey.</p>`;
 
-exports.manEcho = manEcho;
+module.exports = { manEcho };

@@ -1,42 +1,42 @@
-let manCat = "<h2>Name</h2>"
-        manCat +="<p>cat - concatenate files and print on the standard output </p>";
-        manCat +="<h2>Synopsis</h2>";
-        manCat +="<b>cat</b> [<i>OPTION</i>]... [<i>FILE</i>]...";
-        manCat +="<h2>Description</h2>";
-        manCat +="<p>Concatenate <b>FILE</b>(s), or standard input, to standard output.";
-        manCat +="<dl compact>";
-        manCat +="<dt><b>-A</b>, <b>--show-all</b>";
-        manCat +="<dd>equivalent to <b>-vET</b>";
-        manCat +="<dt><b>-b</b>, <b>--number-nonblank</b>";
-        manCat +="<dd>number nonempty output lines";
-        manCat +="<dt><b>-e</b>";
-        manCat +="<dd>equivalent to <b>-vE</b>";
-        manCat +="<dt><b>-E</b>, <b>--show-ends</b>";
-        manCat +="<dd>display $ at end of each line";
-        manCat +="<dt><b>-n</b>, <b>--number</b>";
-        manCat +="<dd>number all output lines";
-        manCat +="<dt><b>-s</b>, <b>--squeeze-blank</b>";
-        manCat +="<dd>suppress repeated empty output lines";
-        manCat +="<dt><b>-t</b>";
-        manCat +="<dd>equivalent to <b>-vT</b>";
-        manCat +="<dt><b>-T</b>, <b>--show-tabs</b>";
-        manCat +="<dd>display TAB characters as ^I";
-        manCat +="<dt><b>-u</b>";
-        manCat +="<dd>(ignored)";
-        manCat +="<dt><b>-v</b>, <b>--show-nonprinting</b>";
-        manCat +="<dd>use ^ and M- notation, except for LFD and TAB";
-        manCat +="<dt><b>--help</b>";
-        manCat +="<dd>display this help and exit";
-        manCat +="<dt><b>--version</b>";
-        manCat +="<dd>output version information and exit</dl>";
-        manCat +="<p>With no FILE, or when FILE is -, read standard input.";
-        manCat +="<h2>Examples</h2>";
-        manCat +="<dl compact>";
-        manCat +="<dt>cat f - g";
-        manCat +="<dd>Output f's contents, then standard input, then g's contents.";
-        manCat +="<dt>cat";
-        manCat +="<dd>Copy standard input to standard output.</dl>";
-        manCat +="<h2>Author</h2>";
-        manCat +="<p>Written by Torbjorn Granlund and Richard M. Stallman.</p>";
+let manCat = `<h2>Name</h2>
+        <p>cat - concatenate files and print on the standard output </p>
+        <h2>Synopsis</h2>
+        <b>cat</b> [<i>OPTION</i>]... [<i>FILE</i>]...
+        <h2>Description</h2>
+        <p>Concatenate <b>FILE</b>(s), or standard input, to standard output.
+        <dl compact>
+        <dt><b>-A</b>, <b>--show-all</b>
+        <dd>equivalent to <b>-vET</b>
+        <dt><b>-b</b>, <b>--number-nonblank</b>
+        <dd>number nonempty output lines
+        <dt><b>-e</b>
+        <dd>equivalent to <b>-vE</b>
+        <dt><b>-E</b>, <b>--show-ends</b>
+        <dd>display $ at end of each line
+        <dt><b>-n</b>, <b>--number</b>
+        <dd>number all output lines
+        <dt><b>-s</b>, <b>--squeeze-blank</b>
+        <dd>suppress repeated empty output lines
+        <dt><b>-t</b>
+        <dd>equivalent to <b>-vT</b>
+        <dt><b>-T</b>, <b>--show-tabs</b>
+        <dd>display TAB characters as ^I
+        <dt><b>-u</b>
+        <dd>(ignored)
+        <dt><b>-v</b>, <b>--show-nonprinting</b>
+        <dd>use ^ and M- notation, except for LFD and TAB
+        <dt><b>--help</b>
+        <dd>display this help and exit
+        <dt><b>--version</b>
+        <dd>output version information and exit</dl>
+        <p>With no FILE, or when FILE is -, read standard input.
+        <h2>Examples</h2>
+        <dl compact>
+        <dt>cat f - g
+        <dd>Output f's contents, then standard input, then g's contents.
+        <dt>cat
+        <dd>Copy standard input to standard output.</dl>
+        <h2>Author</h2>
+        <p>Written by Torbjorn Granlund and Richard M. Stallman.</p>`;
 
-exports.manCat = manCat;
+module.exports = { manCat };

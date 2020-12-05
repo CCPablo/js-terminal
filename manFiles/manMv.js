@@ -1,56 +1,53 @@
-let manLs = '<h1>ls</h1>';
-manLs +="<h2>Name</h2>";
+let manMv = `<h2>Name</h2>
+        mv - move (rename) files
+        <h2>Synopsis</h2>
+        <b>mv</b> [<i>OPTION</i>]... [<i>-T</i>] <i>SOURCE DEST</i><br>
+        <b>mv</b> [<i>OPTION</i>]... <i>SOURCE</i>... <i>DIRECTORY</i><br>
+        <b>mv</b> [<i>OPTION</i>]... <i>-t DIRECTORY SOURCE</i>...
+        <h2>Description</h2>
+        <p>Rename SOURCE to DEST, or move <b>SOURCE</b>(s) to DIRECTORY.
+        <p>Mandatory arguments to long options are mandatory for short options too.
+        <dl compact>
+        <dt><b>--backup</b>[=<i>CONTROL</i>]
+        <dd>make a backup of each existing destination file
+        <dt><b>-b</b>
+        <dd>like <b>--backup</b> but does not accept an argument
+        <dt><b>-f</b>, <b>--force</b>
+        <dd>do not prompt before overwriting
+        <dt><b>-i</b>, <b>--interactive</b>
+        <dd>prompt before overwrite
+        <dt><b>-n</b>, <b>--no-clobber</b>
+        <dd>do not overwrite an existing file</dl>
+        <p>If you specify more than one of <b>-i</b>, <b>-f</b>, <b>-n</b>, only the final one takes effect.
+        <dl compact>
+        <dt><b>--strip-trailing-slashes</b>
+        <dd>remove any trailing slashes from each SOURCE argument
+        <dt><b>-S</b>, <b>--suffix</b>=<i>SUFFIX</i>
+        <dd>override the usual backup suffix
+        <dt><b>-t</b>, <b>--target-directory</b>=<i>DIRECTORY</i>
+        <dd>move all SOURCE arguments into DIRECTORY
+        <dt><b>-T</b>, <b>--no-target-directory</b>
+        <dd>treat DEST as a normal file
+        <dt><b>-u</b>, <b>--update</b>
+        <dd>move only when the SOURCE file is newer than the destination file or when the destination file is missing
+        <dt><b>-v</b>, <b>--verbose</b>
+        <dd>explain what is being done
+        <dt><b>--help</b>
+        <dd>display this help and exit
+        <dt><b>--version</b>
+        <dd>output version information and exit</dl>
+        <p>The backup suffix is '~', unless set with <b>--suffix</b> or SIMPLE_BACKUP_SUFFIX. The version control method may be selected via the <b>--backup</b> option
+        or through the VERSION_CONTROL environment variable. Here are the values:</p>
+        <dl compact>
+        <dt>none, off
+        <dd>never make backups (even if <b>--backup</b> is given)
+        <dt>numbered, t
+        <dd>make numbered backups
+        <dt>existing, nil
+        <dd>numbered if numbered backups exist, simple otherwise
+        <dt>simple, never
+        <dd>always make simple backups</dl>
+        <h2>Author</h2>
+        <p>Written by Mike Parker, David MacKenzie, and Jim Meyering.</p>`;
 
-let manMv = "<h2>Name</h2>";
-        manMv +="mv - move (rename) files";
-        manMv +="<h2>Synopsis</h2>";
-        manMv +="<b>mv</b> [<i>OPTION</i>]... [<i>-T</i>] <i>SOURCE DEST</i><br>";
-        manMv +="<b>mv</b> [<i>OPTION</i>]... <i>SOURCE</i>... <i>DIRECTORY</i><br>";
-        manMv +="<b>mv</b> [<i>OPTION</i>]... <i>-t DIRECTORY SOURCE</i>...";
-        manMv +="<h2>Description</h2>";
-        manMv +="<p>Rename SOURCE to DEST, or move <b>SOURCE</b>(s) to DIRECTORY.";
-        manMv +="<p>Mandatory arguments to long options are mandatory for short options too.";
-        manMv +="<dl compact>";
-        manMv +="<dt><b>--backup</b>[=<i>CONTROL</i>]";
-        manMv +="<dd>make a backup of each existing destination file";
-        manMv +="<dt><b>-b</b>";
-        manMv +="<dd>like <b>--backup</b> but does not accept an argument";
-        manMv +="<dt><b>-f</b>, <b>--force</b>";
-        manMv +="<dd>do not prompt before overwriting";
-        manMv +="<dt><b>-i</b>, <b>--interactive</b>";
-        manMv +="<dd>prompt before overwrite";
-        manMv +="<dt><b>-n</b>, <b>--no-clobber</b>";
-        manMv +="<dd>do not overwrite an existing file</dl>";
-        manMv +="<p>If you specify more than one of <b>-i</b>, <b>-f</b>, <b>-n</b>, only the final one takes effect.";
-        manMv +="<dl compact>";
-        manMv +="<dt><b>--strip-trailing-slashes</b>";
-        manMv +="<dd>remove any trailing slashes from each SOURCE argument";
-        manMv +="<dt><b>-S</b>, <b>--suffix</b>=<i>SUFFIX</i>";
-        manMv +="<dd>override the usual backup suffix";
-        manMv +="<dt><b>-t</b>, <b>--target-directory</b>=<i>DIRECTORY</i>";
-        manMv +="<dd>move all SOURCE arguments into DIRECTORY";
-        manMv +="<dt><b>-T</b>, <b>--no-target-directory</b>";
-        manMv +="<dd>treat DEST as a normal file";
-        manMv +="<dt><b>-u</b>, <b>--update</b>";
-        manMv +="<dd>move only when the SOURCE file is newer than the destination file or when the destination file is missing";
-        manMv +="<dt><b>-v</b>, <b>--verbose</b>";
-        manMv +="<dd>explain what is being done";
-        manMv +="<dt><b>--help</b>";
-        manMv +="<dd>display this help and exit";
-        manMv +="<dt><b>--version</b>";
-        manMv +="<dd>output version information and exit</dl>";
-        manMv +="<p>The backup suffix is '~', unless set with <b>--suffix</b> or SIMPLE_BACKUP_SUFFIX. The version control method may be selected via the <b>--backup</b> option";
-        manMv +="or through the VERSION_CONTROL environment variable. Here are the values:</p>";
-        manMv +="<dl compact>";
-        manMv +="<dt>none, off";
-        manMv +="<dd>never make backups (even if <b>--backup</b> is given)";
-        manMv +="<dt>numbered, t";
-        manMv +="<dd>make numbered backups";
-        manMv +="<dt>existing, nil";
-        manMv +="<dd>numbered if numbered backups exist, simple otherwise";
-        manMv +="<dt>simple, never";
-        manMv +="<dd>always make simple backups</dl>";
-        manMv +="<h2>Author</h2>";
-        manMv +="<p>Written by Mike Parker, David MacKenzie, and Jim Meyering.</p>";
-
-exports.manMv = manMv;
+module.exports = { manMv };
