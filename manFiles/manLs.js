@@ -1,9 +1,18 @@
+import manClass from './classForMan';
 
-let manLs = `<h1>ls</h1>
+let manLs = new manClass(
+
+        (`
         <h2>Name</h2>
         <p>ls - list directory contents </p>
+        `),
+
+        (`
         <h2>Synopsis</h2>
         <b>ls</b> [<i>OPTION</i>]... [<i>FILE</i>]...
+        `),
+
+        (`
         <h2>Description</h2>
         <p>List information about the FILEs (the current directory by default). Sort entries alphabetically if none of <b>-cftuvSUX</b> nor <b>--sort</b>.
         <p>Mandatory arguments to long options are mandatory for short options too.
@@ -124,6 +133,9 @@ let manLs = `<h1>ls</h1>
         <dd>sort alphabetically by entry extension
         <dt><b>-1</b>
         <dd>list one file per line</dl>
+        `),
+
+        (`
         <p>SELinux options:
         <dl compact>
         <dt><b>--lcontext</b>
@@ -144,8 +156,14 @@ let manLs = `<h1>ls</h1>
         <li>if OK,
         <li>if minor problems (e.g., cannot access subdirectory),
         <li>if serious trouble (e.g., cannot access command-line argument).</ol>
+        `),
+
+        (`
         <h2>Author</h2>
-        Written by Richard M. Stallman and David Ma`;
+        <p>Written by Richard M. Stallman and David Ma </p>
+        `)
+        
+    );
 
 module.exports = { manLs };
 

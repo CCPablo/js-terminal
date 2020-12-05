@@ -1,8 +1,19 @@
-let manEcho = `<h2>Name</h2>
+import manClass from './classForMan';
+
+let manEcho = new manClass(
+
+        (`
+        <h2>Name</h2>
         <p>echo - display a line of text</p>
+        `),
+
+        (`
         <h2>Synopsis</h2>
         <b>echo</b> [<i>SHORT-OPTION</i>]... [<i>STRING</i>]...<br>
         <b>echo</b> <i>LONG-OPTION</i>
+        `),
+
+        (`
         <h2>Description</h2>
         <p>Echo the <b>STRING</b>(s) to standard output.
         <dl compact>
@@ -44,7 +55,17 @@ let manEcho = `<h2>Name</h2>
         <dd>byte with hexadecimal value HH (1 to 2 digits)</dl>
         <p>NOTE: your shell may have its own version of echo, which usually supersedes the version described here. Please refer to your shell's documentation for
         details about the options it supports. </p>
+        `),
+
+        (
+        `<h2>No examples available</h2>`
+        ),
+
+        (`
         <h2>Author</h2>
-        <p>Written by Brian Fox and Chet Ramey.</p>`;
+        <p>Written by Brian Fox and Chet Ramey.</p>
+        `)
+
+    );
 
 module.exports = { manEcho };

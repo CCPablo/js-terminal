@@ -1,7 +1,18 @@
-let manRm = `<h2>Name</h2>
+import manClass from './classForMan';
+//let manCat = new manClass(
+
+let manRm = new manClass(
+        (`
+        <h2>Name</h2>
         rm - remove files or directories
+        `),
+
+        (`
         <h2>Synopsis</h2>
         <b>rm</b> [<i>OPTION</i>]... <i>FILE</i>...
+        `),
+
+        (`
         <h2>Description</h2>
         <p>This manual page documents the GNU version of <b>rm</b>. <b>rm</b> removes each specified file.
         By default, it does not remove directories.</p>
@@ -10,6 +21,9 @@ let manRm = `<h2>Name</h2>
         <p>Otherwise, if a file is unwritable, standard input is a terminal, and the <i>-f</i> or <i>--force</i> option is not given, or the <i>-i</i> or
         <i>--interactive=always</i> option is given, <b>rm</b> prompts the user for whether to remove the file. If the response is not affirmative, the file is
         skipped.</p>
+        `),
+
+        (`
         <h2>Options</h2>
         <p>Remove (unlink) the <b>FILE</b>(s).
         <dl compact>
@@ -44,9 +58,17 @@ let manRm = `<h2>Name</h2>
         <dt>rm ./-foo</dl>
         <p>Note that if you use rm to remove a file, it is usually possible to recover the contents of that file. If you want more assurance that the contents are
         truly unrecoverable, consider using shred.</p>
+        `),
+
+        (`
         <h2>Author</h2>
-        <p>Written by Paul Rubin, David MacKenzie, Richard M. Stallman, and Jim Meyering.</p>`;
-module.exports = { manRm };
+        <p>Written by Paul Rubin, David MacKenzie, Richard M. Stallman, and Jim Meyering.</p>
+        `)
+        
+        );
+
+
+        module.exports = { manRm };
 
 
 

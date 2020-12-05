@@ -1,9 +1,20 @@
-let manMv = `<h2>Name</h2>
+import manClass from './classForMan';
+
+let manMv = new manClass(
+
+        (
+        `<h2>Name</h2>
         mv - move (rename) files
+        `),
+
+        (`
         <h2>Synopsis</h2>
         <b>mv</b> [<i>OPTION</i>]... [<i>-T</i>] <i>SOURCE DEST</i><br>
         <b>mv</b> [<i>OPTION</i>]... <i>SOURCE</i>... <i>DIRECTORY</i><br>
         <b>mv</b> [<i>OPTION</i>]... <i>-t DIRECTORY SOURCE</i>...
+        `),
+
+        (`
         <h2>Description</h2>
         <p>Rename SOURCE to DEST, or move <b>SOURCE</b>(s) to DIRECTORY.
         <p>Mandatory arguments to long options are mandatory for short options too.
@@ -47,7 +58,17 @@ let manMv = `<h2>Name</h2>
         <dd>numbered if numbered backups exist, simple otherwise
         <dt>simple, never
         <dd>always make simple backups</dl>
+        `),
+        
+        (`
+            <h2>No examples available</h2>
+        `),
+
+        (`
         <h2>Author</h2>
-        <p>Written by Mike Parker, David MacKenzie, and Jim Meyering.</p>`;
+        <p>Written by Mike Parker, David MacKenzie, and Jim Meyering.</p>
+        `),
+        
+        );
 
 module.exports = { manMv };

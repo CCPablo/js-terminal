@@ -1,8 +1,19 @@
-let manCat = `<h2>Name</h2>
-        <p>cat - concatenate files and print on the standard output </p>
-        <h2>Synopsis</h2>
-        <b>cat</b> [<i>OPTION</i>]... [<i>FILE</i>]...
-        <h2>Description</h2>
+import manClass from './classForMan';
+
+let manCat = new manClass(
+
+        (
+            `<h2>Name</h2>
+        <p>cat - concatenate files and print on the standard output </p>`
+        ),
+        
+        (
+            `<h2>Synopsis</h2>
+        <b>cat</b> [<i>OPTION</i>]... [<i>FILE</i>]...`
+        ),
+
+        (
+        `<h2>Description</h2>
         <p>Concatenate <b>FILE</b>(s), or standard input, to standard output.
         <dl compact>
         <dt><b>-A</b>, <b>--show-all</b>
@@ -29,14 +40,22 @@ let manCat = `<h2>Name</h2>
         <dd>display this help and exit
         <dt><b>--version</b>
         <dd>output version information and exit</dl>
-        <p>With no FILE, or when FILE is -, read standard input.
-        <h2>Examples</h2>
+        <p>With no FILE, or when FILE is -, read standard input.`
+        ),
+
+        (
+        `<h2>Examples</h2>
         <dl compact>
         <dt>cat f - g
         <dd>Output f's contents, then standard input, then g's contents.
         <dt>cat
-        <dd>Copy standard input to standard output.</dl>
-        <h2>Author</h2>
-        <p>Written by Torbjorn Granlund and Richard M. Stallman.</p>`;
+        <dd>Copy standard input to standard output.</dl>`
+        ),
+
+        (`<h2>Author</h2>
+        <p>Written by Torbjorn Granlund and Richard M. Stallman.</p>`
+        )
+        
+    );
 
 module.exports = { manCat };
