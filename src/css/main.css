@@ -15,8 +15,17 @@
 body {
     background: var(--background-principal);
     font-family: 'FiraCode';
-    font-weight: 300;
+    font-weight: 600;
 }
+/*Terminal Font*/
+.terminal__font {
+    color: var(--color-text-principal);
+    font-size: 18px;
+    text-indent: 0.5em;
+    font-weight: 500;
+    float: left;
+} /*by marcel for testing*/
+
 .hidden{
     overflow: hidden;
     opacity: 0;

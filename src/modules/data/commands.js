@@ -1,26 +1,27 @@
 import {Command} from '../model/command.js'
 
+const terminalOutput = document.getElementById('terminal__output');
 
 const pwd = new Command(
     'print name of current/working directory',
     ' ',
     function pwd(a) {
-        return a * 2;
     }
 )
 
 const ls = new Command(
     'ls - list directory contents',
     ' ',
-    function ls() {}
+    function ls(a) {
+    }
 )
 
 const cd = new Command(
     'cd - change the shell working directory.',
     ' ',
-    function cd(a = []) {
-        if (a === '..') {
-        }
+    function cd(/*a = []*/) {
+        //   if (a === '..') {
+        //   }
     }
 )
 
@@ -33,7 +34,11 @@ const mkdir = new Command(
 const echo = new Command(
     'echo - Write arguments to the standard output.',
     '',
-    function echo() {}
+    function echo(a) {
+        let echoThis = document.createElement('p')
+        echoThis.textContent = a;
+        terminalOutput.appendChild(echoThis);
+    }
 )
 
 const cat = new Command(
@@ -66,9 +71,25 @@ const man = new Command(
     function man() {}
 )
 
-export function runCommand(com, a) {
+const clear = new Command(
+    'clear - clear the terminal screen',
+    '',
+    function clear() {
+        terminalOutput.innerHTML = '';
+    }
+)
+
+const square = new Command(
+    'square - return square of value for testing',
+    '',
+    function square(a) {
+        return a * a;
+    }
+)
+
+export function runCommand(com, a = []) {
     return commandsList[com].run(a)
 }
 
-const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help}
+const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help, man, square, clear}
 export {commandsList};

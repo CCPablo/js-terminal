@@ -22,18 +22,34 @@ function fetchInput(val) {
 fetchInput();
 
 function formatInput(a) {
-    let splited = a.split(' ');
-    switch (splited[0]) {
+    // [command] [arguments] [path] 
+    let splitted = a.split(' ');
+
+    switch (splitted[0]) {
         case 'ls':
-            console.log('list folders')
+            /* if (splitted[1] && splitted[1][0] === '-') {
+                switch (splitted[1]) {
+                    case '-R':
+                        console.log('list folders recursively')
+                        break;
+                    default:
+                        console.log('ls with an argument')
+                        break;
+                }
+            } else {
+                console.log('list folders')
+            }*/
+            // runCommand('ls', splitted[1]);
             break;
         case 'cd':
             break;
         case 'pwd':
+            console.log(runCommand('pwd', splitted[1]));
             break;
         case 'mkdir':
             break;
         case 'echo':
+            runCommand('echo', splitted[1]);
             break;
         case 'touch':
             break;
@@ -44,6 +60,18 @@ function formatInput(a) {
         case 'mv':
             break;
         case 'clear':
+            runCommand('clear')
+            break;
+        case 'man':
+            break;
+        case 'help':
+            break;
+        // for testing.
+        case 'square':
+            console.log(runCommand('square', splitted[1]))
+            break;
+        default:
+            console.log('not a command')
             break;
     }
 }
