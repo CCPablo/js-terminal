@@ -1,28 +1,4 @@
-/* @font-face{
-    font-family: FiraCode;
-    font-weight: 300;
-    src: url(../fonts/FiraCode-Light.ttf);
-}
-@font-face{
-    font-family: 'FiraCode';
-    font-weight: 400;
-    src: url(../fonts/FiraCode-Medium.ttf);
-}
-@font-face{
-    font-family: 'FiraCode';
-    font-weight: 500;
-    src: url(../fonts/FiraCode-Regular.ttf);
-}
-@font-face{
-    font-family: 'FiraCode';
-    font-weight: 600;
-    src: url(../fonts/FiraCode-SemiBold.ttf);
-}
-@font-face{
-    font-family: 'FiraCode';
-    font-weight: 700;
-    src: url(../fonts/FiraCode-Bold.ttf);
-} */
+@import './fonts.css';
 
 :root {
     --background-principal: #181818;
@@ -37,7 +13,8 @@
 }
 body {
     background: var(--background-principal);
-    font-family: 'Inconsolata', monospace;
+    font-family: 'FiraCode';
+    font-weight: 300;
 }
 .container {
     display: flex;
@@ -55,6 +32,14 @@ body {
     border: 1px solid #d8d8d8;
     border-top: none;
     overflow: scroll;
+    box-shadow:
+        0 2.8px 2.2px rgba(255, 255, 255, 0.034),
+        0 6.7px 5.3px rgba(71, 71, 71, 0.048),
+        0 12.5px 10px rgba(71, 71, 71, 0.06),
+        0 22.3px 17.9px rgba(71, 71, 71, 0.072),
+        0 41.8px 33.4px rgba(71, 71, 71, 0.086),
+        0 100px 80px rgba(71, 71, 71, 0.12)
+    ;
 }
 .terminal__header {
     width: 100%;
@@ -78,7 +63,6 @@ body {
     width: 100%;
     color: var(--color-text-principal);
     padding: 2px 10px;
-    font-family: 'Inconsolata', monospace;
     font-size: 18px;
     height: 28px;
     background-color: var(--background-terminal);
@@ -86,6 +70,8 @@ body {
 .terminal__input:focus,
 .terminal__input:hover,
 .terminal__input:active {
+    outline: none;
+    box-shadow: none;
     appearance: none;
     border: none;
     width: 100%;
