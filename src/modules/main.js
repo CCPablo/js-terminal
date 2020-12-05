@@ -1,1 +1,1 @@
-import { getActiveFolder, getPath, setActiveFolder } from './state/folders.js'
+import { getActiveFolder, enterFolder, exitFolder, getPath } from './state/folders.js'
