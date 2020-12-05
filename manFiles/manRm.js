@@ -1,7 +1,7 @@
-import manClass from './classForMan';
-//let manCat = new manClass(
+import manFile from './manFile';
 
-let manRm = new manClass(
+
+let manRm = new manFile (
         (`
         <h2>Name</h2>
         rm - remove files or directories
