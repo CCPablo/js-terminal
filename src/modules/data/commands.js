@@ -66,5 +66,9 @@ const man = new Command(
     function man() {}
 )
 
+export function runCommand(com, a) {
+    return commandsList[com].run(a)
+}
+
 const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help}
 export {commandsList};
