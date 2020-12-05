@@ -83,10 +83,11 @@ const square = new Command(
     'square - return square of value for testing',
     '',
     function square(a) {
-        return a * a;
+        let result = document.createElement('p');
+        result.textContent = a * a;
+        terminalOutput.appendChild(result);
     }
 )
-
 export function runCommand(com, a = []) {
     return commandsList[com].run(a)
 }

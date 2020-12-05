@@ -1,10 +1,9 @@
-import {commandsList, runCommand} from './src/modules/data/commands.js'
+import {runCommand} from './src/modules/data/commands.js'
 
-
-console.log(runCommand('pwd', 2))
-
+// HTML Variables
 let input = document.querySelector('.terminal__input')
 
+// Event Listeners
 input.addEventListener('keydown', e => {
     if (e.keyCode === 13) {
         e.preventDefault();
@@ -13,33 +12,40 @@ input.addEventListener('keydown', e => {
     }
 });
 
+// Grab the input
 function fetchInput(val) {
     if (input.value !== '') {
         formatInput(val)
     }
 }
-
 fetchInput();
 
+// Split the string, if the index 0 word matches a command runCommand()
 function formatInput(a) {
     // [command] [arguments] [path] 
+    let path = [];
+    let options = [];
     let splitted = a.split(' ');
+    splitted.forEach(e => {
+        if (e[0] == '/') {
+            path.push(e);
+        }
+        if (e[0] === '-') {
+            options.push(e);
+        }
+        // console.log(path)
+        // console.log(options)
+    })
 
     switch (splitted[0]) {
         case 'ls':
-            /* if (splitted[1] && splitted[1][0] === '-') {
-                switch (splitted[1]) {
-                    case '-R':
-                        console.log('list folders recursively')
-                        break;
-                    default:
-                        console.log('ls with an argument')
-                        break;
-                }
+            if (path = '') {
+                runCommand('ls')
+            } else if (path.lenght === 1) {
+                runCommand('ls', path)
             } else {
-                console.log('list folders')
-            }*/
-            // runCommand('ls', splitted[1]);
+                path.forEach(e => runCommand('ls', e))
+            }
             break;
         case 'cd':
             break;
@@ -60,7 +66,7 @@ function formatInput(a) {
         case 'mv':
             break;
         case 'clear':
-            runCommand('clear')
+            runCommand('clear');
             break;
         case 'man':
             break;
@@ -68,10 +74,9 @@ function formatInput(a) {
             break;
         // for testing.
         case 'square':
-            console.log(runCommand('square', splitted[1]))
+            runCommand('square', splitted[1]);
             break;
         default:
-            console.log('not a command')
-            break;
+            return 'not a command';
     }
 }
