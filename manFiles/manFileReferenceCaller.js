@@ -30,4 +30,5 @@ let manRm = importRm.manRm;
 
 export {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm};
 
+/* TO USE WHEN IMPORTING */
 let importMan = require('./manFileReferenceCaller');
