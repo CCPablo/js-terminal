@@ -1,0 +1,19 @@
+let manPwd = "<h2>Synopsis</h2>";
+        manPwd += "<b>pwd</b> [<i>OPTION</i>]...";
+        manPwd += "<h2>Description</h2>";
+        manPwd += "<p>Print the full filename of the current working directory.";
+        manPwd += "<dl compact>";
+        manPwd += "<dt><b>-L</b>, <b>--logical</b>";
+        manPwd += "<dd>use PWD from environment, even if it contains symlinks";
+        manPwd += "<dt><b>-P</b>, <b>--physical</b>";
+        manPwd += "<dd>avoid all symlinks";
+        manPwd += "<dt><b>--help</b>";
+        manPwd += "<dd>display this help and exit";
+        manPwd += "<dt><b>--version</b>";
+        manPwd += "<dd>output version information and exit</dl>";
+        manPwd += "<p>NOTE: your shell may have its own version of pwd, which usually supersedes the version described here. Please refer to your shell's documentation for";
+        manPwd += "details about the options it supports.</p>";
+        manPwd += "<h2>Author</h2>";
+        manPwd += "<p>Written by Jim Meyering.</p>";
+
+exports.manPwd = manPwd;
