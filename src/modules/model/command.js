@@ -1,8 +1,8 @@
 
 export class Command {
-    constructor(description, manRef, action) {
+    constructor(description, manRef, run) {
         this.description = description;
         this.manRef = manRef;
-        this.action = action;
+        this.run = run;
     }
 }

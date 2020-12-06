@@ -1,26 +1,27 @@
 import {Command} from '../model/command.js'
 
+const terminalOutput = document.getElementById('terminal__output');
 
 const pwd = new Command(
     'print name of current/working directory',
     ' ',
     function pwd(a) {
-        return a * 2;
     }
 )
 
 const ls = new Command(
     'ls - list directory contents',
     ' ',
-    function ls() {}
+    function ls(a) {
+    }
 )
 
 const cd = new Command(
     'cd - change the shell working directory.',
     ' ',
-    function cd(a = []) {
-        if (a === '..') {
-        }
+    function cd(/*a = []*/) {
+        //   if (a === '..') {
+        //   }
     }
 )
 
@@ -33,7 +34,13 @@ const mkdir = new Command(
 const echo = new Command(
     'echo - Write arguments to the standard output.',
     '',
-    function echo() {}
+    function echo(argument) {
+        console.log(argument)
+        let echoThis = document.createElement('p')
+        let message = argument.join(' ');
+        echoThis.textContent = message;
+        terminalOutput.appendChild(echoThis);
+    }
 )
 
 const cat = new Command(
@@ -66,5 +73,35 @@ const man = new Command(
     function man() {}
 )
 
-const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help}
+const clear = new Command(
+    'clear - clear the terminal screen',
+    '',
+    function clear() {
+        terminalOutput.innerHTML = '';
+    }
+)
+
+const square = new Command(
+    'square - return square of value for testing',
+    '',
+    function square(a) {
+        let result = document.createElement('p');
+        result.textContent = a * a;
+        terminalOutput.appendChild(result);
+    }
+)
+
+export function runCommand(com, argument, param = []) {
+    try {
+        if (param === []) {
+            return commandsList[com].run(argument)
+        } else {
+            return commandsList[com].run(param, argument)
+        }
+    } catch (error) {
+        alert(error)
+    }
+}
+
+const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help, man, square, clear}
 export {commandsList};
