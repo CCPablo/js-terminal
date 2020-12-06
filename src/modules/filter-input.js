@@ -2,7 +2,6 @@ import {runCommand} from './data/commands.js'
 
 // HTML Variables
 let input = document.querySelector('.terminal__input')
-console.log(input)
 
 // Event Listeners
 input.addEventListener('keydown', e => {
@@ -26,7 +25,7 @@ function decode(rawInput) {
     splitted.shift();
 
     splitted.forEach(e => {
-        if (e[0] === '-') {
+        if (e[0] === '-' || e[0] === '>') {
             decoded.parameters.push(e);
         } else {
             decoded.argument.push(e);
@@ -38,5 +37,5 @@ function decode(rawInput) {
 
 function process(rawInput) {
     const decoded = decode(rawInput)
-    runCommand(decoded.command, decoded.parameters, decoded.argument);
+    runCommand(decoded.command, decoded.argument, decoded.parameters);
 }

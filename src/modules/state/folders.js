@@ -54,7 +54,7 @@ let rootFolder = {
 
 import {Folder} from '../model/folder.js'
 
-export {getActiveFolder, enterFolder, exitFolder, getPath}
+export {getActiveFolder, enterFolder, exitFolder, getPath, rootFolder}
 
 let rootFolder = new Folder();
 

@@ -1,4 +1,7 @@
 import {Command} from '../model/command.js'
+import {Folder} from '../model/folder.js'
+import {File} from '../model/file.js'
+import {getActiveFolder, enterFolder, exitFolder, getPath, rootFolder} from '../state/folders.js'
 
 const terminalOutput = document.getElementById('terminal__output');
 
@@ -6,6 +9,7 @@ const pwd = new Command(
     'print name of current/working directory',
     ' ',
     function pwd(a) {
+
     }
 )
 
@@ -34,12 +38,24 @@ const mkdir = new Command(
 const echo = new Command(
     'echo - Write arguments to the standard output.',
     '',
-    function echo(argument) {
-        console.log(argument)
-        let echoThis = document.createElement('p')
-        let message = argument.join(' ');
-        echoThis.textContent = message;
-        terminalOutput.appendChild(echoThis);
+    function echo(argument, parameter = []) {
+        if (parameter.length > 0) {
+            argument.forEach(e => {
+                if (e === '>') {
+                    let indexOfBiggerThan = argument.indexOf(e);
+                    let stringToEcho = argument.slice(0, indexOfBiggerThan);
+                    let nameOfFile = argument[argument.length - 1];
+                    stringToEcho.join(' ');
+                    argument.splice(indexOfBiggerThan, 1);
+                    rootFolder.addFile(nameOfFile, stringToEcho)
+                }
+            })
+        } else {
+            let echoThis = document.createElement('p')
+            let message = argument.join(' ');
+            echoThis.textContent = message;
+            terminalOutput.appendChild(echoThis);
+        }
     }
 )
 
@@ -96,7 +112,7 @@ export function runCommand(com, argument, param = []) {
         if (param === []) {
             return commandsList[com].run(argument)
         } else {
-            return commandsList[com].run(param, argument)
+            return commandsList[com].run(argument, param)
         }
     } catch (error) {
         alert(error)
@@ -104,4 +120,3 @@ export function runCommand(com, argument, param = []) {
 }
 
 const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help, man, square, clear}
-export {commandsList};
