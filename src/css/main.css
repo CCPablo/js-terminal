@@ -39,7 +39,6 @@ body {
     font-family: 'Inconsolata', monospace;
     border: 1px solid #d8d8d8;
     border-top: none;
-    overflow: scroll;
     box-shadow:
         0 2.8px 2.2px rgba(255, 255, 255, 0.034),
         0 6.7px 5.3px rgba(71, 71, 71, 0.048),
@@ -71,8 +70,8 @@ body {
     background: transparent; /* Chrome/Safari/Webkit */
 }
 .disable-scrollbars {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE 10+ */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE 10+ */
 }
 .terminal__output {
     width: 100%;
