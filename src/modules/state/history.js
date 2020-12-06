@@ -1,13 +1,32 @@
 
 const MAX_ITEMS = 50;
 
-instructionHistory = [];
+const instructionHistory = [];
 
-function addInstruction(instruction) {
-    if(historyFull()) {
+let currentIndex = 0;
+
+function addToHistory(instruction) {
+    currentIndex = 0;
+    if(historyIsFull()) {
         instructionHistory.pop();
     }
     instructionHistory.unshift(instruction);
+}
+
+function getHistoryItem(direction) {
+    if(direction === 'newer') {
+        return instructionHistory[currentIsNewest() ? currentIndex-- : currentIndex];
+    } else if(direction === 'older') {
+        return instructionHistory[currentIsOldest() ? currentIndex++ : currentIndex];
+    }
+}
+
+function currentIsNewest() {
+    return currentIndex > 0;
+}
+
+function currentIsOldest() {
+    return currentIndex < instructionHistory.length-1;
 }
 
 function getHistory(numberOfItems) {
@@ -17,6 +36,8 @@ function getHistory(numberOfItems) {
     return instructionHistory;
 }
 
-function historyFull() {
+function historyIsFull() {
     return instructionHistory.length === MAX_ITEMS;
 }
+
+export { addToHistory, getHistoryItem, getHistory, historyIsFull }
