@@ -1,4 +1,4 @@
-import {runCommand} from './src/modules/data/commands.js'
+import {runCommand} from './data/commands.js'
 
 // HTML Variables
 let input = document.querySelector('.terminal__input')
