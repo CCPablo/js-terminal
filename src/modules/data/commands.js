@@ -88,8 +88,17 @@ const square = new Command(
         terminalOutput.appendChild(result);
     }
 )
-export function runCommand(com, a = []) {
-    return commandsList[com].run(a)
+
+export function runCommand(com, param, argument) {
+    try {
+        if (param) {
+            return commandsList[com].run(param, argument)
+        } else {
+            return commandsList[com].run(argument);
+        }
+    } catch (error) {
+        alert(error)
+    }
 }
 
 const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help, man, square, clear}

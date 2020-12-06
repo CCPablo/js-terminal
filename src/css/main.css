@@ -15,7 +15,7 @@
 body {
     background: var(--background-principal);
     font-family: 'FiraCode';
-    font-weight: 600;
+    font-weight: 300;
 }
 /*Terminal Font*/
 .terminal__font {
