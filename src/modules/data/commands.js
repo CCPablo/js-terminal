@@ -34,9 +34,11 @@ const mkdir = new Command(
 const echo = new Command(
     'echo - Write arguments to the standard output.',
     '',
-    function echo(a) {
+    function echo(argument) {
+        console.log(argument)
         let echoThis = document.createElement('p')
-        echoThis.textContent = a;
+        let message = argument.join(' ');
+        echoThis.textContent = message;
         terminalOutput.appendChild(echoThis);
     }
 )
@@ -89,12 +91,12 @@ const square = new Command(
     }
 )
 
-export function runCommand(com, param, argument) {
+export function runCommand(com, argument, param = []) {
     try {
-        if (param) {
-            return commandsList[com].run(param, argument)
+        if (param === []) {
+            return commandsList[com].run(argument)
         } else {
-            return commandsList[com].run(argument);
+            return commandsList[com].run(param, argument)
         }
     } catch (error) {
         alert(error)

@@ -16,9 +16,9 @@ input.addEventListener('keydown', e => {
 // Split the string, if the index 0 word matches a command runCommand()
 function decode(rawInput) {
 
-    const decoded = {command: '', options: [], parameters: []}
-
     // [command] [parameters] [arguments]  
+    const decoded = {command: '', parameters: [], argument: []}
+
     let splitted = rawInput.split(' ');
 
     decoded.command = splitted[0]
@@ -26,9 +26,9 @@ function decode(rawInput) {
 
     splitted.forEach(e => {
         if (e[0] === '-') {
-            decoded.options.push(e);
-        } else {
             decoded.parameters.push(e);
+        } else {
+            decoded.argument.push(e);
         }
     })
 
@@ -37,5 +37,5 @@ function decode(rawInput) {
 
 function process(rawInput) {
     const decoded = decode(rawInput)
-    runCommand(decoded.command, decoded.options, decoded.parameters);
+    runCommand(decoded.command, decoded.parameters, decoded.argument);
 }
