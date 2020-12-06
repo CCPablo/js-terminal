@@ -2,6 +2,7 @@ import {runCommand} from './src/modules/data/commands.js'
 
 // HTML Variables
 let input = document.querySelector('.terminal__input')
+console.log(input)
 
 // Event Listeners
 input.addEventListener('keydown', e => {
