@@ -21,14 +21,13 @@ function decode(rawInput) {
 
     let splitted = rawInput.split(' ');
 
-    decoded.command = splitted[0]
-    splitted.shift();
+    decoded.command = splitted.shift();
 
-    splitted.forEach(e => {
-        if (e[0] === '-') {
-            decoded.parameters.push(e);
+    splitted.forEach(element => {
+        if (element.startsWith('-')) {
+            decoded.parameters.push(element);
         } else {
-            decoded.argumentList.push(e);
+            decoded.argumentList.push(element);
         }
     })
 
