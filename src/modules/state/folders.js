@@ -52,16 +52,16 @@ let rootFolder = {
 }
 */
 
-import {Folder} from '../model/folder.js'
+import { Folder } from '../model/folder.js'
 
-export {getActiveFolder, enterFolder, exitFolder, getPath}
+export { getActiveFolder, enterFolder, exitFolder, getPath }
 
 let rootFolder = new Folder();
 
 let currentPath = [];
 
 function getActiveFolder() {
-    return currentPath.reduce((parent, child) => parent.folders[child], rootFolder)
+    return currentPath.reduce((parent, child) =>  parent.folders[child], rootFolder)
 }
 
 function enterFolder(name) {
@@ -99,12 +99,12 @@ getActiveFolder().addFile('file4.js')
 logState();
 
 function logState() {
-    console.log('\n')
-    console.log(getActiveFolder());
-    console.log(getPath())
-    console.log('\n')
+    // console.log('\n')
+    // console.log(getActiveFolder());
+    // console.log(getPath())
+    // console.log('\n')
 }
 
 function logAction(action) {
-    console.log('--> ' + action);
+    // console.log('--> ' + action);
 }

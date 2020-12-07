@@ -1,11 +1,18 @@
 import {Command} from '../model/command.js'
+import { getActiveFolder, enterFolder, exitFolder, getPath } from '../state/folders.js'
 
 const terminalOutput = document.getElementById('terminal__output');
+
+let historicalResult = []
 
 const pwd = new Command(
     'print name of current/working directory',
     ' ',
-    function pwd(a) {
+    function pwd() {
+        let echoThis = document.createElement('p')
+        const pathpwd = getPath();
+        echoThis.innerHTML = pathpwd;
+        terminalOutput.appendChild(echoThis);
     }
 )
 
@@ -28,14 +35,24 @@ const cd = new Command(
 const mkdir = new Command(
     'mkdir - make directories',
     '',
-    function mkdir() {}
+    function mkdir(argument) {
+        argument.forEach(dir => {
+            enterFolder(dir);
+
+            let mkdirThis = document.createElement('p');
+            let pathmkdir = getPath();
+            mkdirThis.innerHTML = pathmkdir;
+            terminalOutput.appendChild(mkdirThis);
+            exitFolder();
+            console.log(dir);
+        });
+    }
 )
 
 const echo = new Command(
     'echo - Write arguments to the standard output.',
     '',
     function echo(argument) {
-        console.log(argument)
         let echoThis = document.createElement('p')
         let message = argument.join(' ');
         echoThis.textContent = message;
@@ -76,7 +93,7 @@ const man = new Command(
 const clear = new Command(
     'clear - clear the terminal screen',
     '',
-    function clear() {
+    function clear(event) {
         terminalOutput.innerHTML = '';
     }
 )

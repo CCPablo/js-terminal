@@ -1,14 +1,14 @@
 import {runCommand} from './src/modules/data/commands.js'
 
 // HTML Variables
-let input = document.querySelector('.terminal__input')
+let $input = document.querySelector('.terminal__input')
 
 // Event Listeners
-input.addEventListener('keydown', e => {
+$input.addEventListener('keydown', e => {
     if (e.keyCode === 13) {
         e.preventDefault();
         process(e.target.value);
-        input.value = '';
+        $input.value = '';
     }
 });
 
@@ -18,6 +18,7 @@ function decode(rawInput) {
 
     // [command] [parameters] [arguments]  
     const decoded = {command: '', parameters: [], argument: []}
+
 
     let splitted = rawInput.split(' ');
 
