@@ -38,21 +38,20 @@ const mkdir = new Command(
 const echo = new Command(
     'echo - Write arguments to the standard output.',
     '',
-    function echo(argument, parameter = []) {
-        if (parameter.length > 0) {
-            argument.forEach(e => {
-                if (e === '>') {
-                    let indexOfBiggerThan = argument.indexOf(e);
-                    let stringToEcho = argument.slice(0, indexOfBiggerThan);
-                    let nameOfFile = argument[argument.length - 1];
-                    stringToEcho.join(' ');
-                    argument.splice(indexOfBiggerThan, 1);
-                    rootFolder.addFile(nameOfFile, stringToEcho)
-                }
+    function echo(argumentList, parameter) {
+        if (argumentList[argumentList.indexOf('>')]) {
+            let indexOfBiggerThan = argumentList.indexOf('>')
+            let stringToEcho = argumentList.slice(0, indexOfBiggerThan)
+            argumentList.splice(indexOfBiggerThan, 1);
+            let nameOfFiles = argumentList.slice(indexOfBiggerThan, argumentList.length)
+            stringToEcho = stringToEcho.join(' ');
+            nameOfFiles.forEach(name => {
+                rootFolder.addFile(name, stringToEcho)
             })
+            console.log(rootFolder)
         } else {
-            let echoThis = document.createElement('p')
-            let message = argument.join(' ');
+            let echoThis = document.createElement('p');
+            let message = argumentList.join(' ');
             echoThis.textContent = message;
             terminalOutput.appendChild(echoThis);
         }
@@ -107,12 +106,12 @@ const square = new Command(
     }
 )
 
-export function runCommand(com, argument, param = []) {
+export function runCommand(com, argumentList, params = []) {
     try {
-        if (param === []) {
-            return commandsList[com].run(argument)
+        if (params === []) {
+            return commandsList[com].run(argumentList)
         } else {
-            return commandsList[com].run(argument, param)
+            return commandsList[com].run(argumentList, params)
         }
     } catch (error) {
         alert(error)
