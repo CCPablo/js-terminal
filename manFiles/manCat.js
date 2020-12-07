@@ -1,19 +1,24 @@
-import manClass from './classForMan';
+import manFile from './manFile';
 
-let manCat = new manClass(
+const manCat = new manFile(
 
-        (
-            `<h2>Name</h2>
-        <p>cat - concatenate files and print on the standard output </p>`
-        ),
+        (`
+        <div  class = 'h2Item'>
+            <h2>Name</h2>
+        <p>cat - concatenate files and print on the standard output </p>
+        </div>
+        `),
         
-        (
-            `<h2>Synopsis</h2>
-        <b>cat</b> [<i>OPTION</i>]... [<i>FILE</i>]...`
-        ),
+        (`
+        <div  class = 'h2Item'>
+        <h2>Synopsis</h2>
+        <b>cat</b> [<i>OPTION</i>]... [<i>FILE</i>]...
+        </div>
+        `),
 
-        (
-        `<h2>Description</h2>
+        (`
+        <div  class = 'h2Item'>
+        <h2>Description</h2>
         <p>Concatenate <b>FILE</b>(s), or standard input, to standard output.
         <dl compact>
         <dt><b>-A</b>, <b>--show-all</b>
@@ -40,21 +45,26 @@ let manCat = new manClass(
         <dd>display this help and exit
         <dt><b>--version</b>
         <dd>output version information and exit</dl>
-        <p>With no FILE, or when FILE is -, read standard input.`
-        ),
+        <p>With no FILE, or when FILE is -, read standard input.
+        </div>
+        `),
 
-        (
-        `<h2>Examples</h2>
+        (`
+        <div  class = 'h2Item'>
+        <h2>Examples</h2>
         <dl compact>
         <dt>cat f - g
         <dd>Output f's contents, then standard input, then g's contents.
         <dt>cat
-        <dd>Copy standard input to standard output.</dl>`
-        ),
+        <dd>Copy standard input to standard output.</dl>
+        `),
 
-        (`<h2>Author</h2>
-        <p>Written by Torbjorn Granlund and Richard M. Stallman.</p>`
-        )
+        (`
+        <div  class = 'h2Item'>
+        <h2>Author</h2>
+        <p>Written by Torbjorn Granlund and Richard M. Stallman.</p>
+        </div>
+        `)
         
     );
 

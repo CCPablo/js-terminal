@@ -1,19 +1,24 @@
-import manClass from './classForMan';
+import manFile from './manFile';
 
-let manMkdir = new manClass(
+const manMkdir = new manFile(
 
 
         (`
+        <div  class = 'h2Item'>
         <h2>Name</h2>
         <p>mkdir - make directories</p>
+        </div>
         `),
 
         (`
+        <div  class = 'h2Item'>
         <h2>Synopsis</h2>
         <b>mkdir</b> [<i>OPTION</i>]... <i>DIRECTORY</i>...
+        </div>
         `),
 
         (`
+        <div  class = 'h2Item'>
         <h2>Description</h2>
         <p>Create the DIRECTORY(ies), if they do not already exist.
         <p>Mandatory arguments to long options are mandatory for short options too.
@@ -38,9 +43,11 @@ let manMkdir = new manClass(
         the file system is mounted with BSD group semantics (<i>mount -o bsdgroups</i> or, synonymously <i>mount -o grpid</i>), the new directory will inherit the
         group ownership from its parent; otherwise it will be owned by the effective group ID of the process.
         <p>If the parent directory has the set-group-ID bit set then so will the newly created directory.
+        </div>
         `),
         
         (`
+        <div  class = 'h2Item'>
         <h2>Return Value</h2>
         <b>mkdir</b>() returns zero on success, or -1 if an error occurred (in which case,
         <i>errno</i> is set appropriately).
@@ -80,12 +87,15 @@ let manMkdir = new manClass(
         Under Linux apart from the permission bits, only the <b>S_ISVTX</b> mode bit is honored. That is,
         under Linux the created directory actually gets mode (<i>mode</i> &amp; ~<i>umask</i> &amp; 01777).
         <p>There are many infelicities in the protocol underlying NFS. Some of these affect <b>mkdir</b>().
+        </div>
         `),
         
         (`
+        <div  class = 'h2Item'>
         <h2>Author</h2>
-        Written by David MacKenzie.`
-        )
+        Written by David MacKenzie.
+        </div>
+        `)
     
     );
 
