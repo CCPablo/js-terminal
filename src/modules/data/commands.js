@@ -46,9 +46,8 @@ const echo = new Command(
             let nameOfFiles = argumentList.slice(indexOfBiggerThan, argumentList.length)
             stringToEcho = stringToEcho.join(' ');
             nameOfFiles.forEach(name => {
-                rootFolder.addFile(name, stringToEcho)
+                getActiveFolder.addFile(name, stringToEcho)
             })
-            console.log(rootFolder)
         } else {
             let echoThis = document.createElement('p');
             let message = argumentList.join(' ');
