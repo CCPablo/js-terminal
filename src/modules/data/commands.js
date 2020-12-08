@@ -17,22 +17,18 @@ const ls = new Command(
     'ls - list directory contents',
     ' ',
     function ls(argumentList, parameters) {
+        let listOfFiles = getActiveFolder().getFileNames()
+        let listOfFolders = getActiveFolder().getFolderNames()
+        let listOfFilesAndFolders = listOfFiles.concat(listOfFolders)
+        listOfFilesAndFolders.sort();
+        let echoThis = document.createElement('p');
+        let message = listOfFilesAndFolders.join(' ');
         if (argumentList.length > 0) {
             enterFolder(argumentList);
-            let listOfFilesAndFolders = getActiveFolder().getFileNames()
-            listOfFilesAndFolders.concat(getActiveFolder().getFolderNames())
-            listOfFilesAndFolders.sort();
-            let echoThis = document.createElement('p');
-            let message = listOfFilesAndFolders.join(' ');
             echoThis.textContent = message;
             terminalOutput.appendChild(echoThis);
             exitFolder();
         } else {
-            let listOfFilesAndFolders = getActiveFolder().getFileNames()
-            listOfFilesAndFolders.concat(getActiveFolder().getFolderNames())
-            listOfFilesAndFolders.sort();
-            let echoThis = document.createElement('p');
-            let message = listOfFilesAndFolders.join(' ');
             echoThis.textContent = message;
             terminalOutput.appendChild(echoThis);
         }
