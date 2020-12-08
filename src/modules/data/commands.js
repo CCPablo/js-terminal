@@ -17,6 +17,7 @@ const ls = new Command(
     'ls - list directory contents',
     ' ',
     function ls(argumentList, parameters) {
+        console.log(getPath())
         let listOfFiles = getActiveFolder().getFileNames()
         let listOfFolders = getActiveFolder().getFolderNames()
         let listOfFilesAndFolders = listOfFiles.concat(listOfFolders)
@@ -43,10 +44,16 @@ const cd = new Command(
             exitFolder();
             console.log(getActiveFolder())
         } else if (argumentList.length <= 0) {
-            enterFolder('/new folder')
+            enterFolder(rootFolder.getPath())
         } else {
-            enterFolder(argumentList.join())
-            console.log(getActiveFolder())
+            let listOfFolders = getActiveFolder().getFolderNames()
+            if (listOfFolders.includes(argumentList.join(' '))) {
+                enterFolder(argumentList.join(' '))
+            } else {
+                let echoThis = document.createElement('p');
+                echoThis.textContent = `cd: no such file or directory: ${argumentList.join(' ')}`
+                terminalOutput.appendChild(echoThis);
+            }
         }
     }
 )
