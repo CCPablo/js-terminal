@@ -42,9 +42,16 @@ const ls = new Command(
 const cd = new Command(
     'cd - change the shell working directory.',
     ' ',
-    function cd(/*a = []*/) {
-        //   if (a === '..') {
-        //   }
+    function cd(argumentList) {
+        if (argumentList.length === 1 && argumentList[0] == '..') {
+            exitFolder();
+            console.log(getActiveFolder())
+        } else if (argumentList.length <= 0) {
+            enterFolder('/new folder')
+        } else {
+            enterFolder(argumentList.join())
+            console.log(getActiveFolder())
+        }
     }
 )
 
@@ -52,6 +59,7 @@ const mkdir = new Command(
     'mkdir - make directories',
     '',
     function mkdir(argumentList) {
+        getActiveFolder().addFolder(argumentList.join())
     }
 )
 
