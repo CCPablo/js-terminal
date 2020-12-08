@@ -16,7 +16,14 @@ const pwd = new Command(
 const ls = new Command(
     'ls - list directory contents',
     ' ',
-    function ls(a) {
+    function ls(argumentList, parameters) {
+        let listOfFilesAndFolders = getActiveFolder().getFileNames()
+        listOfFilesAndFolders.concat(getActiveFolder().getFolderNames())
+        console.log(listOfFilesAndFolders)
+        let echoThis = document.createElement('p');
+        let message = listOfFilesAndFolders.join(' ');
+        echoThis.textContent = message;
+        terminalOutput.appendChild(echoThis);
     }
 )
 
@@ -46,7 +53,7 @@ const echo = new Command(
             let nameOfFiles = argumentList.slice(indexOfBiggerThan, argumentList.length)
             stringToEcho = stringToEcho.join(' ');
             nameOfFiles.forEach(name => {
-                getActiveFolder.addFile(name, stringToEcho)
+                getActiveFolder().addFile(name, stringToEcho)
             })
         } else {
             let echoThis = document.createElement('p');
