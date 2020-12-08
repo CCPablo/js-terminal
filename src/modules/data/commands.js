@@ -3,8 +3,6 @@ import { getActiveFolder, enterFolder, exitFolder, getPath } from '../state/fold
 
 const terminalOutput = document.getElementById('terminal__output');
 
-let historicalResult = []
-
 const pwd = new Command(
     'print name of current/working directory',
     ' ',
@@ -44,7 +42,6 @@ const mkdir = new Command(
             mkdirThis.innerHTML = pathmkdir;
             terminalOutput.appendChild(mkdirThis);
             exitFolder();
-            console.log(dir);
         });
     }
 )
@@ -63,7 +60,7 @@ const echo = new Command(
 const cat = new Command(
     'cat - concatenate files and print on the standard output',
     '',
-    function echo() {}
+    function cat() {}
 )
 
 const rm = new Command(
@@ -75,7 +72,7 @@ const rm = new Command(
 const mv = new Command(
     'mv - move (rename) files ',
     '',
-    function rm() {}
+    function mv() {}
 )
 
 const help = new Command(
@@ -93,7 +90,7 @@ const man = new Command(
 const clear = new Command(
     'clear - clear the terminal screen',
     '',
-    function clear(event) {
+    function clear() {
         terminalOutput.innerHTML = '';
     }
 )
@@ -109,6 +106,15 @@ const square = new Command(
 )
 
 export function runCommand(com, argument, param = []) {
+    const commandInput = document.createElement('p');
+    const paramString = param.join(' ')
+    const argumentString = argument.join(' ')
+    commandInput.textContent = `>>> ${com} ${argumentString} ${paramString}`;
+    terminalOutput.appendChild(commandInput);
+
+    const validCom = typeof com === 'string' && com.length
+    if (!validCom) return
+
     try {
         if (param === []) {
             return commandsList[com].run(argument)
@@ -121,4 +127,4 @@ export function runCommand(com, argument, param = []) {
 }
 
 const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help, man, square, clear}
-export {commandsList};
+export { commandsList };
