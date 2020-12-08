@@ -17,13 +17,25 @@ const ls = new Command(
     'ls - list directory contents',
     ' ',
     function ls(argumentList, parameters) {
-        let listOfFilesAndFolders = getActiveFolder().getFileNames()
-        listOfFilesAndFolders.concat(getActiveFolder().getFolderNames())
-        console.log(listOfFilesAndFolders)
-        let echoThis = document.createElement('p');
-        let message = listOfFilesAndFolders.join(' ');
-        echoThis.textContent = message;
-        terminalOutput.appendChild(echoThis);
+        if (argumentList.length > 0) {
+            enterFolder(argumentList);
+            let listOfFilesAndFolders = getActiveFolder().getFileNames()
+            listOfFilesAndFolders.concat(getActiveFolder().getFolderNames())
+            listOfFilesAndFolders.sort();
+            let echoThis = document.createElement('p');
+            let message = listOfFilesAndFolders.join(' ');
+            echoThis.textContent = message;
+            terminalOutput.appendChild(echoThis);
+            exitFolder();
+        } else {
+            let listOfFilesAndFolders = getActiveFolder().getFileNames()
+            listOfFilesAndFolders.concat(getActiveFolder().getFolderNames())
+            listOfFilesAndFolders.sort();
+            let echoThis = document.createElement('p');
+            let message = listOfFilesAndFolders.join(' ');
+            echoThis.textContent = message;
+            terminalOutput.appendChild(echoThis);
+        }
     }
 )
 
@@ -39,7 +51,8 @@ const cd = new Command(
 const mkdir = new Command(
     'mkdir - make directories',
     '',
-    function mkdir() {}
+    function mkdir(argumentList) {
+    }
 )
 
 const echo = new Command(
