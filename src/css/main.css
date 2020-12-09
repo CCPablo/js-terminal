@@ -118,6 +118,7 @@ body {
     height: 28px;
     background-color: var(--background-terminal);
 }
+
 .terminal__input:focus,
 .terminal__input:hover,
 .terminal__input:active {
