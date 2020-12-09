@@ -17,14 +17,13 @@ body {
     font-family: 'FiraCode';
     font-weight: 300;
 }
-/*Terminal Font*/
 .terminal__font {
     color: var(--color-text-principal);
     font-size: 18px;
     text-indent: 0.5em;
     font-weight: 500;
     float: left;
-} /*by marcel for testing*/
+}
 
 .hidden{
     overflow: hidden;
@@ -48,7 +47,6 @@ body {
     font-family: 'Inconsolata', monospace;
     border: 1px solid #d8d8d8;
     border-top: none;
-    overflow: scroll;
     box-shadow:
         0 2.8px 2.2px rgba(255, 255, 255, 0.034),
         0 6.7px 5.3px rgba(71, 71, 71, 0.048),
@@ -72,19 +70,33 @@ body {
     flex-flow: row;
 }
 .terminal__body {
-    overflow-y: initial;
-    overflow-x: hidden;
+    position: relative;
 }
-.disable-scrollbars::-webkit-scrollbar {
-    width: 0px;
-    background: transparent; /* Chrome/Safari/Webkit */
+.terminal__result{
+    width: 100%;
+    text-align: left;
+    overflow: scroll;
+    max-height: 40vh;
+    opacity: 1;
+}
+.sticky {
+    position: sticky;
+    top: 0;
+}
+.terminal__font {
+    color: var(--color-text-principal);
+    font-size: 18px;
+    text-indent: 0.5em;
+    font-weight: 500;
+    float: left;
 }
 .disable-scrollbars {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE 10+ */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE 10+ */
 }
 .terminal__output {
     width: 100%;
+    height: auto;
     display: flex;
     flex-flow: row wrap;
 }
@@ -106,6 +118,7 @@ body {
     height: 28px;
     background-color: var(--background-terminal);
 }
+
 .terminal__input:focus,
 .terminal__input:hover,
 .terminal__input:active {
