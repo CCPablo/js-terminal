@@ -22,6 +22,10 @@ function getPath() {
     return `/${currentPath.join('/')}`;
 }
 
+function splitPath(path) {
+    return path.split('/');
+}
+
 
 ////
 

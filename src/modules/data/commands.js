@@ -1,6 +1,4 @@
 import {Command} from '../model/command.js'
-import {Folder} from '../model/folder.js'
-import {File} from '../model/file.js'
 import {getActiveFolder, enterFolder, exitFolder, getPath, rootFolder} from '../state/folders.js'
 
 const terminalOutput = document.getElementById('terminal__output');
@@ -8,7 +6,7 @@ const terminalOutput = document.getElementById('terminal__output');
 const pwd = new Command(
     'print name of current/working directory',
     ' ',
-    function pwd() {
+    (argumentList, parameterList) => {
         let echoThis = document.createElement('p')
         const pathpwd = getPath();
         echoThis.innerHTML = pathpwd;
@@ -19,7 +17,7 @@ const pwd = new Command(
 const ls = new Command(
     'ls - list directory contents',
     ' ',
-    function ls(argumentList, parameters) {
+    (argumentList, parameterList) =>  {
         let listOfFiles = getActiveFolder().getFileNames()
         let listOfFolders = getActiveFolder().getFolderNames()
         let listOfFilesAndFolders = listOfFiles.concat(listOfFolders)
@@ -41,7 +39,7 @@ const ls = new Command(
 const cd = new Command(
     'cd - change the shell working directory.',
     ' ',
-    function cd(argumentList) {
+    (argumentList, parameterList) =>  {
         if (argumentList.length === 1 && argumentList[0] == '..') {
             exitFolder();
             console.log(getActiveFolder())
@@ -63,10 +61,9 @@ const cd = new Command(
 const mkdir = new Command(
     'mkdir - make directories',
     '',
-    function mkdir(argumentList) {
+    (argumentList, parameterList) =>  {
         argumentList.forEach(dir => {
             getActiveFolder().addFolder(dir)
-
             let mkdirThis = document.createElement('p');
             let pathmkdir = getPath();
             mkdirThis.innerHTML = pathmkdir;
@@ -79,7 +76,7 @@ const mkdir = new Command(
 const echo = new Command(
     'echo - Write arguments to the standard output.',
     '',
-    function echo(argumentList) {
+    (argumentList, parameterList) =>  {
         if (argumentList[argumentList.indexOf('>')]) {
             let indexOfBiggerThan = argumentList.indexOf('>')
             let stringToEcho = argumentList.slice(0, indexOfBiggerThan)
@@ -101,37 +98,37 @@ const echo = new Command(
 const cat = new Command(
     'cat - concatenate files and print on the standard output',
     '',
-    function cat() {}
+    (argumentList, parameterList) => {}
 )
 
 const rm = new Command(
     'rm - remove files or directories ',
     '',
-    function rm() {}
+    (argumentList, parameterList) => {}
 )
 
 const mv = new Command(
     'mv - move (rename) files ',
     '',
-    function mv() {}
+    (argumentList, parameterList) => {}
 )
 
 const help = new Command(
     'help - Display information about builtin commands.',
     '',
-    function help() {}
+    (argumentList, parameterList) => {}
 )
 
 const man = new Command(
     'man - an interface to the system reference manuals.',
     '',
-    function man() {}
+    (argumentList, parameterList) => {}
 )
 
 const clear = new Command(
     'clear - clear the terminal screen',
     '',
-    function clear() {
+    (argumentList, parameterList) => {
         terminalOutput.innerHTML = '';
     }
 )
@@ -139,7 +136,7 @@ const clear = new Command(
 const square = new Command(
     'square - return square of value for testing',
     '',
-    function square(a) {
+    (argumentList, parameterList) => {
         let result = document.createElement('p');
         result.textContent = a * a;
         terminalOutput.appendChild(result);
