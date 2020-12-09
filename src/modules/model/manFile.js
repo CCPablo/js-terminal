@@ -31,7 +31,7 @@ class manFile {
         return this.stringToHTML(this.examples);
 
     };
-    get Author () {            
+    get Author () {
         return this.stringToHTML(this.author);
     };
     
@@ -41,6 +41,4 @@ class manFile {
     };
 
 }
-
-
 module.exports = { stringToHTML, manFile };
