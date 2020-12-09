@@ -1,0 +1,43 @@
+.dot {
+    height: 15px;
+    width: 15px;
+    background-color: #FDBC40;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    cursor: pointer;
+    padding: 0.2px;
+}
+.dot .min {
+    color: #FDBC40;
+}
+.dot .min:hover {
+    color: #985813;
+}
+.dot:first-child {
+    background-color: #FC615D;
+    margin-left: 10px;
+}
+.dot:first-child:active {
+    background-color: #fff;
+    margin-left: 10px;
+}
+.dot .cross {
+    color: #FC615D;
+}
+.dot .cross:hover {
+    color: #4C0102;
+}
+
+.dot:last-child {
+    background-color: #34C84A;
+}
+
+.dot .fullscreen {
+    color: #34C84A;
+}
+.dot .fullscreen:hover {
+    color: #0A630C;
+}

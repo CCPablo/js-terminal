@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="Linux terminal emulator">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Linux Terminal</title>
+        <link rel="stylesheet" href="src/css/main.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+        <script defer src="src/modules/screen.js"></script>
+        <script type="modules" src="/src/modules/"></script>
+    </head>
+    <body>
+        <main class="container">
+            <section id="terminal" class="terminal">
+                <div class="terminal__header">
+                    <div class="header__buttons">
+                        <div class="dot"><i class="fas fa-times fa-xs cross"></i></div>
+                        <div class="dot"><i class="fas fa-minus fa-xs min"></i></div>
+                        <div class="dot" ><i id="fullscreen" class="fas fa-expand-alt fa-xs fullscreen"></i></div>
+                    </div>
+                    <p class="header__title">-zsh</p>
+                    <p class="header__comand">⌥⌘1</p>
+                </div>
+                <div class="terminal__body disable-scrollbars">
+                    <div id="terminal__output" class="terminal__font terminal__result"></div>
+                    <div class="terminal__output">
+                        <div class="terminal__path"><span id="path_output" ></span>>>></div><input class="terminal__input" type="text">
+                    </div>
+                </div>
+            </section>
+        </main>
+    </body>
+</html>
