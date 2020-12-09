@@ -1,4 +1,4 @@
-import manFile from './manFile';
+import manFile from '../../model/manFile';
 
 const manEcho = new manFile(
 
