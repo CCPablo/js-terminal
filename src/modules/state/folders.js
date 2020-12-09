@@ -3,52 +3,82 @@ import {Folder} from '../model/folder.js'
 
 let rootFolder = new Folder();
 
-let currentPath = [];
+let absolutPath = [];
 
-function getFolder(foldersDown = [], levelsUp = 0) {
-    return currentPath.slice(0, currentPath.length - levelsUp)
-                        .concat(foldersDown)
+/*
+    - returns the relative folder based on current path
+    - throws error if folder does not exist
+*/
+function getFolder(relativePath = "") {
+    const relativePathPointer = getRelativePathPointer(relativePath);
+    return extractFolder(relativePathPointer);
+}
+
+function extractFolder(relativePathPointer) {
+    return absolutPath.slice(0, absolutPath.length - relativePathPointer.levelsUp)
+                        .concat(relativePathPointer.foldersDown)
                         .reduce((parentFolder, folderName) => parentFolder.getFolder(folderName), rootFolder);
 }
 
-function folderExists(foldersDown = [], levelsUp = 0) {
-    try{
-        getFolder(foldersDown, levelsUp)
-    } catch (err) {
-        return false;
-    }
-    return true;
+function getSources(relativePath = "") {
+    return getFolder(relativePath).getSources();
 }
 
-function getSources(foldersDown = [], levelsUp = 0) {
-    return getFolder(foldersDown, levelsUp).getSources();
-}
-
-function enterFolder(foldersDown, levelsUp) {
-    if(folderExists(foldersDown, levelsUp)) {
-        exitFolder(levelsUp);
-        enterPath(foldersDown);        
+function enterFolder(relativePath) {
+    const relativePathPointer = getRelativePathPointer(relativePath);
+    try {
+        //checks if folder exist
+        extractFolder(relativePathPointer);
+    } catch(err) {
+        throw err;
     }
+    exitFolder(relativePathPointer.levelsUp);
+    enterPath(relativePathPointer.foldersDown);
 }
 
 function exitFolder(levelsUp = 1) {
-    currentPath.splice(-levelsUp, levelsUp);
+    absolutPath.splice(-levelsUp, levelsUp);
 }
 
 function enterPath(foldersDown) {
-    currentPath = currentPath.concat(foldersDown);
+    absolutPath = absolutPath.concat(foldersDown);
 }
 
-function getPath() {
-    return `/${currentPath.join('/')}`;
+function getAbsolutPath() {
+    return `/${absolutPath.join('/')}`;
 }
 
-function joinPath(path) {
-    return `/${path.join('/')}`;
-}
-
-function splitPath(path) {
-    return path.split('/');
+function getRelativePathPointer(relativePath) {
+    if(!relativePath) {
+        return {
+            foldersDown: [],
+            levelsUp: 0
+        }
+    }
+    let folders = relativePath.split('/');
+    if(relativePath.startsWith('/')) {
+        folders.shift();
+        return {
+            foldersDown: folders,
+            levelsUp: 100
+        }
+    } else {
+        let levelsUp = 0;
+        folders = folders.filter(folder => {
+            if(folder === ".") {
+                return false;
+            }
+            if(folder === "..") {
+                levelsUp++;
+                return false;
+            }
+            return true;
+        });
+        return {
+            foldersDown: folders,
+            levelsUp: levelsUp
+        };
+    }
 }
 
 ////
@@ -56,6 +86,9 @@ function splitPath(path) {
 logState();
 logAction('add 3 files to root folder')
 
+getFolder().addFolder('1')
+getFolder().addFolder('2')
+getFolder().addFolder('3')
 getFolder().addFile('file1.js')
 getFolder().addFile('file2.js')
 getFolder().addFile('file3.js')
@@ -80,7 +113,7 @@ logState();
 function logState() {
     console.log('\n')
     console.log(getFolder());
-    console.log(getPath())
+    console.log(getAbsolutPath())
     console.log('\n')
 }
 
@@ -91,5 +124,5 @@ function logAction(action) {
 
 
 
-export {getFolder, enterFolder, exitFolder, getPath, getSources}
+export {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources}
 

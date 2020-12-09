@@ -1,12 +1,12 @@
 import {Command} from '../model/command.js'
-import {getFolder, enterFolder, exitFolder, getPath, getSources } from '../state/folders.js'
+import {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources } from '../state/folders.js'
 import { setOutput, clearOutput } from '../dom/terminal.js'
 
 const pwd = new Command(
     'print name of current/working directory',
     ' ',
     (argumentList, parameterList) => {
-        setOutput(getPath())
+        setOutput(getAbsolutPath())
     }
 )
 
@@ -14,16 +14,10 @@ const ls = new Command(
     'ls - list directory contents',
     ' ',
     (argumentList, parameterList) =>  {
-        const sources = getSources();   //TODO: Coger las fuentes de la carpeta correspondiente
+        const sources = getSources(argumentList[0]);   //TODO: Coger las fuentes de la carpeta correspondiente
         sources.sort();
         let message = sources.join(' ');
-        if (argumentList.length > 0) {
-            enterFolder(argumentList);
-            setOutput(message);
-            exitFolder();
-        } else {
-            setOutput(message);
-        }
+        setOutput(message);
     }
 )
 
@@ -31,18 +25,7 @@ const cd = new Command(
     'cd - change the shell working directory.',
     ' ',
     (argumentList, parameterList) =>  {
-        if (argumentList.length === 1 && argumentList[0] == '..') {
-            exitFolder();
-        } else if (argumentList.length <= 0) {
-            // enterFolder(rootFolder.getPath())
-        } else {
-            let listOfFolders = getFolder().getFolderNames()
-            if (listOfFolders.includes(argumentList.join(' '))) {
-                enterFolder(argumentList.join(' '))
-            } else {
-                setOutput(`cd: no such file or directory: ${argumentList.join(' ')}`)
-            }
-        }
+        enterFolder(argumentList[0]);
     }
 )
 
