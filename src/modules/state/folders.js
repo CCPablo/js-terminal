@@ -111,14 +111,9 @@ logAction('display relative level -1')
 logState();
 
 function logState() {
-    console.log('\n')
-    console.log(getFolder());
-    console.log(getAbsolutPath())
-    console.log('\n')
 }
 
 function logAction(action) {
-    console.log('--> ' + action);
 }
 
 

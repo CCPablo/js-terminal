@@ -1,12 +1,12 @@
 import {Command} from '../model/command.js'
 import {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources } from '../state/folders.js'
-import { setOutput, clearOutput } from '../dom/terminal.js'
+import { appendOutput, clearOutput } from '../dom/terminal.js'
 
 const pwd = new Command(
     'print name of current/working directory',
     ' ',
     (argumentList, parameterList) => {
-        setOutput(getAbsolutPath())
+        appendOutput(getAbsolutPath())
     }
 )
 
@@ -17,7 +17,7 @@ const ls = new Command(
         const sources = getSources(argumentList[0]);
         sources.sort();
         let message = sources.join(' ');
-        setOutput(message);
+        appendOutput(message);
     }
 )
 
@@ -51,7 +51,7 @@ const echo = new Command(
                 getFolder().addFile(name, stringToEcho)
             })
         } else {
-            setOutput(argumentList.join(' '));
+            appendOutput(argumentList.join(' '));
         }
     }
 )
@@ -98,7 +98,7 @@ const square = new Command(
     'square - return square of value for testing',
     '',
     (argumentList, parameterList) => {
-        setOutput('**')
+        appendOutput('**')
     }
 )
 

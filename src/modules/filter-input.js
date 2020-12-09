@@ -1,18 +1,19 @@
 import {runCommand} from './data/commands.js'
 
-// HTML Variables
-let input = document.querySelector('.terminal__input')
-
-export let validCom = '';
-
 // Event Listeners
-input.addEventListener('keydown', e => {
-    if (e.keyCode === 13) {
+document.addEventListener('keydown', e => {
+    if (e.key === "Enter") {
         e.preventDefault();
-        process(e.target.value);
-        input.value = '';
+        const input = document.querySelector('.terminal__input.active')
+        process(input.innerHTML);
+        input.innerHTML = '';
     }
 });
+
+document.addEventListener('click', e => {
+    const input = document.querySelector('.terminal__input.active');
+    input.focus();
+})
 
 
 // Split the string, if the index 0 word matches a command runCommand()
@@ -37,7 +38,6 @@ function decode(rawInput) {
 
 function process(rawInput) {
     const decoded = decode(rawInput)
-    validCom = rawInput;
     try {
         runCommand(decoded.command, decoded.argumentList, decoded.parameters);
     } catch(error) {
