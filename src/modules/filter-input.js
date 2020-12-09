@@ -6,7 +6,6 @@ document.addEventListener('keydown', e => {
         e.preventDefault();
         const input = document.querySelector('.terminal__input.active')
         process(input.innerHTML);
-        input.innerHTML = '';
     }
 });
 

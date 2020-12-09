@@ -24,11 +24,6 @@ body {
     font-weight: 500;
     float: left;
 }
-
-.hidden{
-    overflow: hidden;
-    opacity: 0;
-}
 .container {
     display: flex;
     align-items: center;
@@ -62,7 +57,6 @@ body {
     height: 25px;
     display: flex;
     align-items: center;
-    flex-flow: row;
     justify-content: space-between;
     background: var(--background-header);
 }
@@ -72,18 +66,11 @@ body {
 }
 .terminal__body {
     position: relative;
+    overflow-x: hidden;
     height: 100%;
 }
-.sticky {
-    position: sticky;
-    top: 0;
-}
-.terminal__font {
-    color: var(--color-text-principal);
-    font-size: 18px;
-    text-indent: 0.5em;
-    font-weight: 500;
-    float: left;
+.terminal__body::-webkit-scrollbar {
+    display: none;
 }
 .disable-scrollbars {
     scrollbar-width: none; /* Firefox */
@@ -92,15 +79,19 @@ body {
 .terminal__output {
     width: 100%;
     padding: 4px 10px;
-    color: var(--color-text-principal);
+    color: yellow;
 }
 .terminal__input-wrapper {
     width: 100%;
     padding: 4px 10px;
     font-size: 18px;
+    position: relative;
 }
 .terminal__path {
     position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
     color: var(--color-text-principal);
 }
 .terminal__input {

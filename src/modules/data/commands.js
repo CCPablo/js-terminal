@@ -6,7 +6,7 @@ const pwd = new Command(
     'print name of current/working directory',
     ' ',
     (argumentList, parameterList) => {
-        appendOutput(getAbsolutPath())
+        return getAbsolutPath();
     }
 )
 
@@ -16,8 +16,7 @@ const ls = new Command(
     (argumentList, parameterList) =>  {
         const sources = getSources(argumentList[0]);
         sources.sort();
-        let message = sources.join(' ');
-        appendOutput(message);
+        return sources.join(' ');
     }
 )
 
@@ -51,7 +50,7 @@ const echo = new Command(
                 getFolder().addFile(name, stringToEcho)
             })
         } else {
-            appendOutput(argumentList.join(' '));
+            return argumentList.join(' ');
         }
     }
 )
@@ -98,12 +97,13 @@ const square = new Command(
     'square - return square of value for testing',
     '',
     (argumentList, parameterList) => {
-        appendOutput('**')
+        return '**';
     }
 )
 
 export function runCommand(com, argumentList = [], parametersList = []) {
-    commandsList[com].run(argumentList, parametersList)
+    const output = commandsList[com].run(argumentList, parametersList);
+    appendOutput(output);
 }
 
 const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help, man, square, clear}
