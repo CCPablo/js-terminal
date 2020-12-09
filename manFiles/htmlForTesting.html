@@ -13,13 +13,7 @@
 
 
 
-    let stringToHTML = function (str) {
-                let parser = new DOMParser();
-                let doc = parser.parseFromString(str, 'text/html');
-                let InnerHtmlToAdd = doc.getElementsByClassName('h2Item')[0].innerHTML;
-                //console.log(InnerHtmlToAdd);
-                return InnerHtmlToAdd;
-            }
+
 
     class manFile {
         constructor( name, sinopsis, description, examples, author ){
@@ -40,14 +34,12 @@
 
         get Name () {
             return this.stringToHTML(this.name);
-            
                 }
 
         get Sinopsis () {
             return this.stringToHTML(this.sinopsis);
-        }
+                }
 
-   
         get Description () {
             return this.stringToHTML(this.description);
 
