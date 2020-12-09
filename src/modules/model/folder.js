@@ -6,22 +6,25 @@ const FOLDER_EXISTS_MSG = function (folderName) {
     return `A folder with name ${folderName} already exists in directory`;
 }
 
+const FOLDER_DOES_NOT_EXIST_MSG = function (folderName) {
+    return `Folder with name ${folderName} does not exists in directory`;
+}
+
 const FILE_EXISTS_MSG = function (fileName) {
     return `A file with name ${fileName} already exists in directory`;
 }
 
 class Folder {
-    constructor(files = {}, folders = {}, shortcut = undefined) {
+    constructor(files = {}, folders = {}) {
         this.files = files;
         this.folders = folders;
-        this.shortcut = shortcut;
     }
 
-    addFolder = function (name, files = {}, folders = {}, shortcut = undefined) {
+    addFolder = function (name, files = {}, folders = {}) {
         if (this.hasFolder(name)) {
             throw FOLDER_EXISTS_MSG(name);
         }
-        this.folders[name] = new Folder(files, folders, shortcut);
+        this.folders[name] = new Folder(files, folders);
     }
 
     addFile = function (name, content = '') {
@@ -29,6 +32,13 @@ class Folder {
             throw FILE_EXISTS_MSG(name);
         }
         this.files[name] = new File(name, content);
+    }
+
+    getFolder = function (name) {
+        if(!this.hasFolder(name)) {
+            throw FOLDER_DOES_NOT_EXIST_MSG(name);
+        }
+        return this.folders[name];
     }
 
     getFolderNames = function () {

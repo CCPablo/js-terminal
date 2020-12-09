@@ -1,5 +1,5 @@
 import {Command} from '../model/command.js'
-import {getActiveFolder, enterFolder, exitFolder, getPath, getSources } from '../state/folders.js'
+import {getFolder, enterFolder, exitFolder, getPath, getSources } from '../state/folders.js'
 import { setOutput, clearOutput } from '../dom/terminal.js'
 
 const pwd = new Command(
@@ -36,7 +36,7 @@ const cd = new Command(
         } else if (argumentList.length <= 0) {
             // enterFolder(rootFolder.getPath())
         } else {
-            let listOfFolders = getActiveFolder().getFolderNames()
+            let listOfFolders = getFolder().getFolderNames()
             if (listOfFolders.includes(argumentList.join(' '))) {
                 enterFolder(argumentList.join(' '))
             } else {
@@ -50,7 +50,7 @@ const mkdir = new Command(
     'mkdir - make directories',
     '',
     function mkdir(argumentList) {
-        getActiveFolder().addFolder(argumentList.join())
+        getFolder().addFolder(argumentList.join())
     }
 )
 
@@ -65,7 +65,7 @@ const echo = new Command(
             let nameOfFiles = argumentList.slice(indexOfBiggerThan, argumentList.length)
             stringToEcho = stringToEcho.join(' ');
             nameOfFiles.forEach(name => {
-                getActiveFolder().addFile(name, stringToEcho)
+                getFolder().addFile(name, stringToEcho)
             })
         } else {
             setOutput(argumentList.join(' '));
