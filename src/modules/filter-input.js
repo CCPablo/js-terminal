@@ -3,8 +3,6 @@ import {runCommand} from './data/commands.js'
 // HTML Variables
 let input = document.querySelector('.terminal__input')
 
-export let validCom = '';
-
 // Event Listeners
 input.addEventListener('keydown', e => {
     if (e.keyCode === 13) {
@@ -13,7 +11,6 @@ input.addEventListener('keydown', e => {
         input.value = '';
     }
 });
-
 
 // Split the string, if the index 0 word matches a command runCommand()
 function decode(rawInput) {
@@ -37,10 +34,11 @@ function decode(rawInput) {
 
 function process(rawInput) {
     const decoded = decode(rawInput)
-    validCom = rawInput;
     try {
         runCommand(decoded.command, decoded.argumentList, decoded.parameters);
     } catch(error) {
         alert(error)
     }
 }
+
+export { decode };
