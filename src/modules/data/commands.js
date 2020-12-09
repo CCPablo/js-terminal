@@ -99,8 +99,11 @@ const cat = new Command(
 const rm = new Command(
     'rm - remove files or directories ',
     '',
-    function rm(argumentList) {
+    function rm(argumentList, parametersList) {
         let formatedArgument = argumentList.join(' ')
+        if (argumentList.includes('*')) {
+            getActiveFolder().folders = {}; getActiveFolder().files = {}
+        }
         if (getActiveFolder().hasFolder(formatedArgument)) {
             delete getActiveFolder().folders[`${formatedArgument}`]
         } else if (getActiveFolder().hasFile(formatedArgument)) {
