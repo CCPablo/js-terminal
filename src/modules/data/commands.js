@@ -1,16 +1,12 @@
 import {Command} from '../model/command.js'
-import {getActiveFolder, enterFolder, exitFolder, getPath, rootFolder} from '../state/folders.js'
-
-const terminalOutput = document.getElementById('terminal__output');
+import {getActiveFolder, enterFolder, exitFolder, getPath, getSources } from '../state/folders.js'
+import { setOutput, clearOutput } from '../dom/terminal.js'
 
 const pwd = new Command(
     'print name of current/working directory',
     ' ',
     (argumentList, parameterList) => {
-        let echoThis = document.createElement('p')
-        const pathpwd = getPath();
-        echoThis.innerHTML = pathpwd;
-        terminalOutput.appendChild(echoThis);
+        setOutput(getPath())
     }
 )
 
@@ -18,20 +14,15 @@ const ls = new Command(
     'ls - list directory contents',
     ' ',
     (argumentList, parameterList) =>  {
-        let listOfFiles = getActiveFolder().getFileNames()
-        let listOfFolders = getActiveFolder().getFolderNames()
-        let listOfFilesAndFolders = listOfFiles.concat(listOfFolders)
-        listOfFilesAndFolders.sort();
-        let echoThis = document.createElement('p');
-        let message = listOfFilesAndFolders.join(' ');
+        const sources = getSources();   //TODO: Coger las fuentes de la carpeta correspondiente
+        sources.sort();
+        let message = sources.join(' ');
         if (argumentList.length > 0) {
             enterFolder(argumentList);
-            echoThis.textContent = message;
-            terminalOutput.appendChild(echoThis);
+            setOutput(message);
             exitFolder();
         } else {
-            echoThis.textContent = message;
-            terminalOutput.appendChild(echoThis);
+            setOutput(message);
         }
     }
 )
@@ -42,7 +33,6 @@ const cd = new Command(
     (argumentList, parameterList) =>  {
         if (argumentList.length === 1 && argumentList[0] == '..') {
             exitFolder();
-            console.log(getActiveFolder())
         } else if (argumentList.length <= 0) {
             // enterFolder(rootFolder.getPath())
         } else {
@@ -50,9 +40,7 @@ const cd = new Command(
             if (listOfFolders.includes(argumentList.join(' '))) {
                 enterFolder(argumentList.join(' '))
             } else {
-                let echoThis = document.createElement('p');
-                echoThis.textContent = `cd: no such file or directory: ${argumentList.join(' ')}`
-                terminalOutput.appendChild(echoThis);
+                setOutput(`cd: no such file or directory: ${argumentList.join(' ')}`)
             }
         }
     }
@@ -80,10 +68,7 @@ const echo = new Command(
                 getActiveFolder().addFile(name, stringToEcho)
             })
         } else {
-            let echoThis = document.createElement('p');
-            let message = argumentList.join(' ');
-            echoThis.textContent = message;
-            terminalOutput.appendChild(echoThis);
+            setOutput(argumentList.join(' '));
         }
     }
 )
@@ -122,7 +107,7 @@ const clear = new Command(
     'clear - clear the terminal screen',
     '',
     (argumentList, parameterList) => {
-        terminalOutput.innerHTML = '';
+        clearOutput();
     }
 )
 
@@ -130,19 +115,13 @@ const square = new Command(
     'square - return square of value for testing',
     '',
     (argumentList, parameterList) => {
-        let result = document.createElement('p');
-        result.textContent = a * a;
-        terminalOutput.appendChild(result);
+        setOutput('**')
     }
 )
 
-export function runCommand(com, argumentList, parametersList = []) {
+export function runCommand(com, argumentList = [], parametersList = []) {
     try {
-        if (parametersList === []) {
-            return commandsList[com].run(argumentList)
-        } else {
-            return commandsList[com].run(argumentList, parametersList)
-        }
+        commandsList[com].run(argumentList, parametersList)
     } catch (error) {
         alert(error)
     }

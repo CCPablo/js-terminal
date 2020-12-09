@@ -39,6 +39,10 @@ class Folder {
         return Object.keys(this.files);
     }
 
+    getSources = function() {
+        return this.getFileNames().concat(this.getFileNames())
+    }
+
     hasFolder = function (fileName) {
         return !Object.keys(this.files).includes(fileName);
     }
