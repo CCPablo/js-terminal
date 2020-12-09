@@ -81,9 +81,7 @@ function getRelativePathPointer(relativePath) {
 }
 
 function autocomplete(parentPath, letters) {
-    let equivalences = getFolder(parentPath)
-    .getSources()
-    .filter(source => source.startsWith(letters));
+    let equivalences = getSources(parentPath).filter(source => source.startsWith(letters));
 
     if(equivalences.length === 0) {
         return '';
