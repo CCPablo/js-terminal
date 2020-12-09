@@ -104,6 +104,21 @@ const rm = new Command(
         if (argumentList.includes('*')) {
             getActiveFolder().folders = {}; getActiveFolder().files = {}
         }
+        argumentList.forEach(file => {
+            if (file.charAt(file.length - 1) === '*') {
+                let nameOfFile = file.slice(0, -1);
+                for (let key in getActiveFolder().folders) {
+                    if (key.startsWith(nameOfFile)) {
+                        delete getActiveFolder().files[`${key}`]
+                    }
+                }
+                for (let key in getActiveFolder().files) {
+                    if (key.startsWith(nameOfFile)) {
+                        delete getActiveFolder().files[`${key}`]
+                    }
+                }
+            }
+        })
         if (getActiveFolder().hasFolder(formatedArgument)) {
             delete getActiveFolder().folders[`${formatedArgument}`]
         } else if (getActiveFolder().hasFile(formatedArgument)) {
