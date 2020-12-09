@@ -80,34 +80,34 @@ function getRelativePathPointer(relativePath) {
     }
 }
 
-function autocomplete(parentPath, name) {
+function autocomplete(parentPath, letters) {
     let equivalences = getFolder(parentPath)
     .getSources()
-    .filter(source => source.startsWith(name));
+    .filter(source => source.startsWith(letters));
 
     if(equivalences.length === 0) {
         return '';
     } else if(equivalences.length === 1) {
-        return equivalences[0].slice(name.length);
+        return equivalences[0].slice(letters.length);
     } else {
-        return getResult(equivalences, name);
+        return getWordBeforeConflict(equivalences, name).slice(letters.length);
     }
 
-    function getResult(arrayOfWords, word) {
+    function getWordBeforeConflict(arrayOfWords, initalLetters) {
         arrayOfWords.sort((a, b) => b.length - a.length);
         const maxWord = equivalences[0];
         let result = false;
 
-        for(let i = word.length; i <= maxWord.length; i++) {
-            result = checkDifferentWord(equivalences, maxWord.slice(0, i));
+        for(let i = initalLetters.length; i <= maxWord.length; i++) {
+            result = checkOdd(equivalences, maxWord.slice(0, i));
             if(result) {
                 break;
             }
         }
-        return result.slice(word.length);
+        return result;
     }
 
-    function checkDifferentWord(arrayOfWords, word) {
+    function checkOdd(arrayOfWords, word) {
         for(let i = 0; i < arrayOfWords.length; i++) {
             if(!arrayOfWords[i].startsWith(word)) {
                 return word.slice(0, -1);

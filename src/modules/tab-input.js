@@ -14,10 +14,8 @@ document.addEventListener('keydown', (event) => {
         }
         const pathToAutocomplete = getWordUnderCursor();
         const parentPath = getParentPath(pathToAutocomplete);
-        const nameToAutocomplete = pathToAutocomplete.replace(parentPath, "");
-        const newValue = autocomplete(parentPath, nameToAutocomplete);
-        console.log(newValue);
-        input.value += newValue;
+        const lettersToAutocomplete = pathToAutocomplete.replace(parentPath, "");
+        input.value += autocomplete(parentPath, lettersToAutocomplete);
     }
 
     function getWordUnderCursor() {
