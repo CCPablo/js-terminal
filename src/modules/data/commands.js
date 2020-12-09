@@ -1,5 +1,7 @@
 import {Command} from '../model/command.js'
-import { getActiveFolder, enterFolder, exitFolder, getPath } from '../state/folders.js'
+import {Folder} from '../model/folder.js'
+import {File} from '../model/file.js'
+import {getActiveFolder, enterFolder, exitFolder, getPath, rootFolder} from '../state/folders.js'
 
 const terminalOutput = document.getElementById('terminal__output');
 
@@ -17,25 +19,53 @@ const pwd = new Command(
 const ls = new Command(
     'ls - list directory contents',
     ' ',
-    function ls(a) {
+    function ls(argumentList, parameters) {
+        let listOfFiles = getActiveFolder().getFileNames()
+        let listOfFolders = getActiveFolder().getFolderNames()
+        let listOfFilesAndFolders = listOfFiles.concat(listOfFolders)
+        listOfFilesAndFolders.sort();
+        let echoThis = document.createElement('p');
+        let message = listOfFilesAndFolders.join(' ');
+        if (argumentList.length > 0) {
+            enterFolder(argumentList);
+            echoThis.textContent = message;
+            terminalOutput.appendChild(echoThis);
+            exitFolder();
+        } else {
+            echoThis.textContent = message;
+            terminalOutput.appendChild(echoThis);
+        }
     }
 )
 
 const cd = new Command(
     'cd - change the shell working directory.',
     ' ',
-    function cd(/*a = []*/) {
-        //   if (a === '..') {
-        //   }
+    function cd(argumentList) {
+        if (argumentList.length === 1 && argumentList[0] == '..') {
+            exitFolder();
+            console.log(getActiveFolder())
+        } else if (argumentList.length <= 0) {
+            enterFolder(rootFolder.getPath())
+        } else {
+            let listOfFolders = getActiveFolder().getFolderNames()
+            if (listOfFolders.includes(argumentList.join(' '))) {
+                enterFolder(argumentList.join(' '))
+            } else {
+                let echoThis = document.createElement('p');
+                echoThis.textContent = `cd: no such file or directory: ${argumentList.join(' ')}`
+                terminalOutput.appendChild(echoThis);
+            }
+        }
     }
 )
 
 const mkdir = new Command(
     'mkdir - make directories',
     '',
-    function mkdir(argument) {
+    function mkdir(argumentList) {
         argument.forEach(dir => {
-            enterFolder(dir);
+            getActiveFolder().addFolder(dir)
 
             let mkdirThis = document.createElement('p');
             let pathmkdir = getPath();
@@ -49,11 +79,22 @@ const mkdir = new Command(
 const echo = new Command(
     'echo - Write arguments to the standard output.',
     '',
-    function echo(argument) {
-        let echoThis = document.createElement('p')
-        let message = argument.join(' ');
-        echoThis.textContent = message;
-        terminalOutput.appendChild(echoThis);
+    function echo(argumentList, parameter) {
+        if (argumentList[argumentList.indexOf('>')]) {
+            let indexOfBiggerThan = argumentList.indexOf('>')
+            let stringToEcho = argumentList.slice(0, indexOfBiggerThan)
+            argumentList.splice(indexOfBiggerThan, 1);
+            let nameOfFiles = argumentList.slice(indexOfBiggerThan, argumentList.length)
+            stringToEcho = stringToEcho.join(' ');
+            nameOfFiles.forEach(name => {
+                getActiveFolder().addFile(name, stringToEcho)
+            })
+        } else {
+            let echoThis = document.createElement('p');
+            let message = argumentList.join(' ');
+            echoThis.textContent = message;
+            terminalOutput.appendChild(echoThis);
+        }
     }
 )
 
@@ -105,16 +146,7 @@ const square = new Command(
     }
 )
 
-export function runCommand(com, argument, param = []) {
-    const commandInput = document.createElement('p');
-    const paramString = param.join(' ')
-    const argumentString = argument.join(' ')
-    commandInput.textContent = `>>> ${com} ${argumentString} ${paramString}`;
-    terminalOutput.appendChild(commandInput);
-
-    const validCom = typeof com === 'string' && com.length
-    if (!validCom) return
-
+export function runCommand(com, argumentList, params = []) {
     try {
         if (param === []) {
             return commandsList[com].run(argument)
@@ -127,5 +159,3 @@ export function runCommand(com, argument, param = []) {
 }
 
 const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help, man, square, clear}
-export {commandsList};
-

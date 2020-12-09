@@ -17,7 +17,6 @@ body {
     font-family: 'FiraCode';
     font-weight: 300;
 }
-
 .terminal__font {
     color: var(--color-text-principal);
     font-size: 18px;

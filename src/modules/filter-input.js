@@ -1,8 +1,8 @@
-import {runCommand} from './data/commands.js'
+import { runCommand } from './data/commands.js'
 
 // HTML Variables
 let input = document.querySelector('.terminal__input')
-console.log(input)
+export let validCom = '';
 
 // Event Listeners
 input.addEventListener('keydown', e => {
@@ -16,20 +16,18 @@ input.addEventListener('keydown', e => {
 
 // Split the string, if the index 0 word matches a command runCommand()
 function decode(rawInput) {
-
-    // [command] [parameters] [arguments]  
-    const decoded = {command: '', parameters: [], argument: []}
+    // [command] [parameters] [argumentLists]  
+    const decoded = { command: '', parameters: [], argumentList: [] }
 
     let splitted = rawInput.split(' ');
 
-    decoded.command = splitted[0]
-    splitted.shift();
+    decoded.command = splitted.shift();
 
-    splitted.forEach(e => {
-        if (e[0] === '-') {
-            decoded.parameters.push(e);
+    splitted.forEach(element => {
+        if (element.startsWith('-')) {
+            decoded.parameters.push(element);
         } else {
-            decoded.argument.push(e);
+            decoded.argumentList.push(element);
         }
     })
 
@@ -38,5 +36,6 @@ function decode(rawInput) {
 
 function process(rawInput) {
     const decoded = decode(rawInput)
-    runCommand(decoded.command, decoded.parameters, decoded.argument);
+    validCom = rawInput;
+    runCommand(decoded.command, decoded.argumentList, decoded.parameters);
 }

@@ -1,5 +1,5 @@
 
-import { Folder } from '../model/folder.js'
+import {Folder} from '../model/folder.js'
 
 
 let rootFolder = new Folder();
@@ -56,5 +56,8 @@ function logAction(action) {
     console.log('--> ' + action);
 }
 
-export { getActiveFolder, enterFolder, exitFolder, getPath }
+
+
+
+export {getActiveFolder, enterFolder, exitFolder, getPath}
 
