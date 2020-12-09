@@ -46,7 +46,7 @@ const cd = new Command(
             exitFolder();
             console.log(getActiveFolder())
         } else if (argumentList.length <= 0) {
-            enterFolder(rootFolder.getPath())
+            // enterFolder(rootFolder.getPath())
         } else {
             let listOfFolders = getActiveFolder().getFolderNames()
             if (listOfFolders.includes(argumentList.join(' '))) {
@@ -64,7 +64,7 @@ const mkdir = new Command(
     'mkdir - make directories',
     '',
     function mkdir(argumentList) {
-        argument.forEach(dir => {
+        argumentList.forEach(dir => {
             getActiveFolder().addFolder(dir)
 
             let mkdirThis = document.createElement('p');
@@ -79,7 +79,7 @@ const mkdir = new Command(
 const echo = new Command(
     'echo - Write arguments to the standard output.',
     '',
-    function echo(argumentList, parameter) {
+    function echo(argumentList) {
         if (argumentList[argumentList.indexOf('>')]) {
             let indexOfBiggerThan = argumentList.indexOf('>')
             let stringToEcho = argumentList.slice(0, indexOfBiggerThan)
@@ -146,12 +146,12 @@ const square = new Command(
     }
 )
 
-export function runCommand(com, argumentList, params = []) {
+export function runCommand(com, argumentList, parametersList = []) {
     try {
-        if (param === []) {
-            return commandsList[com].run(argument)
+        if (parametersList === []) {
+            return commandsList[com].run(argumentList)
         } else {
-            return commandsList[com].run(param, argument)
+            return commandsList[com].run(parametersList, argumentList)
         }
     } catch (error) {
         alert(error)
