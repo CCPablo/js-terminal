@@ -1,60 +1,10 @@
-/*
-let rootFolder = {
-    folders: {
-        {
-            folders: {
-                {
-                    folders: [],
-                    files: []
-                },
-                {
-                    folders: [],
-                    files: []
-                }
-            },
-            files: {
-                {
-                    name: 'file1.js',
-                    content: 'Contenido del fichero 1'
-                }
-            }
-        },
-        {
-            folders: {
-                {
-                    folders: [],
-                    files: []
-                },
-                {
-                    folders: [],
-                    files: [
-                        {
-                            name: 'file1.txt',
-                            content: 'gola'
-                        }
-                    ]
-                }
-            },
-            files: {
-                {
-                    name: 'file1.js',
-                    content: 'Contenido del fichero 1'
-                }
-            }
-        }
-    },
-    files: {
-        {
-            name: 'file2.js',
-            content: 'Contenido del fichero 2'
-        }
-    {
-}
-*/
 
 import {Folder} from '../model/folder.js'
 
+<<<<<<< HEAD
 export {getActiveFolder, enterFolder, exitFolder, getPath, rootFolder}
+=======
+>>>>>>> d0f3e03e75c18d74e219a2fdd56f79589f68560e
 
 let rootFolder = new Folder();
 
@@ -75,6 +25,7 @@ function exitFolder() {
 function getPath() {
     return `/${currentPath.join('/')}`;
 }
+
 
 ////
 
@@ -108,3 +59,9 @@ function logState() {
 function logAction(action) {
     console.log('--> ' + action);
 }
+<<<<<<< HEAD
+=======
+
+export { getActiveFolder, enterFolder, exitFolder, getPath }
+
+>>>>>>> d0f3e03e75c18d74e219a2fdd56f79589f68560e

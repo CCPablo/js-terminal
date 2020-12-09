@@ -1,4 +1,3 @@
-
 const $buttonFullScreen = document.querySelector('#fullscreen');
 const $headerTerminal = document.querySelector('.terminal__header');
 const $terminalContiner = document.querySelector('#terminal');
@@ -18,6 +17,5 @@ function openFullscreen() {
 
     } else if ($terminalContiner.msRequestFullscreen) { /* IE11 */
         $terminalContiner.msRequestFullscreen();
-
     }
 }

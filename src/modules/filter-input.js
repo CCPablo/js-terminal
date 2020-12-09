@@ -15,7 +15,6 @@ input.addEventListener('keydown', e => {
 
 // Split the string, if the index 0 word matches a command runCommand()
 function decode(rawInput) {
-
     // [command] [parameters] [argumentLists]  
     const decoded = {command: '', parameters: [], argumentList: []}
 
