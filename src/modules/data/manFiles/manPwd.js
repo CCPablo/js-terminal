@@ -1,5 +1,5 @@
 //import stringToHTML from './manFile';
-import manFile from './manFile';
+import manFile from '../../model/manFile';
 
 const manPwd = new manFile(
         (`
