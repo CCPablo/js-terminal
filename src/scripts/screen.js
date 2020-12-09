@@ -1,4 +1,3 @@
-
 const $buttonFullScreen = document.querySelector('#fullscreen');
 const $headerTerminal = document.querySelector('.terminal__header');
 const $terminalContiner = document.querySelector('#terminal');

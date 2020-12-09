@@ -17,6 +17,7 @@ body {
     font-family: 'FiraCode';
     font-weight: 300;
 }
+
 .hidden{
     overflow: hidden;
     opacity: 0;
@@ -62,12 +63,25 @@ body {
     flex-flow: row;
 }
 .terminal__body {
-    overflow-y: initial;
-    overflow-x: hidden;
+    position: relative;
 }
-.disable-scrollbars::-webkit-scrollbar {
-    width: 0px;
-    background: transparent; /* Chrome/Safari/Webkit */
+.terminal__result{
+    width: 100%;
+    text-align: left;
+    overflow: scroll;
+    max-height: 40vh;
+    opacity: 1;
+}
+.sticky {
+    position: sticky;
+    top: 0;
+}
+.terminal__font {
+    color: var(--color-text-principal);
+    font-size: 18px;
+    text-indent: 0.5em;
+    font-weight: 500;
+    float: left;
 }
 .disable-scrollbars {
     scrollbar-width: none; /* Firefox */
@@ -75,6 +89,7 @@ body {
 }
 .terminal__output {
     width: 100%;
+    height: auto;
     display: flex;
     flex-flow: row wrap;
 }
