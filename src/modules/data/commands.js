@@ -93,13 +93,18 @@ const echo = new Command(
 const cat = new Command(
     'cat - concatenate files and print on the standard output',
     '',
-    function cat() {}
+    function cat(argumentList) {
+        const fileShow = argumentList.join(' ')
+        getActiveFolder().files[`${fileShow}`]
+        console.log(getActiveFolder().files[`${fileShow}`].content)
+    }
 )
 
 const rm = new Command(
     'rm - remove files or directories ',
     '',
-    function rm() {}
+    function rm(argumentList) {
+    }
 )
 
 const mv = new Command(
