@@ -16,8 +16,8 @@ function getFolder(relativePath = "") {
 
 function extractFolder(relativePathPointer) {
     return absolutPath.slice(0, absolutPath.length - relativePathPointer.levelsUp)
-                        .concat(relativePathPointer.foldersDown)
-                        .reduce((parentFolder, folderName) => parentFolder.getFolder(folderName), rootFolder);
+        .concat(relativePathPointer.foldersDown)
+        .reduce((parentFolder, folderName) => parentFolder.getFolder(folderName), rootFolder);
 }
 
 function getSources(relativePath = "") {
@@ -29,7 +29,7 @@ function enterFolder(relativePath) {
     try {
         //checks if folder exist
         extractFolder(relativePathPointer);
-    } catch(err) {
+    } catch (err) {
         throw err;
     }
     exitFolder(relativePathPointer.levelsUp);
@@ -49,14 +49,14 @@ function getAbsolutPath() {
 }
 
 function getRelativePathPointer(relativePath) {
-    if(!relativePath) {
+    if (!relativePath) {
         return {
             foldersDown: [],
             levelsUp: 0
         }
     }
     let folders = relativePath.split('/');
-    if(relativePath.startsWith('/')) {
+    if (relativePath.startsWith('/')) {
         folders.shift();
         return {
             foldersDown: folders,
@@ -65,10 +65,10 @@ function getRelativePathPointer(relativePath) {
     } else {
         let levelsUp = 0;
         folders = folders.filter(folder => {
-            if(folder === "." || folder === "") {
+            if (folder === "." || folder === "") {
                 return false;
             }
-            else if(folder === "..") {
+            else if (folder === "..") {
                 levelsUp++;
                 return false;
             }
@@ -96,8 +96,8 @@ getFolder().addFile('file3.js')
 logState();
 logAction('add folder new folder and set active')
 
-getFolder().addFolder('new folder')
-enterFolder('new folder')
+getFolder().addFolder('new-folder')
+enterFolder('new-folder')
 
 logState();
 logAction('add file inside folder')

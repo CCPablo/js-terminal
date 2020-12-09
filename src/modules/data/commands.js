@@ -67,28 +67,31 @@ const rm = new Command(
     '',
     function rm(argumentList, parametersList) {
         let formatedArgument = argumentList.join(' ')
+        // RM all files in the current dir
         if (argumentList.includes('*')) {
-            getActiveFolder().folders = {}; getActiveFolder().files = {}
+            getFolder().folders = {}; getFolder().files = {}
         }
+        // RM fil* removes all files that start with fil
         argumentList.forEach(file => {
             if (file.charAt(file.length - 1) === '*') {
                 let nameOfFile = file.slice(0, -1);
-                for (let key in getActiveFolder().folders) {
+                for (let key in getFolder().folders) {
                     if (key.startsWith(nameOfFile)) {
-                        delete getActiveFolder().files[`${key}`]
+                        delete getFolder().files[`${key}`]
                     }
                 }
-                for (let key in getActiveFolder().files) {
+                for (let key in getFolder().files) {
                     if (key.startsWith(nameOfFile)) {
-                        delete getActiveFolder().files[`${key}`]
+                        delete getFolder().files[`${key}`]
                     }
                 }
             }
         })
-        if (getActiveFolder().hasFolder(formatedArgument)) {
-            delete getActiveFolder().folders[`${formatedArgument}`]
-        } else if (getActiveFolder().hasFile(formatedArgument)) {
-            delete getActiveFolder().files[`${formatedArgument}`]
+        // RM + fileName remove that file name
+        if (getFolder().hasFolder(formatedArgument)) {
+            delete getFolder().folders[`${formatedArgument}`]
+        } else if (getFolder().hasFile(formatedArgument)) {
+            delete getFolder().files[`${formatedArgument}`]
         }
     }
 )
