@@ -94,9 +94,11 @@ const cat = new Command(
     'cat - concatenate files and print on the standard output',
     '',
     function cat(argumentList) {
-        const fileShow = argumentList.join(' ')
-        getActiveFolder().files[`${fileShow}`]
-        console.log(getActiveFolder().files[`${fileShow}`].content)
+        const fileShow = argumentList.join(' ');
+        const catContent = getActiveFolder().files[`${fileShow}`].content;
+        let catThis = document.createElement('p');
+        catThis.textContent = catContent;
+        terminalOutput.appendChild(catThis);
     }
 )
 
