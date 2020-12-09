@@ -1,6 +1,6 @@
-import { runCommand } from './data/commands.js' 
+import {runCommand} from './data/commands.js'
 
-document.onkeypress = function(evt) {
+document.onkeypress = function (evt) {
     evt = evt || window.event;
     let charKey = evt.key;
 
