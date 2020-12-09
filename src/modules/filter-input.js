@@ -38,5 +38,9 @@ function decode(rawInput) {
 function process(rawInput) {
     const decoded = decode(rawInput)
     validCom = rawInput;
-    runCommand(decoded.command, decoded.argumentList, decoded.parameters);
+    try {
+        runCommand(decoded.command, decoded.argumentList, decoded.parameters);
+    } catch(error) {
+        alert(error)
+    }
 }

@@ -120,11 +120,7 @@ const square = new Command(
 )
 
 export function runCommand(com, argumentList = [], parametersList = []) {
-    try {
-        commandsList[com].run(argumentList, parametersList)
-    } catch (error) {
-        alert(error)
-    }
+    commandsList[com].run(argumentList, parametersList)
 }
 
 const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help, man, square, clear}
