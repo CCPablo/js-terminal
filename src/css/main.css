@@ -18,6 +18,14 @@ body {
     font-weight: 300;
 }
 
+.terminal__font {
+    color: var(--color-text-principal);
+    font-size: 18px;
+    text-indent: 0.5em;
+    font-weight: 500;
+    float: left;
+}
+
 .hidden{
     overflow: hidden;
     opacity: 0;
