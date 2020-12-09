@@ -1,6 +1,6 @@
 import {Command} from '../model/command.js'
-import {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources } from '../state/folders.js'
-import { setOutput, clearOutput } from '../dom/terminal.js'
+import {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources} from '../state/folders.js'
+import {setOutput, clearOutput} from '../dom/terminal.js'
 
 const pwd = new Command(
     'print name of current/working directory',
@@ -13,7 +13,7 @@ const pwd = new Command(
 const ls = new Command(
     'ls - list directory contents',
     ' ',
-    (argumentList, parameterList) =>  {
+    (argumentList, parameterList) => {
         const sources = getSources(argumentList[0]);
         sources.sort();
         let message = sources.join(' ');
@@ -24,7 +24,7 @@ const ls = new Command(
 const cd = new Command(
     'cd - change the shell working directory.',
     ' ',
-    (argumentList, parameterList) =>  {
+    (argumentList, parameterList) => {
         enterFolder(argumentList[0]);
     }
 )
@@ -40,7 +40,7 @@ const mkdir = new Command(
 const echo = new Command(
     'echo - Write arguments to the standard output.',
     '',
-    (argumentList, parameterList) =>  {
+    (argumentList, parameterList) => {
         if (argumentList[argumentList.indexOf('>')]) {
             let indexOfBiggerThan = argumentList.indexOf('>')
             let stringToEcho = argumentList.slice(0, indexOfBiggerThan)
@@ -65,7 +65,32 @@ const cat = new Command(
 const rm = new Command(
     'rm - remove files or directories ',
     '',
-    (argumentList, parameterList) => {}
+    function rm(argumentList, parametersList) {
+        let formatedArgument = argumentList.join(' ')
+        if (argumentList.includes('*')) {
+            getActiveFolder().folders = {}; getActiveFolder().files = {}
+        }
+        argumentList.forEach(file => {
+            if (file.charAt(file.length - 1) === '*') {
+                let nameOfFile = file.slice(0, -1);
+                for (let key in getActiveFolder().folders) {
+                    if (key.startsWith(nameOfFile)) {
+                        delete getActiveFolder().files[`${key}`]
+                    }
+                }
+                for (let key in getActiveFolder().files) {
+                    if (key.startsWith(nameOfFile)) {
+                        delete getActiveFolder().files[`${key}`]
+                    }
+                }
+            }
+        })
+        if (getActiveFolder().hasFolder(formatedArgument)) {
+            delete getActiveFolder().folders[`${formatedArgument}`]
+        } else if (getActiveFolder().hasFile(formatedArgument)) {
+            delete getActiveFolder().files[`${formatedArgument}`]
+        }
+    }
 )
 
 const mv = new Command(

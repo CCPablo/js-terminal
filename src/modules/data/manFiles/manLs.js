@@ -2,21 +2,21 @@ import manFile from '../../model/manFile';
 
 const manLs = new manFile(
 
-        (`
+    (`
         <div  class = 'h2Item'>
         <h2>Name</h2>
         <p>ls - list directory contents </p>
         </div>
         `),
 
-        (`
+    (`
         <div  class = 'h2Item'>
         <h2>Synopsis</h2>
         <b>ls</b> [<i>OPTION</i>]... [<i>FILE</i>]...
         </div>
         `),
 
-        (`
+    (`
         <div  class = 'h2Item'>
         <h2>Description</h2>
         <p>List information about the FILEs (the current directory by default). Sort entries alphabetically if none of <b>-cftuvSUX</b> nor <b>--sort</b>.
@@ -141,7 +141,7 @@ const manLs = new manFile(
         </div>
         `),
 
-        (`
+    (`
         <div  class = 'h2Item'>
         <p>SELinux options:
         <dl compact>
@@ -166,16 +166,16 @@ const manLs = new manFile(
         </div>
         `),
 
-        (`
+    (`
         <div  class = 'h2Item'>
         <h2>Author</h2>
         <p>Written by Richard M. Stallman and David Ma </p>
         </div>
         `)
-        
-    );
 
-module.exports = { manLs };
+);
+
+module.exports = {manLs};
 
 
 

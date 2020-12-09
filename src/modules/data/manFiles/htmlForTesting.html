@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <div id="test"></div>
 </body>
@@ -13,20 +15,16 @@
 
 
 
-<<<<<<< HEAD
     let stringToHTML = function (str) {
-                let parser = new DOMParser();
-                let doc = parser.parseFromString(str, 'text/html');
-                let InnerHtmlToAdd = doc.getElementsByClassName('h2Item')[0].innerHTML;
-                //console.log(InnerHtmlToAdd);
-                return InnerHtmlToAdd;
-            }
-=======
-
->>>>>>> d0927dc1e41a5298dc100a1e8a7dac6c41c0eeb6
+        let parser = new DOMParser();
+        let doc = parser.parseFromString(str, 'text/html');
+        let InnerHtmlToAdd = doc.getElementsByClassName('h2Item')[0].innerHTML;
+        //console.log(InnerHtmlToAdd);
+        return InnerHtmlToAdd;
+    }
 
     class manFile {
-        constructor( name, sinopsis, description, examples, author ){
+        constructor(name, sinopsis, description, examples, author) {
             this.name = name;
             this.sinopsis = sinopsis;
             this.description = description;
@@ -34,11 +32,8 @@
             this.author = author;
         }
 
-<<<<<<< HEAD
         async stringToHTML(str) {
-=======
-        stringToHTML = function(str) {
->>>>>>> d0927dc1e41a5298dc100a1e8a7dac6c41c0eeb6
+            stringToHTML = function (str) {
                 let parser = new DOMParser();
                 let doc = parser.parseFromString(str, 'text/html');
                 let InnerHtmlToAdd = doc.getElementsByClassName('h2Item')[0].innerHTML;
@@ -46,101 +41,35 @@
                 return InnerHtmlToAdd;
             }
 
-        get Name () {
-<<<<<<< HEAD
-            let stringToHTML = function (str) {
-            let parser = new DOMParser();
-            let doc = parser.parseFromString(str, 'text/html');
-            let InnerHtmlToAdd = doc.getElementsByClassName('h2Item')[0].innerHTML;
-            console.log(InnerHtmlToAdd);
-            return InnerHtmlToAdd;
+            get Name() {
+                return this.stringToHTML(this.name);
+            }
+
+            get Sinopsis() {
+                return this.stringToHTML(this.sinopsis);
+            }
+
+            get Description() {
+                return this.stringToHTML(this.description);
+
+            };
+            get Examples() {
+                return this.stringToHTML(this.examples);
+
+            };
+            get Author() {
+                return this.stringToHTML(this.author);
+            };
+
+            get All() {
+                return this.stringToHTML(this.name) + this.stringToHTML(this.sinopsis) + this.stringToHTML(this.description) + this.stringToHTML(this.examples) + this.stringToHTML(this.author);
+            };
+
         }
-            return stringToHTML(this.name);
-        };
-        get Sinopsis () {
-            let stringToHTML = function (str) {
-            let parser = new DOMParser();
-            let doc = parser.parseFromString(str, 'text/html');
-            let InnerHtmlToAdd = doc.getElementsByClassName('h2Item')[0].innerHTML;
-            console.log(InnerHtmlToAdd);
-            return InnerHtmlToAdd;
-        }
-            return stringToHTML(this.sinopsis);
-
-        };
-        get Description () {
-            let stringToHTML = function (str) {
-            let parser = new DOMParser();
-            let doc = parser.parseFromString(str, 'text/html');
-            let InnerHtmlToAdd = doc.getElementsByClassName('h2Item')[0].innerHTML;
-            console.log(InnerHtmlToAdd);
-            return InnerHtmlToAdd;
-        }
-            return stringToHTML(this.description);
-
-        };
-        get Examples () {            
-            let stringToHTML = function (str) {
-            let parser = new DOMParser();
-            let doc = parser.parseFromString(str, 'text/html');
-            let InnerHtmlToAdd = doc.getElementsByClassName('h2Item')[0].innerHTML;
-            console.log(InnerHtmlToAdd);
-            return InnerHtmlToAdd;
-        }
-            return stringToHTML(this.examples);
-
-        };
-        get Author () {            
-            let stringToHTML = function (str) {
-            let parser = new DOMParser();
-            let doc = parser.parseFromString(str, 'text/html');
-            let InnerHtmlToAdd = doc.getElementsByClassName('h2Item')[0].innerHTML;
-            console.log(InnerHtmlToAdd);
-            return InnerHtmlToAdd;
-        }
-            return stringToHTML(this.author);
-        };
-        
-        get All () {
-            let stringToHTML = function (str) {
-            let parser = new DOMParser();
-            let doc = parser.parseFromString(str, 'text/html');
-            let InnerHtmlToAdd = doc.getElementsByClassName('h2Item')[0].innerHTML;
-            console.log(InnerHtmlToAdd);
-            return InnerHtmlToAdd;
-        }
-            return stringToHTML(this.name) + stringToHTML(this.sinopsis) + stringToHTML(this.description) + stringToHTML(this.examples) + stringToHTML(this.author);
-=======
-            return this.stringToHTML(this.name);
-                }
-
-        get Sinopsis () {
-            return this.stringToHTML(this.sinopsis);
-                }
-
-        get Description () {
-            return this.stringToHTML(this.description);
-
-        };
-        get Examples () {            
-            return this.stringToHTML(this.examples);
-
-        };
-        get Author () {            
-            return this.stringToHTML(this.author);
-        };
-        
-        get All () {
-            return this.stringToHTML(this.name) + this.stringToHTML(this.sinopsis) + this.stringToHTML(this.description) + this.stringToHTML(this.examples) + this.stringToHTML(this.author);
->>>>>>> d0927dc1e41a5298dc100a1e8a7dac6c41c0eeb6
-           
-        };
-
-    }
 
 
 
-    const manLs = new manFile(
+        const manLs = new manFile(
 
             `
             <div  class = 'h2Item'>
@@ -312,7 +241,7 @@
             <p>Written by Richard M. Stallman and David Ma </p>
             </div>
             `
-            
+
         );
 
 
@@ -321,29 +250,24 @@
         //import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm} from './manFileReferenceCaller.js';
 
         let test = document.getElementById('test');
-        //console.log(manLs.Sinopsis);
-        //console.log(manLs.Name);
-        //console.log(manLs.Description);
-        //console.log(manLs.Examples);
-        //console.log(manLs.Author);
+    //console.log(manLs.Sinopsis);
+    //console.log(manLs.Name);
+    //console.log(manLs.Description);
+    //console.log(manLs.Examples);
+    //console.log(manLs.Author);
 
-        //test.innerHTML = manLs.Name;
-        //test.innerHTML += manLs.Sinopsis;
-        //test.innerHTML += manLs.Description;
-        //test.innerHTML += manLs.Examples;
-<<<<<<< HEAD
-        test.innerHTML += manLs.Author;
-        //console.log(manLs.All);
-        //test.innerHTML = manLs.All;
-=======
-        //test.innerHTML += manLs.Author;
-        //console.log(manLs.All);
-        test.innerHTML = manLs.All;
->>>>>>> d0927dc1e41a5298dc100a1e8a7dac6c41c0eeb6
+    //test.innerHTML = manLs.Name;
+    //test.innerHTML += manLs.Sinopsis;
+    //test.innerHTML += manLs.Description;
+    //test.innerHTML += manLs.Examples;
+    //test.innerHTML += manLs.Author;
+    //console.log(manLs.All);
+    test.innerHTML = manLs.All;
 
-        
+
 
 
 
 </script>
+
 </html>
