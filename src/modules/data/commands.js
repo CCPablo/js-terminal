@@ -127,4 +127,5 @@ export function runCommand(com, argument, param = []) {
 }
 
 const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help, man, square, clear}
-export { commandsList };
+export {commandsList};
+
