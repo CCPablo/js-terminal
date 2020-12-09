@@ -59,5 +59,5 @@ function logAction(action) {
 
 
 
-export {getActiveFolder, enterFolder, exitFolder, getPath}
+export {getActiveFolder, enterFolder, exitFolder, getPath, rootFolder}
 
