@@ -67,11 +67,11 @@ const rm = new Command(
     '',
     function rm(argumentList, parametersList) {
         let formatedArgument = argumentList.join(' ')
-        // RM all files in the current dir
+        // rm all files in the current dir
         if (argumentList.includes('*')) {
             getFolder().folders = {}; getFolder().files = {}
         }
-        // RM fil* removes all files that start with fil
+        // rm fil* removes all files that start with fil
         argumentList.forEach(file => {
             if (file.charAt(file.length - 1) === '*') {
                 let nameOfFile = file.slice(0, -1);
@@ -87,7 +87,7 @@ const rm = new Command(
                 }
             }
         })
-        // RM + fileName remove that file name
+        // rm fileName removes that file name
         if (getFolder().hasFolder(formatedArgument)) {
             delete getFolder().folders[`${formatedArgument}`]
         } else if (getFolder().hasFile(formatedArgument)) {
