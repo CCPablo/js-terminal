@@ -61,15 +61,8 @@ const cd = new Command(
 const mkdir = new Command(
     'mkdir - make directories',
     '',
-    (argumentList, parameterList) =>  {
-        argumentList.forEach(dir => {
-            getActiveFolder().addFolder(dir)
-            let mkdirThis = document.createElement('p');
-            let pathmkdir = getPath();
-            mkdirThis.innerHTML = pathmkdir;
-            terminalOutput.appendChild(mkdirThis);
-            exitFolder();
-        });
+    function mkdir(argumentList) {
+        getActiveFolder().addFolder(argumentList.join())
     }
 )
 
@@ -148,7 +141,7 @@ export function runCommand(com, argumentList, parametersList = []) {
         if (parametersList === []) {
             return commandsList[com].run(argumentList)
         } else {
-            return commandsList[com].run(parametersList, argumentList)
+            return commandsList[com].run(argumentList, parametersList)
         }
     } catch (error) {
         alert(error)
