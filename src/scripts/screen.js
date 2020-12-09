@@ -17,6 +17,5 @@ function openFullscreen() {
 
     } else if ($terminalContiner.msRequestFullscreen) { /* IE11 */
         $terminalContiner.msRequestFullscreen();
-
     }
 }
