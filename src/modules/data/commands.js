@@ -8,8 +8,11 @@ const terminalOutput = document.getElementById('terminal__output');
 const pwd = new Command(
     'print name of current/working directory',
     ' ',
-    function pwd(a) {
-
+    function pwd() {
+        let echoThis = document.createElement('p')
+        const pathpwd = getPath();
+        echoThis.innerHTML = pathpwd;
+        terminalOutput.appendChild(echoThis);
     }
 )
 
@@ -17,7 +20,6 @@ const ls = new Command(
     'ls - list directory contents',
     ' ',
     function ls(argumentList, parameters) {
-        console.log(getPath())
         let listOfFiles = getActiveFolder().getFileNames()
         let listOfFolders = getActiveFolder().getFolderNames()
         let listOfFilesAndFolders = listOfFiles.concat(listOfFolders)
@@ -62,7 +64,15 @@ const mkdir = new Command(
     'mkdir - make directories',
     '',
     function mkdir(argumentList) {
-        getActiveFolder().addFolder(argumentList.join())
+        argument.forEach(dir => {
+            getActiveFolder().addFolder(dir)
+
+            let mkdirThis = document.createElement('p');
+            let pathmkdir = getPath();
+            mkdirThis.innerHTML = pathmkdir;
+            terminalOutput.appendChild(mkdirThis);
+            exitFolder();
+        });
     }
 )
 
@@ -91,7 +101,7 @@ const echo = new Command(
 const cat = new Command(
     'cat - concatenate files and print on the standard output',
     '',
-    function echo() {}
+    function cat() {}
 )
 
 const rm = new Command(
@@ -103,7 +113,7 @@ const rm = new Command(
 const mv = new Command(
     'mv - move (rename) files ',
     '',
-    function rm() {}
+    function mv() {}
 )
 
 const help = new Command(
@@ -138,10 +148,10 @@ const square = new Command(
 
 export function runCommand(com, argumentList, params = []) {
     try {
-        if (params === []) {
-            return commandsList[com].run(argumentList)
+        if (param === []) {
+            return commandsList[com].run(argument)
         } else {
-            return commandsList[com].run(argumentList, params)
+            return commandsList[com].run(param, argument)
         }
     } catch (error) {
         alert(error)
