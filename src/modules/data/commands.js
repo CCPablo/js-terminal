@@ -41,9 +41,22 @@ const ls = new Command(
 const cd = new Command(
     'cd - change the shell working directory.',
     ' ',
-    function cd(/*a = []*/) {
-        //   if (a === '..') {
-        //   }
+    function cd(argumentList) {
+        if (argumentList.length === 1 && argumentList[0] == '..') {
+            exitFolder();
+            console.log(getActiveFolder())
+        } else if (argumentList.length <= 0) {
+            enterFolder(rootFolder.getPath())
+        } else {
+            let listOfFolders = getActiveFolder().getFolderNames()
+            if (listOfFolders.includes(argumentList.join(' '))) {
+                enterFolder(argumentList.join(' '))
+            } else {
+                let echoThis = document.createElement('p');
+                echoThis.textContent = `cd: no such file or directory: ${argumentList.join(' ')}`
+                terminalOutput.appendChild(echoThis);
+            }
+        }
     }
 )
 
@@ -52,7 +65,7 @@ const mkdir = new Command(
     '',
     function mkdir(argumentList) {
         argument.forEach(dir => {
-            enterFolder(dir);
+            getActiveFolder().addFolder(dir)
 
             let mkdirThis = document.createElement('p');
             let pathmkdir = getPath();
@@ -133,16 +146,7 @@ const square = new Command(
     }
 )
 
-export function runCommand(com, argument, param = []) {
-    const commandInput = document.createElement('p');
-    const paramString = param.join(' ')
-    const argumentString = argument.join(' ')
-    commandInput.textContent = `>>> ${com} ${argumentString} ${paramString}`;
-    terminalOutput.appendChild(commandInput);
-
-    const validCom = typeof com === 'string' && com.length
-    if (!validCom) return
-
+export function runCommand(com, argumentList, params = []) {
     try {
         if (param === []) {
             return commandsList[com].run(argument)
