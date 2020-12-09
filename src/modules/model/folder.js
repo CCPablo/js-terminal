@@ -18,14 +18,14 @@ class Folder {
     }
 
     addFolder = function (name, files = {}, folders = {}, shortcut = undefined) {
-        if (!this.hasFolder(name)) {
+        if (this.hasFolder(name)) {
             throw FOLDER_EXISTS_MSG(name);
         }
         this.folders[name] = new Folder(files, folders, shortcut);
     }
 
     addFile = function (name, content = '') {
-        if (!this.hasFile(name)) {
+        if (this.hasFile(name)) {
             throw FILE_EXISTS_MSG(name);
         }
         this.files[name] = new File(name, content);
@@ -40,14 +40,14 @@ class Folder {
     }
 
     getSources = function() {
-        return this.getFileNames().concat(this.getFileNames())
+        return this.getFileNames().concat(this.getFolderNames())
     }
 
-    hasFolder = function (fileName) {
-        return !Object.keys(this.files).includes(fileName);
+    hasFolder = function (folderName) {
+        return Object.keys(this.folders).includes(folderName);
     }
 
-    hasFile = function (folderName) {
-        return !Object.keys(this.folders).includes(folderName);
+    hasFile = function (fileName) {
+        return Object.keys(this.files).includes(fileName);
     }
 }

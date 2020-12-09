@@ -5,32 +5,47 @@ let rootFolder = new Folder();
 
 let currentPath = [];
 
-function getActiveFolder(relativePath = [], levelsUp = 0) {
+function getActiveFolder(foldersDown = [], levelsUp = 0) {
     const path = currentPath.slice(0, currentPath.length - levelsUp)
-                            .concat(relativePath);
-    return path.reduce((parent, child) => parent.folders[child], rootFolder);
+                            .concat(foldersDown);
+    return path.reduce((parentFolder, folderName) =>  {
+        if(!parentFolder.hasFolder(folderName)) {
+            console.log('reooo', parentFolder)
+            throw `Folder ${folderName} does not exists`;
+        }
+        console.log(parentFolder)
+        return parentFolder.folders[folderName];
+    }, rootFolder);
 }
 
-function getSources(relativePath = [], levelsUp = 0) {
-    return getActiveFolder(relativePath, levelsUp).getSources();
+function getSources(foldersDown = [], levelsUp = 0) {
+    return getActiveFolder(foldersDown, levelsUp).getSources();
 }
 
 /* TODO: Cuando entramos en la función EnterFolder, estamos cambiando la ruta. No queremos hacerlo hasta
     asegurarnos de que la ruta existe
-function enterFolders(relativePath, levelsUp = 0) {
+function enterFolders(foldersDown, levelsUp = 0) {
     const reducedPath = currentPath.slice(0, currentPath.length - levelsUp);
-    relativePath.foreach(folderName => {
+    foldersDown.foreach(folderName => {
         enterFolder(folderName);
     })
     currentPath = reducedPath;
 }
 */
 
+
+function enterFolders(foldersDown, levelsUp) {
+    const path = currentPath.slice(0, currentPath.length - levelsUp)
+                            .concat(foldersDown);
+}
+
+
 function enterFolder(name) {
+    console.log(getActiveFolder());
     if(getActiveFolder().hasFolder(name)) {
         currentPath.push(name);
     } else {
-        throw 'folder does not exist';
+        throw `Folder with name ${name} does not exist in directory ${getPath()}`;
     }
 }
 
@@ -40,6 +55,10 @@ function exitFolder() {
 
 function getPath() {
     return `/${currentPath.join('/')}`;
+}
+
+function joinPath(path) {
+    return `/${path.join('/')}`;
 }
 
 function splitPath(path) {
@@ -70,7 +89,7 @@ logState();
 
 logAction('display relative level -1')
 
-console.log(getActiveFolder([], 1))
+console.log(getActiveFolder(['ramon'], 2))
 
 logState();
 
