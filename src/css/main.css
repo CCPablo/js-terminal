@@ -17,14 +17,22 @@ body {
     font-family: 'FiraCode';
     font-weight: 300;
 }
+<<<<<<< HEAD
+/*Terminal Font*/
+=======
 
+>>>>>>> d0f3e03e75c18d74e219a2fdd56f79589f68560e
 .terminal__font {
     color: var(--color-text-principal);
     font-size: 18px;
     text-indent: 0.5em;
     font-weight: 500;
     float: left;
+<<<<<<< HEAD
+} /*by marcel for testing*/
+=======
 }
+>>>>>>> d0f3e03e75c18d74e219a2fdd56f79589f68560e
 
 .hidden{
     overflow: hidden;

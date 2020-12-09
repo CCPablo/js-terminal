@@ -1,6 +1,10 @@
 
-import { Folder } from '../model/folder.js'
+import {Folder} from '../model/folder.js'
 
+<<<<<<< HEAD
+export {getActiveFolder, enterFolder, exitFolder, getPath, rootFolder}
+=======
+>>>>>>> d0f3e03e75c18d74e219a2fdd56f79589f68560e
 
 let rootFolder = new Folder();
 
@@ -55,6 +59,9 @@ function logState() {
 function logAction(action) {
     console.log('--> ' + action);
 }
+<<<<<<< HEAD
+=======
 
 export { getActiveFolder, enterFolder, exitFolder, getPath }
 
+>>>>>>> d0f3e03e75c18d74e219a2fdd56f79589f68560e

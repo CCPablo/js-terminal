@@ -1,4 +1,4 @@
-export { File }
+export {File}
 
 class File {
     constructor(name, content = '') {
@@ -6,23 +6,24 @@ class File {
         this.content = content;
     }
 
-    getName = function() {
+    getName = function () {
         return this.name;
     }
 
-    setName = function(name) {
+    setName = function (name) {
         this.name = name;
     }
 
-    getContent = function() {
+    getContent = function () {
         return this.content;
     }
 
-    setContent = function() {
+    setContent = function () {
         this.content = content;
     }
 
-    eval = function() {
+    eval = function () {
         return eval(this.content);
     }
 }
+
