@@ -65,10 +65,10 @@ function getRelativePathPointer(relativePath) {
     } else {
         let levelsUp = 0;
         folders = folders.filter(folder => {
-            if(folder === ".") {
+            if(folder === "." || folder === "") {
                 return false;
             }
-            if(folder === "..") {
+            else if(folder === "..") {
                 levelsUp++;
                 return false;
             }

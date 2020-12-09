@@ -14,7 +14,7 @@ const ls = new Command(
     'ls - list directory contents',
     ' ',
     (argumentList, parameterList) =>  {
-        const sources = getSources(argumentList[0]);   //TODO: Coger las fuentes de la carpeta correspondiente
+        const sources = getSources(argumentList[0]);
         sources.sort();
         let message = sources.join(' ');
         setOutput(message);
@@ -33,7 +33,7 @@ const mkdir = new Command(
     'mkdir - make directories',
     '',
     function mkdir(argumentList) {
-        getFolder().addFolder(argumentList.join())
+        getFolder().addFolder(argumentList[0]) //TODO: Create folder in realative path
     }
 )
 
