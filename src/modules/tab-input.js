@@ -1,29 +1,33 @@
 import { autocomplete } from './state/folders.js';
 import { decode } from './filter-input.js'
+import { appendToInput, getCaretPosition, getInputValue } from './dom/terminal.js';
 
 const parentPathRegex = /\S+\//;
 const lastWrodRegex = /\S+$/;
-const input = document.querySelector('.terminal__input');
 
 document.addEventListener('keydown', (event) => {
     if (event.key === "Tab") {
         event.preventDefault();
-        const decoded = decode(input.value);
-        if(!(input.selectionStart > decoded.command.length)) {
+        const decoded = decode(getInputValue());
+        if(caretUnderCommand(decoded.command.length)) {
             return;
         }
         const pathToAutocomplete = getWordUnderCursor();
         const parentPath = getParentPath(pathToAutocomplete);
         const lettersToAutocomplete = pathToAutocomplete.replace(parentPath, "");
-        input.value += autocomplete(parentPath, lettersToAutocomplete);
+        appendToInput(autocomplete(parentPath, lettersToAutocomplete))
+    }
+
+    function caretUnderCommand(commandLength) {
+        return (getCaretPosition() <= commandLength);
     }
 
     function getWordUnderCursor() {
-        let caretPosition = input.value.indexOf(' ',input.selectionStart);
+        let caretPosition = getInputValue().indexOf(' ', getCaretPosition());
         if (caretPosition == -1) {
-            caretPosition = input.value.length;
+            caretPosition = getInputValue().length;
         }
-        const word = lastWrodRegex.exec(input.value.slice(0, caretPosition));
+        const word = lastWrodRegex.exec(getInputValue().slice(0, caretPosition));
         if(word === null) {
             return '';
         } else {
