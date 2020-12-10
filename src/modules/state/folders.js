@@ -25,6 +25,11 @@ function getSources(relativePath = "") {
     return getFolder(relativePath).getSources();
 }
 
+function removeAllSources(path) {
+    getFolder(path).folders = {};
+    getFolder(path).files = {};
+}
+
 function enterFolder(relativePath) {
     const relativePathPointer = getRelativePathPointer(relativePath);
     try {
@@ -137,6 +142,7 @@ export {
     exitFolder,
     getAbsolutPath,
     getSources,
+    removeAllSources,
     autocomplete
 }
 

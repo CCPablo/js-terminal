@@ -1,5 +1,5 @@
 import {Command} from '../model/command.js'
-import {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources} from '../state/folders.js'
+import {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources, removeAllSources} from '../state/folders.js'
 import {appendOutput, clearOutput, setNewInput} from '../dom/terminal.js'
 
 const pwd = new Command(
@@ -68,7 +68,7 @@ const rm = new Command(
         let formatedArgument = argumentList.join(' ')
         // rm all files in the current dir
         if (argumentList.includes('*')) {
-            getFolder().folders = {}; getFolder().files = {}
+            removeAllSources(getAbsolutPath())
         }
         // rm fil* removes all files that start with fil
         argumentList.forEach(file => {
