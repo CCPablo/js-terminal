@@ -3,7 +3,7 @@ import { Folder } from '../model/folder.js'
 import {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources } from '../state/folders.js'
 import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm} from './manFiles/manFileReferenceCaller.js';
 
-import { setOutput, clearOutput } from '../dom/terminal.js'
+import { setOutput, clearOutput, setNewInput} from '../dom/terminal.js'
 
 let test = document.getElementById('terminal__output');
 
@@ -11,7 +11,7 @@ const pwd = new Command(
     'print name of current/working directory',
     test.innerHTML = manPwd.All,
     (argumentList, parameterList) => {
-        setOutput(getAbsolutPath())
+        return getAbsolutPath();
     }
 )
 
@@ -21,8 +21,7 @@ const ls = new Command(
     (argumentList, parameterList) =>  {
         const sources = getSources(argumentList[0]);
         sources.sort();
-        let message = sources.join(' ');
-        setOutput(message);
+        return sources.join(' ');
     }
 )
 
@@ -56,7 +55,7 @@ const echo = new Command(
                 getFolder().addFile(name, stringToEcho)
             })
         } else {
-            setOutput(argumentList.join(' '));
+            return argumentList.join(' ');
         }
     }
 )
@@ -132,12 +131,14 @@ const square = new Command(
     'square - return square of value for testing',
     'manSquare.All',
     (argumentList, parameterList) => {
-        setOutput('**')
+        return '**';
     }
 )
 
 export function runCommand(com, argumentList = [], parametersList = []) {
-    commandsList[com].run(argumentList, parametersList)
+    const output = commandsList[com].run(argumentList, parametersList);
+    appendOutput(output);
+    setNewInput();
 }
 
 const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help, man, square, clear}

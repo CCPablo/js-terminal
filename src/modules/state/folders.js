@@ -9,6 +9,7 @@ let absolutPath = [];
     - returns the relative folder based on current path
     - throws error if folder does not exist
 */
+
 function getFolder(relativePath = "") {
     const relativePathPointer = getRelativePathPointer(relativePath);
     return extractFolder(relativePathPointer);
@@ -55,9 +56,8 @@ function getRelativePathPointer(relativePath) {
             levelsUp: 0
         }
     }
-    let folders = relativePath.split('/');
+    let folders = relativePath.split('/').filter((folder) => folder !== "");
     if(relativePath.startsWith('/')) {
-        folders.shift();
         return {
             foldersDown: folders,
             levelsUp: 100
@@ -81,10 +81,44 @@ function getRelativePathPointer(relativePath) {
     }
 }
 
-////
+function autocomplete(parentPath, letters) {
+    let equivalences = getSources(parentPath).filter(source => source.startsWith(letters));
 
-logState();
-logAction('add 3 files to root folder')
+    if(equivalences.length === 0) {
+        return '';
+    } else if(equivalences.length === 1) {
+        return equivalences[0].slice(letters.length);
+    } else {
+        return getWordBeforeConflict(equivalences, letters).slice(letters.length);
+    }
+
+    function getWordBeforeConflict(arrayOfWords, initalLetters) {
+        arrayOfWords.sort((a, b) => b.length - a.length);
+        const maxWord = equivalences[0];
+        let result = false;
+
+        for(let i = initalLetters.length; i <= maxWord.length; i++) {
+            result = checkOdd(equivalences, maxWord.slice(0, i));
+            if(result) {
+                break;
+            }
+        }
+        return result;
+    }
+
+    function checkOdd(arrayOfWords, word) {
+        for(let i = 0; i < arrayOfWords.length; i++) {
+            if(!arrayOfWords[i].startsWith(word)) {
+                return word.slice(0, -1);
+            }
+        }
+        return false;
+    }
+}
+
+
+
+////
 
 getFolder().addFolder('1')
 getFolder().addFolder('2')
@@ -92,37 +126,15 @@ getFolder().addFolder('3')
 getFolder().addFile('file1.js')
 getFolder().addFile('file2.js')
 getFolder().addFile('file3.js')
-
-logState();
-logAction('add folder new folder and set active')
-
-getFolder().addFolder('new folder')
-enterFolder('new folder')
-
-logState();
-logAction('add file inside folder')
+getFolder().addFolder('new-folder')
+enterFolder('new-folder')
 
 getFolder().addFile('file4.js')
 
-logState();
-
-logAction('display relative level -1')
-
-logState();
-
-function logState() {
-    console.log('\n')
-    console.log(getFolder());
-    console.log(getAbsolutPath())
-    console.log('\n')
-}
-
-function logAction(action) {
-    console.log('--> ' + action);
-}
-
-
-
-
-export {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources}
+export {getFolder, 
+    enterFolder, 
+    exitFolder, 
+    getAbsolutPath, 
+    getSources,
+    autocomplete}
 
