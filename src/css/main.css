@@ -69,28 +69,8 @@ body {
     overflow-x: hidden;
     height: 100%;
 }
-<<<<<<< HEAD
-.terminal__result{
-    width: 100%;
-    text-align: left;
-    overflow: hidden;
-    max-height: 40vh;
-    opacity: 1;
-}
-.sticky {
-    position: sticky;
-    top: 0;
-}
-.terminal__font {
-    color: var(--color-text-principal);
-    font-size: 18px;
-    text-indent: 0.5em;
-    font-weight: 500;
-    float: left;
-=======
 .terminal__body::-webkit-scrollbar {
     display: none;
->>>>>>> 793912e89bc33aff0a502aa903d577cffe0b0da6
 }
 .disable-scrollbars {
     scrollbar-width: none; /* Firefox */
