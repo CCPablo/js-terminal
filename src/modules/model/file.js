@@ -18,7 +18,7 @@ class File {
         return this.content;
     }
 
-    setContent = function () {
+    setContent = function (content) {
         this.content = content;
     }
 

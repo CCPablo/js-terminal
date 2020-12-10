@@ -24,11 +24,6 @@ body {
     font-weight: 500;
     float: left;
 }
-
-.hidden{
-    overflow: hidden;
-    opacity: 0;
-}
 .container {
     display: flex;
     align-items: center;
@@ -42,8 +37,9 @@ body {
     background: var(--background-terminal);
     width: 60%;
     height: 50vh;
+    display: flex;
+    flex-direction: column;
     border-radius: 3px;
-    text-align: center;
     font-family: 'Inconsolata', monospace;
     border: 1px solid #d8d8d8;
     border-top: none;
@@ -61,7 +57,6 @@ body {
     height: 25px;
     display: flex;
     align-items: center;
-    flex-flow: row wrap;
     justify-content: space-between;
     background: var(--background-header);
 }
@@ -71,24 +66,11 @@ body {
 }
 .terminal__body {
     position: relative;
+    overflow-x: hidden;
+    height: 100%;
 }
-.terminal__result{
-    width: 100%;
-    text-align: left;
-    overflow: scroll;
-    max-height: 40vh;
-    opacity: 1;
-}
-.sticky {
-    position: sticky;
-    top: 0;
-}
-.terminal__font {
-    color: var(--color-text-principal);
-    font-size: 18px;
-    text-indent: 0.5em;
-    font-weight: 500;
-    float: left;
+.terminal__body::-webkit-scrollbar {
+    display: none;
 }
 .disable-scrollbars {
     scrollbar-width: none; /* Firefox */
@@ -96,26 +78,28 @@ body {
 }
 .terminal__output {
     width: 100%;
-    height: auto;
-    display: flex;
-    flex-flow: row wrap;
+    padding: 4px 10px;
+    color: yellow;
+}
+.terminal__input-wrapper {
+    width: 100%;
+    padding: 4px 10px;
+    font-size: 18px;
+    position: relative;
 }
 .terminal__path {
-    width: auto;
-    padding: 4px 0 0 10px;
-    height: 28px;
-    font-weight: 500;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
     color: var(--color-text-principal);
-    font-size: 18px;
 }
 .terminal__input {
-    appearance: none;
-    border: none;
-    width: auto;
+    width: 100%;
+    cursor: default;
+    caret-color: rgba(255, 255, 255, 0.308);
+    text-indent: 90px;
     color: var(--color-text-principal);
-    padding: 2px 10px;
-    font-size: 18px;
-    height: 28px;
     background-color: var(--background-terminal);
 }
 
@@ -123,13 +107,4 @@ body {
 .terminal__input:hover,
 .terminal__input:active {
     outline: none;
-    box-shadow: none;
-    appearance: none;
-    border: none;
-    width: auto;
-    font-size: 18px;
-    color: var(--color-text-principal);
-    padding: 2px 10px;
-    height: 28px;
-    background-color: var(--background-terminal);
 }
