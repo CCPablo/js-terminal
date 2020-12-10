@@ -4,7 +4,6 @@ const terminalBody = document.querySelector('.terminal__body');
 let activeInput;
 
 function getInputValue() {
-    console.log(activeInput.innerText);
     return activeInput.innerText;
 }
 
