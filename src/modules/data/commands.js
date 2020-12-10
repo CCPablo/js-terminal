@@ -87,7 +87,17 @@ const mv = new Command(
 const help = new Command(
     'help - Display information about builtin commands.',
     '',
-    (argumentList, parameterList) => {}
+    (argumentList, parameterList) => {
+        if (argumentList.length === 0) {
+            for ( let command in commandsList) {
+                const descriptions = commandsList[command].description
+                setOutput(descriptions);
+            }
+        } else {
+            const descriptions = commandsList[whichCommand].description;
+            setOutput(descriptions);
+        }
+    }
 )
 
 const man = new Command(
@@ -117,3 +127,4 @@ export function runCommand(com, argumentList = [], parametersList = []) {
 }
 
 const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help, man, square, clear}
+
