@@ -108,3 +108,5 @@ export function runCommand(com, argumentList = [], parametersList = []) {
 }
 
 const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help, man, square, clear}
+
+
