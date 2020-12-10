@@ -41,6 +41,47 @@ class Folder {
         return this.folders[name];
     }
 
+    forEach = function (callback) {
+        let folderPath = [];
+        iterate(this, callback);
+
+        function iterate(folder, callback, folderName = []) {
+            const folderPathCopy = [...folderPath];
+            folderPath = folderPath.concat(folderName);
+            for(let fold in folder.folders) {
+                iterate(folder.folders[fold], callback, fold);
+                folderPath = folderPathCopy;
+            }
+            callback(folder, folderName, folderPathCopy);
+        }
+    }
+
+    map = function (callback) {
+        let folderPath = [];
+        return iterate(this.deepClone(), callback);
+
+        function iterate(folder, callback, folderName = []) {
+            const folderPathCopy = [...folderPath];
+            folderPath = folderPath.concat(folderName);
+            for(let fold in folder.folders) {
+                folder.folders[fold] = iterate(folder.folders[fold], callback, fold);
+                folderPath = folderPathCopy;
+            }
+            return callback(folder, folderName, folderPathCopy);
+        }
+    }
+
+    deepClone = function () {
+        return clone({...this});
+
+        function clone(folder) {
+            for(let fold in folder.folders) {
+                folder.folders[fold] = clone(folder.folders[fold]);
+            }
+            return new Folder({...folder.files}, {...folder.folders});
+        }
+    }
+
     getFolderNames = function () {
         return Object.keys(this.folders);
     }

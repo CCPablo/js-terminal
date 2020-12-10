@@ -15,6 +15,10 @@ function getFolder(relativePath = "") {
     return extractFolder(relativePathPointer);
 }
 
+function addFolder(name, relativePath = "") {
+    getFolder(relativePath).addFolder(name);
+}
+
 function extractFolder(relativePathPointer) {
     return absolutPath.slice(0, absolutPath.length - relativePathPointer.levelsUp)
                         .concat(relativePathPointer.foldersDown)
@@ -116,20 +120,50 @@ function autocomplete(parentPath, letters) {
     }
 }
 
+setTimeout(() => {
+    localStorage.setItem('root', JSON.stringify(rootFolder));
+    let saved = localStorage.getItem('root');
+    let savedObject = JSON.parse(saved);
+    console.log(savedObject);
+    generateRoot(savedObject);
+}, 100);
 
+function generateRoot(savedObject) {
+    const rootFromLS = createFolder(savedObject);
+    console.log(`folder from local Storage:`, rootFromLS)
+
+    rootFromLS.forEach((folder, folderName, folderPath) => {
+        console.log(`folder named '${folderName ? folderName : 'root'}' in path '${folderPath}' with files '${folder.getFileNames()}'`);
+    })
+
+    const mapped = rootFromLS.map((folder, folderName, folderPath) => {
+        return new Folder({}, folder.folders);
+    })
+
+    console.log(`original mapped (with files):`, rootFromLS)
+    console.log(`folder mapped (with no files):`, mapped);
+}
+
+function createFolder(folder) {
+    for(let fold in folder.folders) {
+        folder.folders[fold] = createFolder(folder.folders[fold]);
+    }
+    return new Folder({...folder.files}, {...folder.folders});
+}
 
 ////
 
-getFolder().addFolder('1')
-getFolder().addFolder('2')
-getFolder().addFolder('3')
-getFolder().addFile('file1.js')
-getFolder().addFile('file2.js')
-getFolder().addFile('file3.js')
-getFolder().addFolder('new-folder')
-enterFolder('new-folder')
-
-getFolder().addFile('file4.js')
+getFolder().addFile('rootFile.js')
+addFolder('f1')
+addFolder('f2')
+addFolder('f3')
+getFolder('f1').addFile('file1.js')
+getFolder('f2').addFile('file2.js')
+getFolder('f3').addFile('file3.js')
+addFolder('f4')
+getFolder('f4').addFile('file4.js')
+getFolder('f4').addFolder('f5');
+getFolder('f4/f5').addFile('file5.js')
 
 export {getFolder, 
     enterFolder, 
