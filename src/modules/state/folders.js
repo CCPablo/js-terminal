@@ -126,7 +126,7 @@ setTimeout(() => {
     let saved = localStorage.getItem('root');
     console.log(`saved string of ${saved.length} characters`)
     const savedObject = JSON.parse(saved);
-    const rootFromLS = createFolder(savedObject);
+    const rootFromLS = constructFolder(savedObject);
     console.log(`folder from local Storage:`, rootFromLS)
     analysis(rootFromLS)
 }, 100);
@@ -170,9 +170,9 @@ function analysis(rootFromLS) {
 
 }
 
-function createFolder(folder) {
+function constructFolder(folder) {
     for(let fold in folder.folders) {
-        folder.folders[fold] = createFolder(folder.folders[fold]);
+        folder.folders[fold] = constructFolder(folder.folders[fold]);
     }
     for(let fil in folder.files) {
         folder.files[fil] = createFile(folder.files[fil])
