@@ -119,9 +119,6 @@ function autocomplete(parentPath, letters) {
 
 ////
 
-logState();
-logAction('add 3 files to root folder')
-
 getFolder().addFolder('1')
 getFolder().addFolder('2')
 getFolder().addFolder('3')
@@ -129,28 +126,10 @@ getFolder().addFile('file1.js')
 getFolder().addFile('file2.js')
 getFolder().addFile('file3.js')
 
-logState();
-logAction('add folder new folder and set active')
-
 getFolder().addFolder('new-folder')
 enterFolder('new-folder')
 
-logState();
-logAction('add file inside folder')
-
 getFolder().addFile('file4.js')
-
-logState();
-
-logAction('display relative level -1')
-
-logState();
-
-function logState() {
-}
-
-function logAction(action) {
-}
 
 export {getFolder, 
     enterFolder, 
