@@ -55,9 +55,8 @@ function getRelativePathPointer(relativePath) {
             levelsUp: 0
         }
     }
-    let folders = relativePath.split('/');
+    let folders = relativePath.split('/').filter((folder) => folder !== "");
     if(relativePath.startsWith('/')) {
-        folders.shift();
         return {
             foldersDown: folders,
             levelsUp: 100
@@ -65,7 +64,7 @@ function getRelativePathPointer(relativePath) {
     } else {
         let levelsUp = 0;
         folders = folders.filter(folder => {
-            if(folder === "." || folder === "") {
+            if(folder === ".") {
                 return false;
             }
             else if(folder === "..") {
@@ -80,6 +79,43 @@ function getRelativePathPointer(relativePath) {
         };
     }
 }
+
+function autocomplete(parentPath, letters) {
+    let equivalences = getSources(parentPath).filter(source => source.startsWith(letters));
+
+    if(equivalences.length === 0) {
+        return '';
+    } else if(equivalences.length === 1) {
+        return equivalences[0].slice(letters.length);
+    } else {
+        return getWordBeforeConflict(equivalences, name).slice(letters.length);
+    }
+
+    function getWordBeforeConflict(arrayOfWords, initalLetters) {
+        arrayOfWords.sort((a, b) => b.length - a.length);
+        const maxWord = equivalences[0];
+        let result = false;
+
+        for(let i = initalLetters.length; i <= maxWord.length; i++) {
+            result = checkOdd(equivalences, maxWord.slice(0, i));
+            if(result) {
+                break;
+            }
+        }
+        return result;
+    }
+
+    function checkOdd(arrayOfWords, word) {
+        for(let i = 0; i < arrayOfWords.length; i++) {
+            if(!arrayOfWords[i].startsWith(word)) {
+                return word.slice(0, -1);
+            }
+        }
+        return false;
+    }
+}
+
+
 
 ////
 
@@ -96,8 +132,8 @@ getFolder().addFile('file3.js')
 logState();
 logAction('add folder new folder and set active')
 
-getFolder().addFolder('new folder')
-enterFolder('new folder')
+getFolder().addFolder('new-folder')
+enterFolder('new-folder')
 
 logState();
 logAction('add file inside folder')
@@ -116,8 +152,10 @@ function logState() {
 function logAction(action) {
 }
 
-
-
-
-export {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources}
+export {getFolder, 
+    enterFolder, 
+    exitFolder, 
+    getAbsolutPath, 
+    getSources,
+    autocomplete}
 

@@ -41,3 +41,5 @@ function process(rawInput) {
 Array.prototype.removeWhiteSpaces = function() {
     return this.map((string) => string.replace(/\s/g, ""));
 }
+
+export { decode };
