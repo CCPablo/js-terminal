@@ -14,6 +14,10 @@ const FILE_EXISTS_MSG = function (fileName) {
     return `A file with name ${fileName} already exists in directory`;
 }
 
+const FILE_DOES_NOT_EXISTS_MSG = function (fileName) {
+    return `A file with name ${fileName} does not exists in directory`;
+}
+
 class Folder {
     constructor(files = {}, folders = {}) {
         this.files = files;
@@ -39,6 +43,13 @@ class Folder {
             throw FOLDER_DOES_NOT_EXIST_MSG(name);
         }
         return this.folders[name];
+    }
+
+    getFile = function (name) {
+        if(!this.hasFile(name)) {
+            throw FILE_DOES_NOT_EXISTS_MSG(name);
+        }
+        return this.file[name];
     }
 
     getFolderNames = function () {

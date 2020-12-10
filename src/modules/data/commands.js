@@ -1,4 +1,5 @@
 import {Command} from '../model/command.js'
+import { Folder } from '../model/folder.js'
 import {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources } from '../state/folders.js'
 import { setOutput, clearOutput } from '../dom/terminal.js'
 
@@ -33,7 +34,7 @@ const mkdir = new Command(
     'mkdir - make directories',
     '',
     function mkdir(argumentList) {
-        getFolder().addFolder(argumentList[0]) //TODO: Create folder in realative path
+        getFolder().addFolder(argumentList[0])
     }
 )
 
@@ -59,7 +60,16 @@ const echo = new Command(
 const cat = new Command(
     'cat - concatenate files and print on the standard output',
     '',
-    (argumentList, parameterList) => {}
+    (argumentList, parameterList) => {
+    const fileShow = argumentList.join(' ');
+    const allFiles = getFolder().files;
+        for(let fileName in allFiles) {
+            if (fileName === fileShow) {
+                const contentCat = allFiles[fileName].content;
+                setOutput(contentCat);
+            }
+        }
+    }
 )
 
 const rm = new Command(

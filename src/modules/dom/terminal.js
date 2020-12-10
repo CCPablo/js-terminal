@@ -5,7 +5,7 @@ const terminalOutput = document.getElementById('terminal__output');
 
 function setOutput(text) {
     let paragraph = document.createElement('p');
-    paragraph.innerHTML = text;
+    paragraph.textContent = text;
     terminalOutput.appendChild(paragraph); 
 }
 

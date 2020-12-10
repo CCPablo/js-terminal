@@ -75,7 +75,7 @@ body {
 .terminal__result{
     width: 100%;
     text-align: left;
-    overflow: scroll;
+    overflow: hidden;
     max-height: 40vh;
     opacity: 1;
 }
