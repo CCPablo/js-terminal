@@ -23,7 +23,6 @@ function getSources(relativePath = "") {
 function enterFolder(relativePath) {
     const relativePathPointer = getRelativePathPointer(relativePath);
     try {
-        //checks if folder exist
         extractFolder(relativePathPointer);
     } catch(err) {
         throw err;
