@@ -1,5 +1,6 @@
 
 import {Folder} from '../model/folder.js'
+import {File} from '../model/file.js'
 
 let rootFolder = new Folder();
 
@@ -129,7 +130,7 @@ setTimeout(() => {
 }, 100);
 
 function generateRoot(savedObject) {
-    const rootFromLS = createFolder(savedObject);
+    let rootFromLS = createFolder(savedObject);
     console.log(`folder from local Storage:`, rootFromLS)
 
     rootFromLS.forEach((folder, folderName, folderPath) => {
@@ -137,7 +138,7 @@ function generateRoot(savedObject) {
     })
 
     const mapped = rootFromLS.map((folder, folderName, folderPath) => {
-        return new Folder({}, folder.folders);
+        return new Folder(folder.files, folder.folders);
     })
 
     console.log(`original mapped (with files):`, rootFromLS)
@@ -148,7 +149,14 @@ function createFolder(folder) {
     for(let fold in folder.folders) {
         folder.folders[fold] = createFolder(folder.folders[fold]);
     }
-    return new Folder({...folder.files}, {...folder.folders});
+    for(let fil in folder.files) {
+        folder.files[fil] = createFile(folder.files[fil])
+    }
+    return new Folder(folder.files, folder.folders);
+}
+
+function createFile(file) {
+    return new File(file.name, file.content);
 }
 
 ////
