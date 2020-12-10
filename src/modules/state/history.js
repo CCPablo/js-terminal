@@ -6,7 +6,7 @@ let instructionHistory = [];
 let instructionPointer = -1;
 
 let currentInputValue = '';
-let currentlySeekingFlag = false;
+let currentlySearchingFlag = false;
 
 document.addEventListener("DOMContentLoaded", () => {
     const savedInstructionHistory = JSON.parse(localStorage.getItem('instructionHistory'));
@@ -18,13 +18,13 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener('keydown', e => {
     if(e.key === "ArrowUp" || e.key === "ArrowDown") {
         e.preventDefault();
-        if(currentlySeekingFlag === false) {
+        if(currentlySearchingFlag === false) {
             currentInputValue = getInputValue();
-            currentlySeekingFlag = true;
+            currentlySearchingFlag = true;
         }
         processKeyInput(e.key);
     } else {
-        currentlySeekingFlag = false;
+        currentlySearchingFlag = false;
     }
 })
 
