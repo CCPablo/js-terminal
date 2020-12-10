@@ -1,6 +1,20 @@
 import { getAbsolutPath } from "../state/folders.js";
 
 const terminalBody = document.querySelector('.terminal__body');
+let activeInput;
+
+function getInputValue() {
+    console.log(activeInput.innerText);
+    return activeInput.innerText;
+}
+
+function focusInput() {
+    activeInput.focus();
+}
+
+function indentInput(pathWidth) {
+    activeInput.style.textIndent = (pathWidth + 10) + 'px';
+}
 
 function appendOutput(text) {
     if(text)  {
@@ -9,49 +23,52 @@ function appendOutput(text) {
         output.innerHTML = text;
         terminalBody.appendChild(output);
     }
-    appendInput();
 }
 
-function appendInput() {
-    document.querySelectorAll('.terminal__input.active').forEach(input => {
-        input.addEventListener('mousedown', preventDefault)
-        input.addEventListener('keydown', preventDefault)
-        input.classList.remove('active');
-    });
-
-    const inputWrapper = createInputWrapper();
-    terminalBody.appendChild(inputWrapper);
+function setNewInput() {
+    fixCurrentInput();
+    appendNewInput();
 }
-appendInput();
 
-function createInputWrapper() {
+function fixCurrentInput() {
+    activeInput.addEventListener('mousedown', preventDefault);
+    activeInput.addEventListener('keydown', preventDefault);
+}
+
+function appendNewInput() {
+    terminalBody.appendChild(createNewInput());
+}
+
+appendNewInput();
+
+function createNewInput() {
     const inputWrapper = document.createElement('div');
     inputWrapper.classList.add('terminal__input-wrapper')
-    const input = document.createElement('div');
-    input.setAttribute('contentEditable', true);
-    input.classList.add('terminal__input', 'active');
-    input.setAttribute('spellcheck', false);
+    activeInput = document.createElement('div');
+    activeInput.setAttribute('contentEditable', true);
+    activeInput.setAttribute('spellcheck', false);
+    activeInput.classList.add('terminal__input', 'active');
     const path = document.createElement('span');
     path.innerHTML = getAbsolutPath() + ' >>>';
     path.classList.add('terminal__path');
     inputWrapper.appendChild(path);
-    inputWrapper.appendChild(input);
+    inputWrapper.appendChild(activeInput);
 
     window.requestAnimationFrame(() => {
-        input.focus();
-        input.style.textIndent = (path.offsetWidth + 10) + 'px';
+        focusInput();
+        indentInput(path.offsetWidth);
     })
     return inputWrapper;
 }
 
-let preventDefault = e => e.preventDefault();
-
 function clearOutput() {
-    document.querySelectorAll('.terminal__input').forEach(input => {
+    terminalBody.querySelectorAll('.terminal__input').forEach(input => {
         input.removeEventListener('mousedown', preventDefault)
         input.removeEventListener('keydown', preventDefault)
     });
     terminalBody.innerHTML = '';
 }
 
-export { appendOutput, clearOutput }
+let preventDefault = e => e.preventDefault();
+
+export { setNewInput, appendOutput, clearOutput, getInputValue, focusInput }

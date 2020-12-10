@@ -1,6 +1,6 @@
 import {Command} from '../model/command.js'
 import {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources } from '../state/folders.js'
-import { appendOutput, clearOutput } from '../dom/terminal.js'
+import { appendOutput, clearOutput, setNewInput } from '../dom/terminal.js'
 
 const pwd = new Command(
     'print name of current/working directory',
@@ -104,6 +104,7 @@ const square = new Command(
 export function runCommand(com, argumentList = [], parametersList = []) {
     const output = commandsList[com].run(argumentList, parametersList);
     appendOutput(output);
+    setNewInput();
 }
 
 const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help, man, square, clear}
