@@ -41,6 +41,17 @@ class Folder {
         return this.folders[name];
     }
 
+    getFiles = function() {
+        return Object.values(this.files);
+    }
+
+    getFile = function (name) {
+        if(!this.hasFile(name)) {
+            throw FOLDER_DOES_NOT_EXIST_MSG(name);
+        }
+        return this.files[name];
+    }
+
     forEach = function (callback) {
         let folderPath = [];
         iterate(this, callback);
@@ -71,14 +82,35 @@ class Folder {
         }
     }
 
+    filter = function (callback) {
+        let folderPath = [];
+        let validFolders = [];
+        iterate(this.deepClone(), callback);
+        return validFolders;
+
+        function iterate(folder, callback, folderName = []) {
+            const folderPathCopy = [...folderPath];
+            folderPath = folderPath.concat(folderName);
+            for(let fold in folder.folders) {
+                folder.folders[fold] = iterate(folder.folders[fold], callback, fold);
+                folderPath = folderPathCopy;
+            }
+            if(callback(folder, folderName, folderPath)) {
+                validFolders.push(folder);
+            }
+            return folder;
+        }
+    }
+
     deepClone = function () {
         return clone({...this});
 
         function clone(folder) {
-            for(let fold in folder.folders) {
-                folder.folders[fold] = clone(folder.folders[fold]);
+            const foldersClone = {...folder.folders};
+            for(let fold in foldersClone) {
+                foldersClone[fold] = clone(foldersClone[fold]);
             }
-            return new Folder({...folder.files}, {...folder.folders});
+            return new Folder({...folder.files}, foldersClone);
         }
     }
 

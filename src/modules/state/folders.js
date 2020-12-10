@@ -65,7 +65,7 @@ function getRelativePathPointer(relativePath) {
     if(relativePath.startsWith('/')) {
         return {
             foldersDown: folders,
-            levelsUp: 100
+            levelsUp: 1000
         }
     } else {
         let levelsUp = 0;
@@ -124,25 +124,50 @@ function autocomplete(parentPath, letters) {
 setTimeout(() => {
     localStorage.setItem('root', JSON.stringify(rootFolder));
     let saved = localStorage.getItem('root');
-    let savedObject = JSON.parse(saved);
-    console.log(savedObject);
-    generateRoot(savedObject);
+    console.log(`saved string of ${saved.length} characters`)
+    const savedObject = JSON.parse(saved);
+    const rootFromLS = createFolder(savedObject);
+    console.log(`folder from local Storage:`, rootFromLS)
+    analysis(rootFromLS)
 }, 100);
 
-function generateRoot(savedObject) {
-    let rootFromLS = createFolder(savedObject);
-    console.log(`folder from local Storage:`, rootFromLS)
+function analysis(rootFromLS) {
+    let startTime = performance.now();
 
+    let totalSizeOfFiles = 0;
+    let totalFolders = 0;
+    let totalFiles = 0;
     rootFromLS.forEach((folder, folderName, folderPath) => {
-        console.log(`folder named '${folderName ? folderName : 'root'}' in path '${folderPath}' with files '${folder.getFileNames()}'`);
+        totalSizeOfFiles += folder.getFiles().map(file => file.content.length).reduce((prev, acc) => prev+acc, 0);
+        totalFolders++;
+        totalFiles += folder.getFiles().length;
     })
 
-    const mapped = rootFromLS.map((folder, folderName, folderPath) => {
-        return new Folder(folder.files, folder.folders);
+    console.log(`total folders: ${totalFolders}`)
+    console.log(`total files: ${totalFiles}`)
+    console.log(`total size of files in path: ${totalSizeOfFiles/1000} kbs`)
+    
+    console.log(`forEach execution done in ${performance.now()-startTime} ms`)
+
+    startTime = performance.now();
+
+    const mappedWithNoFiles = rootFromLS.map((folder, folderName, folderPath) => {
+        return new Folder({}, folder.folders);
     })
 
-    console.log(`original mapped (with files):`, rootFromLS)
-    console.log(`folder mapped (with no files):`, mapped);
+    console.log(`map execution done in ${performance.now()-startTime} ms`)
+
+    startTime = performance.now();
+
+    const filterFoldersWithLessThan25Files = rootFromLS.filter((folder, folderName, folderPath) => {
+        return folder.getFiles().length < 25;
+    })
+
+    console.log(`filter execution done in ${performance.now()-startTime} ms`)
+
+    console.log(`mapped (with no files):`, mappedWithNoFiles);
+    console.log(`filtered (with less than 25 files):`, filterFoldersWithLessThan25Files);
+
 }
 
 function createFolder(folder) {
@@ -161,17 +186,36 @@ function createFile(file) {
 
 ////
 
-getFolder().addFile('rootFile.js')
-addFolder('f1')
-addFolder('f2')
-addFolder('f3')
-getFolder('f1').addFile('file1.js')
-getFolder('f2').addFile('file2.js')
-getFolder('f3').addFile('file3.js')
-addFolder('f4')
-getFolder('f4').addFile('file4.js')
-getFolder('f4').addFolder('f5');
-getFolder('f4/f5').addFile('file5.js')
+for(let g = 0; g<5; g++) {
+    getFolder().addFolder(`l${g}`)
+    enterFolder(`l${g}`);
+    for(let j = 0; j<5; j++) {
+        getFolder().addFile(`f${g}(${j}).js`);
+        getFolder().getFile(`f${g}(${j}).js`).setContent(Array(201).join('x'))
+    }
+    for(let i = 0; i<5; i++) {
+        getFolder().addFolder(`l${g}-${i}`)
+        enterFolder(`l${g}-${i}`);
+        for(let j = 0; j<20; j++) {
+            getFolder().addFile(`f${g}-${i}(${j}).js`);
+            getFolder().getFile(`f${g}-${i}(${j}).js`).setContent(Array(201).join('x'))
+        }
+        for(let k = 0; k<20; k++) {
+            getFolder().addFolder(`l${g}-${i}-${k}`)
+            enterFolder(`l${g}-${i}-${k}`);
+            for(let j = 0; j<30; j++) {
+                getFolder().addFile(`f${g}-${i}-${k}(${j}).js`);
+                getFolder().getFile(`f${g}-${i}-${k}(${j}).js`).setContent(Array(201).join('x'))
+            }
+            exitFolder();
+        }
+        exitFolder();
+    }
+    exitFolder();
+}
+
+
+enterFolder('/');
 
 export {getFolder, 
     enterFolder, 
