@@ -132,8 +132,8 @@ getFolder().addFile('file3.js')
 logState();
 logAction('add folder new folder and set active')
 
-getFolder().addFolder('new folder')
-enterFolder('new folder')
+getFolder().addFolder('new-folder')
+enterFolder('new-folder')
 
 logState();
 logAction('add file inside folder')
@@ -147,14 +147,10 @@ logAction('display relative level -1')
 logState();
 
 function logState() {
-
 }
 
 function logAction(action) {
 }
-
-
-
 
 export {getFolder, 
     enterFolder, 
