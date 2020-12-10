@@ -1,4 +1,4 @@
-import {manFile} from '../../model/manFile';
+import {manFile} from '../../model/manFile.js';
 
 export const manCat = new manFile(
 
@@ -68,4 +68,4 @@ export const manCat = new manFile(
         
     );
 
-module.exports = { manCat };
+//module.exports = { manCat };

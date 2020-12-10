@@ -1,7 +1,7 @@
 //import stringToHTML from './manFile';
-import manFile from '../../model/manFile';
+import {manFile} from '../../model/manFile.js';
 
-const manPwd = new manFile(
+export const manPwd = new manFile(
         (`
         <div  class = 'h2Item'>
         <h2>Name</h2>
@@ -48,4 +48,4 @@ const manPwd = new manFile(
         `)
     );
 
-module.exports = { manPwd };
+//module.exports = { manPwd };
