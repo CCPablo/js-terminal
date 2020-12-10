@@ -3,7 +3,7 @@ import { decode } from './filter-input.js'
 import { appendToInput, getCaretPosition, getInputValue } from './dom/terminal.js';
 
 const parentPathRegex = /\S+\//;
-const lastWrodRegex = /\S+$/;
+const lastWordRegex = /\S+$/;
 
 document.addEventListener('keydown', (event) => {
     if (event.key === "Tab") {
@@ -27,7 +27,7 @@ document.addEventListener('keydown', (event) => {
         if (caretPosition == -1) {
             caretPosition = getInputValue().length;
         }
-        const word = lastWrodRegex.exec(getInputValue().slice(0, caretPosition));
+        const word = lastWordRegex.exec(getInputValue().slice(0, caretPosition));
         if(word === null) {
             return '';
         } else {

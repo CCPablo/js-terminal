@@ -21,7 +21,7 @@ function indentInput(pathWidth) {
 }
 
 function appendOutput(text) {
-    if(text)  {
+    if(text) {
         const output = document.createElement('div');
         output.classList.add('terminal__output')
         output.innerHTML = text;

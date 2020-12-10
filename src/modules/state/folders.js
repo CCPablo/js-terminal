@@ -9,6 +9,7 @@ let absolutPath = [];
     - returns the relative folder based on current path
     - throws error if folder does not exist
 */
+
 function getFolder(relativePath = "") {
     const relativePathPointer = getRelativePathPointer(relativePath);
     return extractFolder(relativePathPointer);
@@ -88,7 +89,7 @@ function autocomplete(parentPath, letters) {
     } else if(equivalences.length === 1) {
         return equivalences[0].slice(letters.length);
     } else {
-        return getWordBeforeConflict(equivalences, name).slice(letters.length);
+        return getWordBeforeConflict(equivalences, letters).slice(letters.length);
     }
 
     function getWordBeforeConflict(arrayOfWords, initalLetters) {
@@ -125,7 +126,6 @@ getFolder().addFolder('3')
 getFolder().addFile('file1.js')
 getFolder().addFile('file2.js')
 getFolder().addFile('file3.js')
-
 getFolder().addFolder('new-folder')
 enterFolder('new-folder')
 
