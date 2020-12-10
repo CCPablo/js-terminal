@@ -1,6 +1,6 @@
-import manFile from '../../model/manFile';
+import {manFile} from '../../model/manFile';
 
-const manCat = new manFile(
+export const manCat = new manFile(
 
         (`
         <div  class = 'h2Item'>

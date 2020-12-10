@@ -1,6 +1,6 @@
-import manFile from '../../model/manFile';
+import {manFile} from '../../model/manFile';
 
-const manMkdir = new manFile(
+export const manMkdir = new manFile(
 
 
         (`

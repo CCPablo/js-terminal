@@ -1,4 +1,4 @@
-import manFile from '../../model/manFile';
+import {manFile} from '../../model/manFile';
 
 const manClear = new manFile (
 
