@@ -1,27 +1,21 @@
 import {runCommand} from './data/commands.js'
+import { getInputValue, focusInput } from './dom/terminal.js';
 
-// HTML Variables
-let input = document.querySelector('.terminal__input')
-
-export let validCom = '';
-
-// Event Listeners
-input.addEventListener('keydown', e => {
-    if (e.keyCode === 13) {
+document.addEventListener('keydown', e => {
+    if (e.key === "Enter") {
         e.preventDefault();
-        process(e.target.value);
-        input.value = '';
+        process(getInputValue());
     }
 });
 
+document.addEventListener('click', () => {
+    focusInput();
+})
 
-// Split the string, if the index 0 word matches a command runCommand()
 function decode(rawInput) {
-    // [command] [parameters] [argumentLists]
     const decoded = {command: '', parameters: [], argumentList: []}
 
-    let splitted = rawInput.split(' ');
-
+    let splitted = rawInput.split(' ').removeWhiteSpaces();
     decoded.command = splitted.shift();
 
     splitted.forEach(element => {
@@ -37,10 +31,13 @@ function decode(rawInput) {
 
 function process(rawInput) {
     const decoded = decode(rawInput)
-    validCom = rawInput;
     try {
         runCommand(decoded.command, decoded.argumentList, decoded.parameters);
     } catch(error) {
         alert(error)
     }
+}
+
+Array.prototype.removeWhiteSpaces = function() {
+    return this.map((string) => string.replace(/\s/g, ""));
 }
