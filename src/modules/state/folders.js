@@ -30,6 +30,10 @@ function removeAllSources(path) {
     getFolder(path).files = {};
 }
 
+function removeFilesThatStartsWith() {
+
+}
+
 function enterFolder(relativePath) {
     const relativePathPointer = getRelativePathPointer(relativePath);
     try {

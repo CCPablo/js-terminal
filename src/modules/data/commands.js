@@ -65,7 +65,6 @@ const rm = new Command(
     'rm - remove files or directories ',
     '',
     function rm(argumentList, parametersList) {
-        let formatedArgument = argumentList.join(' ')
         // rm all files in the current dir
         if (argumentList.includes('*')) {
             removeAllSources(getAbsolutPath())
@@ -87,11 +86,13 @@ const rm = new Command(
             }
         })
         // rm fileName removes that file name
-        if (getFolder().hasFolder(formatedArgument)) {
-            delete getFolder().folders[`${formatedArgument}`]
-        } else if (getFolder().hasFile(formatedArgument)) {
-            delete getFolder().files[`${formatedArgument}`]
-        }
+        argumentList.forEach(argument => {
+            if (getFolder().hasFolder(argument)) {
+                delete getFolder().folders[`${argument}`]
+            } else if (getFolder().hasFile(argument)) {
+                delete getFolder().files[`${argument}`]
+            }
+        })
     }
 )
 
