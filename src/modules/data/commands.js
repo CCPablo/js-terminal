@@ -85,12 +85,6 @@ const help = new Command(
                 const cl = commandsList[command].description;
                 appendOutput(cl);
                 }
-
-                //const descriptions = commandsList[command].description
-            //console.log(descriptions);
-            //return descriptions;
-        
-
         } else {
             return commandsList[argumentList[0]].description;
 
@@ -137,14 +131,18 @@ const cmdMode = new Command(
     (argumentList, parameterList) => {
         let setTheme  = function (themeName) {
             document.documentElement.className = themeName ;
-            
-        }
+            appendOutput(`Thhe commmand console changed to ${argumentList}`);
+            }
+        setTheme(argumentList)
+    });
+
+
 
         
 /// TO DO
 /// Equalize class name to input in function
 /// Extract to module where command list take place
-
+/*
         if (argumentList == 'Windows'){
             
             setTheme('windowsPowerShell');
@@ -163,8 +161,8 @@ const cmdMode = new Command(
             return 'Changed to Linux Command prompt'
         }
         return '**';
-    }
-)
+    }*/
+
 
 export function runCommand(com, argumentList = [], parametersList = []) {
     const output = commandsList[com].run(argumentList, parametersList);

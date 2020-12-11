@@ -23,7 +23,7 @@ body {
 
 /* APPLE*/
 
-.appleCommandStyle {
+.apple {
     --background-principal: #181818;
     --background-terminal: #282828;
     --background-header: linear-gradient(354deg, rgba(216,216,216,1) 0%, rgba(238,238,238,1) 49%, rgba(216,216,216,1) 100%);
@@ -31,7 +31,7 @@ body {
 }
 /* WINDOWS*/
 
-.windowsPowerShell {
+.windows {
     --background-principal: #181818;
     --background-terminal: #022258;
     --background-header: linear-gradient(354deg, rgb(162, 162, 162) 0%, rgb(139, 138, 138) 49%, rgba(216,216,216,1) 100%);
@@ -39,7 +39,7 @@ body {
 }
 /* LINUX*/
 
-.linuxCommandStyle {
+.linux{
     --background-principal: #181818;
     --background-terminal: #282828;
     --background-header: linear-gradient(354deg, rgba(216,216,216,1) 0%, rgba(238,238,238,1) 49%, rgba(216,216,216,1) 100%);
