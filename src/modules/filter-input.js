@@ -1,5 +1,6 @@
 import {runCommand} from './data/commands.js'
 import { getInputValue, focusInput } from './dom/terminal.js';
+import { addToHistory } from './state/history.js';
 
 document.addEventListener('keydown', e => {
     if (e.key === "Enter") {
@@ -30,6 +31,7 @@ function decode(rawInput) {
 }
 
 function process(rawInput) {
+    addToHistory(rawInput);
     const decoded = decode(rawInput)
     try {
         runCommand(decoded.command, decoded.argumentList, decoded.parameters);

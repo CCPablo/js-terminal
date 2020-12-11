@@ -1,43 +1,70 @@
+import { getInputValue, setInputValue } from '../dom/terminal.js'
 
 const MAX_ITEMS = 50;
 
-const instructionHistory = [];
+let instructionHistory = [];
+let instructionPointer = -1;
 
-let currentIndex = 0;
+let currentInputValue = '';
+let currentlySearchingFlag = false;
+
+document.addEventListener("DOMContentLoaded", () => {
+    const savedInstructionHistory = JSON.parse(localStorage.getItem('instructionHistory'));
+    if(savedInstructionHistory) {
+        instructionHistory = savedInstructionHistory;
+    }
+});
+
+document.addEventListener('keydown', e => {
+    if(e.key === "ArrowUp" || e.key === "ArrowDown") {
+        e.preventDefault();
+        if(currentlySearchingFlag === false) {
+            currentInputValue = getInputValue();
+            currentlySearchingFlag = true;
+        }
+        processKeyInput(e.key);
+    } else {
+        currentlySearchingFlag = false;
+    }
+})
+
+function processKeyInput(key) {
+    if(key === "ArrowDown") {
+        if(currentIsNewest()) {
+            instructionPointer = -1;
+            setInputValue(currentInputValue);
+        } else {
+            setInputValue(getHistoryItem(key));
+        }
+    } else if(key === "ArrowUp" && !currentIsOldest()) {
+        setInputValue(getHistoryItem(key));
+    }
+}
 
 function addToHistory(instruction) {
-    currentIndex = 0;
+    instructionPointer = -1;
     if(historyIsFull()) {
         instructionHistory.pop();
     }
     instructionHistory.unshift(instruction);
+    localStorage.setItem('instructionHistory', JSON.stringify(instructionHistory));
 }
 
 function getHistoryItem(direction) {
-    if(direction === 'newer') {
-        return instructionHistory[currentIsNewest() ? currentIndex-- : currentIndex];
-    } else if(direction === 'older') {
-        return instructionHistory[currentIsOldest() ? currentIndex++ : currentIndex];
-    }
+    direction === 'ArrowDown' ? instructionPointer-- : instructionPointer++;
+    return instructionHistory[instructionPointer];
 }
 
 function currentIsNewest() {
-    return currentIndex > 0;
+    return instructionPointer <= 0;
 }
 
 function currentIsOldest() {
-    return currentIndex < instructionHistory.length-1;
-}
-
-function getHistory(numberOfItems) {
-    if(numberOfItems) {
-        return instructionHistory.slice(0, numberOfItems)
-    }
-    return instructionHistory;
+    return instructionPointer === instructionHistory.length-1;
 }
 
 function historyIsFull() {
     return instructionHistory.length === MAX_ITEMS;
 }
 
-export { addToHistory, getHistoryItem, getHistory, historyIsFull }
+export { addToHistory }
