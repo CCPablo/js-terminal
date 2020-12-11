@@ -1,7 +1,8 @@
 import {Command} from '../model/command.js'
 import {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources } from '../state/folders.js'
 import { appendOutput, clearOutput, setNewInput } from '../dom/terminal.js'
-import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm} from './manFiles/manFileReferenceCaller.js';
+import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan} from './manFiles/manFileReferenceCaller.js';
+
 
 let test = document.getElementsByClassName('terminal__output');
 
@@ -78,7 +79,7 @@ const mv = new Command(
 
 const help = new Command(
     'help - Display information about builtin commands.',
-    'manhelp.All',
+    test.innerHTML = manHelp.All,
     (argumentList, parameterList) => {
         if (argumentList.length === 0) {
             for ( let command in commandsList) {
@@ -95,7 +96,7 @@ const help = new Command(
 
 const man = new Command(
     'man - an interface to the system reference manuals.',
-    'test.innerHTML = manLs.All',
+    test.innerHTML = manMan.All,
     (argumentList, parameterList) => {
         if (argumentList.length === 0) {
             for ( let command in commandsList) {

@@ -9,10 +9,12 @@ import {manMkdir} from './manMkdir.js';
 import {manMv} from './manMv.js';
 import {manPwd} from './manPwd.js';
 import {manRm} from './manRm.js';
+import {manHelp} from './manHelp.js';
+import {manMan} from './manMan.js';
 
 
 
-export {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm};
+export {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan};
 
 // USE TO IMPORT
 // import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm} from './manFileReferenceCaller.js';
