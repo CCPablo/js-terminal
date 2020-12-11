@@ -1,6 +1,6 @@
-import manFile from '../../model/manFile';
+import {manFile} from '../../model/manFile.js';
 
-const manMkdir = new manFile(
+export const manMkdir = new manFile(
 
 
         (`
@@ -99,4 +99,4 @@ const manMkdir = new manFile(
     
     );
 
-module.exports = { manMkdir };
+//module.exports = { manMkdir };

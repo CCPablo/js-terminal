@@ -1,6 +1,6 @@
-import manFile from '../../model/manFile';
+import {manFile} from '../../model/manFile.js';
 
-const manEcho = new manFile(
+export const manEcho = new manFile(
 
         (`
         <div  class = 'h2Item'>
@@ -78,4 +78,4 @@ const manEcho = new manFile(
 
     );
 
-module.exports = { manEcho };
+//module.exports = { manEcho };
