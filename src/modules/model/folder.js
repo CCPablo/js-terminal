@@ -41,6 +41,84 @@ class Folder {
         return this.folders[name];
     }
 
+    getFiles = function() {
+        return Object.values(this.files);
+    }
+
+    getFile = function (name) {
+        if(!this.hasFile(name)) {
+            throw FOLDER_DOES_NOT_EXIST_MSG(name);
+        }
+        return this.files[name];
+    }
+
+    forEach = function (callback) {
+        let folderPath = [];
+        iterate(this, callback);
+
+        function iterate(folder, callback, folderName = []) {
+            const folderPathCopy = [...folderPath];
+            folderPath = folderPath.concat(folderName);
+            for(let fold in folder.folders) {
+                iterate(folder.folders[fold], callback, fold);
+                folderPath = folderPathCopy;
+            }
+            callback(folder, folderName, folderPathCopy);
+        }
+    }
+
+    map = function (callback) {
+        let folderPath = [];
+        return iterate({...this}, callback);
+
+        function iterate(folder, callback, folderName = []) {
+            const folderPathCopy = [...folderPath];
+            folderPath = folderPath.concat(folderName);
+            let foldersCopy = {...folder.folders};
+            for(let fold in foldersCopy) {
+                foldersCopy[fold] = iterate(foldersCopy[fold], callback, fold);
+                folderPath = folderPathCopy;
+            }
+            return callback(folder, folderName, folderPathCopy);
+        }
+    }
+
+    reduce = function(callback, accumulated = 0) {
+        let folderPath = [];
+        return iterate({...this}, callback);
+
+        function iterate(folder, callback, folderName = []) {
+            const folderPathCopy = [...folderPath];
+            folderPath = folderPath.concat(folderName);
+            let foldersCopy = {...folder.folders};
+            for(let fold in foldersCopy) {
+                iterate(foldersCopy[fold], callback, fold);
+                folderPath = folderPathCopy;
+            }
+            accumulated = callback(folder, accumulated, folderName, folderPathCopy);
+            return accumulated;
+        }
+    }
+
+    filter = function (callback) {
+        let folderPath = [];
+        let validFolders = [];
+        iterate(this, callback);
+        return validFolders;
+
+        function iterate(folder, callback, folderName = []) {
+            const folderPathCopy = [...folderPath];
+            folderPath = folderPath.concat(folderName);
+            for(let fold in folder.folders) {
+                iterate(folder.folders[fold], callback, fold);
+                folderPath = folderPathCopy;
+            }
+            if(callback(folder, folderName, folderPath)) {
+                validFolders.push(folder);
+            }
+        }
+    }
+
     getFolderNames = function () {
         return Object.keys(this.folders);
     }
