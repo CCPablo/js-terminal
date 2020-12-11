@@ -80,13 +80,20 @@ const help = new Command(
     manHelp.All,
     (argumentList, parameterList) => {
         if (argumentList.length === 0) {
+            let cl = "";
             for ( let command in commandsList) {
-                const descriptions = commandsList[command].description
-                return descriptions;
-            }
+                const cl = commandsList[command].description;
+                appendOutput(cl);
+                }
+
+                //const descriptions = commandsList[command].description
+            //console.log(descriptions);
+            //return descriptions;
+        
+
         } else {
-            const descriptions = commandsList[argumentList].description;
-            return descriptions;
+            return commandsList[argumentList[0]].description;
+
         }
     }
 )
@@ -99,7 +106,7 @@ const man = new Command(
         if (argumentList.length === 0) {
             for ( let command in commandsList) {
                 const descriptions = commandsList[command].manRef;
-                return descriptions;
+                appendOutput(descriptions);
             }
         } else {
             return commandsList[argumentList].manRef;

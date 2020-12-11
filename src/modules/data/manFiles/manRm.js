@@ -5,7 +5,7 @@ export const manRm = new manFile (
         (`
         <div  class = 'h2Item'>
         <h2>Name</h2>
-        rm - remove files or directories
+        rm - remove files or direcgittories
         </div>
         `),
 
