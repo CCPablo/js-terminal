@@ -125,12 +125,33 @@ const square = new Command(
     }
 )
 
+const cmdMode = new Command(
+    'cmdMode - changes the terminal Mode',
+    '',
+    (argumentList, parameterList) => {
+        if (argumentList == 'Windows'){
+            console.log ('error 404')
+            return 'Changed to Powershell'
+        }
+
+        else if (argumentList == "Apple") {
+            console.log ('No java accepted')
+            return 'Changed to Apple Command prompt'
+        }
+        else if (argumentList == "Linux") {
+            console.log ('I am free')
+            return 'Changed to Linux Command prompt'
+        }
+        return '**';
+    }
+)
+
 export function runCommand(com, argumentList = [], parametersList = []) {
     const output = commandsList[com].run(argumentList, parametersList);
     appendOutput(output);
     setNewInput();
 }
 
-const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help, man, square, clear}
+const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help, man, square, clear, cmdMode}
 
 
