@@ -5,11 +5,6 @@ let rootFolder = new Folder();
 
 let absolutPath = [];
 
-/*
-    - returns the relative folder based on current path
-    - throws error if folder does not exist
-*/
-
 function getFolder(relativePath = "") {
     const relativePathPointer = getRelativePathPointer(relativePath);
     return extractFolder(relativePathPointer);
@@ -28,7 +23,6 @@ function getSources(relativePath = "") {
 function enterFolder(relativePath) {
     const relativePathPointer = getRelativePathPointer(relativePath);
     try {
-        //checks if folder exist
         extractFolder(relativePathPointer);
     } catch(err) {
         throw err;
