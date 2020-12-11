@@ -122,6 +122,7 @@ setTimeout(() => {
     const savedObject = JSON.parse(saved);
     const rootFromLS = constructFolder(savedObject);
     console.log(`folder from local Storage (without functions):`, JSON.parse(JSON.stringify(rootFolder)));
+    console.log(rootFromLS)
     analysis(rootFromLS)
 }, 300);
 
@@ -146,10 +147,6 @@ function analysis(rootFromLS) {
     startTime = performance.now();
 
     const mappedWithNoFiles = rootFromLS.map((folder, folderName, folderPath) => {
-        folder.getFileNames().forEach((file) => {
-            folder[file.toUpperCase()]
-        })
-        console.log(folder.getFiles())
         return new Folder(folder.files, folder.folders);
     })
 

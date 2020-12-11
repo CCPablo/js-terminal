@@ -102,18 +102,6 @@ class Folder {
         }
     }
 
-    deepClone = function () {
-        return clone({...this});
-
-        function clone(folder) {
-            const foldersClone = {...folder.folders};
-            for(let fold in foldersClone) {
-                foldersClone[fold] = clone(foldersClone[fold]);
-            }
-            return new Folder({...folder.files}, foldersClone);
-        }
-    }
-
     getFolderNames = function () {
         return Object.keys(this.folders);
     }
