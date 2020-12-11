@@ -1,4 +1,4 @@
-class manFile {
+export class manFile {
     constructor( name, sinopsis, description, examples, author ){
         this.name = name;
         this.sinopsis = sinopsis;
@@ -41,4 +41,3 @@ class manFile {
     };
 
 }
-module.exports = { stringToHTML, manFile };

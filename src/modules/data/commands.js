@@ -1,10 +1,12 @@
 import {Command} from '../model/command.js'
 import {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources } from '../state/folders.js'
 import { appendOutput, clearOutput, setNewInput } from '../dom/terminal.js'
+import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan} from './manFiles/manFileReferenceCaller.js';
+
 
 const pwd = new Command(
     'print name of current/working directory',
-    ' ',
+    manPwd.All,
     (argumentList, parameterList) => {
         return getAbsolutPath();
     }
@@ -12,7 +14,7 @@ const pwd = new Command(
 
 const ls = new Command(
     'ls - list directory contents',
-    ' ',
+    manLs.All,
     (argumentList, parameterList) =>  {
         const sources = getSources(argumentList[0]);
         sources.sort();
@@ -22,7 +24,7 @@ const ls = new Command(
 
 const cd = new Command(
     'cd - change the shell working directory.',
-    ' ',
+    manCd.All,
     (argumentList, parameterList) =>  {
         enterFolder(argumentList[0]);
     }
@@ -30,7 +32,7 @@ const cd = new Command(
 
 const mkdir = new Command(
     'mkdir - make directories',
-    '',
+    manMkdir.All,
     function mkdir(argumentList) {
         getFolder().addFolder(argumentList[0]) //TODO: Create folder in realative path
     }
@@ -38,7 +40,7 @@ const mkdir = new Command(
 
 const echo = new Command(
     'echo - Write arguments to the standard output.',
-    '',
+    manEcho.All,
     (argumentList, parameterList) =>  {
         if (argumentList[argumentList.indexOf('>')]) {
             let indexOfBiggerThan = argumentList.indexOf('>')
@@ -57,37 +59,59 @@ const echo = new Command(
 
 const cat = new Command(
     'cat - concatenate files and print on the standard output',
-    '',
+    manCat.All,
     (argumentList, parameterList) => {}
 )
 
 const rm = new Command(
     'rm - remove files or directories ',
-    '',
+    manRm.All,
     (argumentList, parameterList) => {}
 )
 
 const mv = new Command(
     'mv - move (rename) files ',
-    '',
+    manMv.All,
     (argumentList, parameterList) => {}
 )
 
 const help = new Command(
     'help - Display information about builtin commands.',
-    '',
-    (argumentList, parameterList) => {}
+    manHelp.All,
+    (argumentList, parameterList) => {
+        if (argumentList.length === 0) {
+            for ( let command in commandsList) {
+                const descriptions = commandsList[command].description
+                return descriptions;
+            }
+        } else {
+            const descriptions = commandsList[argumentList].description;
+            return descriptions;
+        }
+    }
 )
+
 
 const man = new Command(
     'man - an interface to the system reference manuals.',
-    '',
-    (argumentList, parameterList) => {}
+    manMan.All,
+    (argumentList, parameterList) => {
+        if (argumentList.length === 0) {
+            for ( let command in commandsList) {
+                const descriptions = commandsList[command].manRef
+                return descriptions;
+            }
+        } else {
+            const descriptions = commandsList[argumentList].manRef;
+            return descriptions;
+        }
+    }
 )
+
 
 const clear = new Command(
     'clear - clear the terminal screen',
-    '',
+    manClear.All,
     (argumentList, parameterList) => {
         clearOutput();
     }

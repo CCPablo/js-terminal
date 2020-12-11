@@ -1,6 +1,6 @@
-import manFile from '../../model/manFile';
+import {manFile} from '../../model/manFile.js';
 
-const manClear = new manFile (
+export const manClear = new manFile (
 
         (`
         <div  class = 'h2Item'>
@@ -76,5 +76,5 @@ const manClear = new manFile (
         `)
     );
 
-module.exports = { manClear };
+//module.exports = { manClear };
 
