@@ -6,11 +6,6 @@ let rootFolder = new Folder();
 
 let absolutPath = [];
 
-/*
-    - returns the relative folder based on current path
-    - throws error if folder does not exist
-*/
-
 function getFolder(relativePath = "") {
     const relativePathPointer = getRelativePathPointer(relativePath);
     return extractFolder(relativePathPointer);
@@ -33,7 +28,6 @@ function getSources(relativePath = "") {
 function enterFolder(relativePath) {
     const relativePathPointer = getRelativePathPointer(relativePath);
     try {
-        //checks if folder exist
         extractFolder(relativePathPointer);
     } catch(err) {
         throw err;
@@ -127,9 +121,9 @@ setTimeout(() => {
     console.log(`saved string of ${saved.length} characters`)
     const savedObject = JSON.parse(saved);
     const rootFromLS = constructFolder(savedObject);
-    console.log(`folder from local Storage:`, rootFromLS)
+    console.log(`folder from local Storage (without functions):`, JSON.parse(JSON.stringify(rootFolder)));
     analysis(rootFromLS)
-}, 100);
+}, 300);
 
 function analysis(rootFromLS) {
     let startTime = performance.now();
@@ -152,7 +146,11 @@ function analysis(rootFromLS) {
     startTime = performance.now();
 
     const mappedWithNoFiles = rootFromLS.map((folder, folderName, folderPath) => {
-        return new Folder({}, folder.folders);
+        folder.getFileNames().forEach((file) => {
+            folder[file.toUpperCase()]
+        })
+        console.log(folder.getFiles())
+        return new Folder(folder.files, folder.folders);
     })
 
     console.log(`map execution done in ${performance.now()-startTime} ms`)
@@ -187,25 +185,25 @@ function createFile(file) {
 ////
 
 for(let g = 0; g<5; g++) {
-    getFolder().addFolder(`l${g}`)
-    enterFolder(`l${g}`);
+    getFolder().addFolder(`folder${g}`)
+    enterFolder(`folder${g}`);
     for(let j = 0; j<5; j++) {
-        getFolder().addFile(`f${g}(${j}).js`);
-        getFolder().getFile(`f${g}(${j}).js`).setContent(Array(201).join('x'))
+        getFolder().addFile(`file${g}${String.fromCharCode(j + 97)}.js`);
+        getFolder().getFile(`file${g}${String.fromCharCode(j + 97)}.js`).setContent(Array(201).join('x'))
     }
     for(let i = 0; i<5; i++) {
-        getFolder().addFolder(`l${g}-${i}`)
-        enterFolder(`l${g}-${i}`);
+        getFolder().addFolder(`folder${g}-${i}`)
+        enterFolder(`folder${g}-${i}`);
         for(let j = 0; j<20; j++) {
-            getFolder().addFile(`f${g}-${i}(${j}).js`);
-            getFolder().getFile(`f${g}-${i}(${j}).js`).setContent(Array(201).join('x'))
+            getFolder().addFile(`file${g}-${i}${String.fromCharCode(j + 97)}.js`);
+            getFolder().getFile(`file${g}-${i}${String.fromCharCode(j + 97)}.js`).setContent(Array(201).join('x'))
         }
         for(let k = 0; k<20; k++) {
-            getFolder().addFolder(`l${g}-${i}-${k}`)
-            enterFolder(`l${g}-${i}-${k}`);
+            getFolder().addFolder(`folder${g}-${i}-${k}`)
+            enterFolder(`folder${g}-${i}-${k}`);
             for(let j = 0; j<30; j++) {
-                getFolder().addFile(`f${g}-${i}-${k}(${j}).js`);
-                getFolder().getFile(`f${g}-${i}-${k}(${j}).js`).setContent(Array(201).join('x'))
+                getFolder().addFile(`file${g}-${i}-${k}${String.fromCharCode(j + 97)}.js`);
+                getFolder().getFile(`file${g}-${i}-${k}${String.fromCharCode(j + 97)}.js`).setContent(Array(201).join('x'))
             }
             exitFolder();
         }
@@ -213,7 +211,6 @@ for(let g = 0; g<5; g++) {
     }
     exitFolder();
 }
-
 
 enterFolder('/');
 

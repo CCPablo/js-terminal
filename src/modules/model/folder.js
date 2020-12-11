@@ -69,13 +69,14 @@ class Folder {
 
     map = function (callback) {
         let folderPath = [];
-        return iterate(this.deepClone(), callback);
+        return iterate({...this}, callback);
 
         function iterate(folder, callback, folderName = []) {
             const folderPathCopy = [...folderPath];
             folderPath = folderPath.concat(folderName);
-            for(let fold in folder.folders) {
-                folder.folders[fold] = iterate(folder.folders[fold], callback, fold);
+            let foldersCopy = {...folder.folders};
+            for(let fold in foldersCopy) {
+                foldersCopy[fold] = iterate(foldersCopy[fold], callback, fold);
                 folderPath = folderPathCopy;
             }
             return callback(folder, folderName, folderPathCopy);
@@ -85,20 +86,19 @@ class Folder {
     filter = function (callback) {
         let folderPath = [];
         let validFolders = [];
-        iterate(this.deepClone(), callback);
+        iterate(this, callback);
         return validFolders;
 
         function iterate(folder, callback, folderName = []) {
             const folderPathCopy = [...folderPath];
             folderPath = folderPath.concat(folderName);
             for(let fold in folder.folders) {
-                folder.folders[fold] = iterate(folder.folders[fold], callback, fold);
+                iterate(folder.folders[fold], callback, fold);
                 folderPath = folderPathCopy;
             }
             if(callback(folder, folderName, folderPath)) {
                 validFolders.push(folder);
             }
-            return folder;
         }
     }
 
