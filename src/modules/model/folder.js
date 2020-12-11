@@ -69,7 +69,7 @@ class Folder {
 
     map = function (callback) {
         let folderPath = [];
-        return iterate({...this}, callback);
+        return iterate(this, callback);
 
         function iterate(folder, callback, folderName = []) {
             const folderPathCopy = [...folderPath];

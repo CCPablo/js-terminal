@@ -17,7 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 setTimeout(() => {
     //TODO: Save when modify rootFolder
-    localStorage.setItem('root', JSON.stringify(rootFolder));
+    //localStorage.setItem('root', JSON.stringify(rootFolder));
+    analysis(rootFolder);
+    console.log(rootFolder)
 }, 300)
 
 function getFolder(relativePath = "") {
@@ -202,6 +204,7 @@ function createFile(file) {
 
 ////
 
+getFolder().addFile('rootFile.js');
 for(let g = 0; g<5; g++) {
     getFolder().addFolder(`folder${g}`)
     enterFolder(`folder${g}`);
