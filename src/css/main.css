@@ -7,6 +7,7 @@
     --background-header: linear-gradient(354deg, rgba(216,216,216,1) 0%, rgba(238,238,238,1) 49%, rgba(216,216,216,1) 100%);
     --color-text-principal: #d8d8d8;
 }
+
 * {
     margin: 0;
     box-sizing: border-box;
@@ -17,6 +18,37 @@ body {
     font-family: 'FiraCode';
     font-weight: 300;
 }
+
+/* DIFFERENT COMMAND STYLE CREATIONS*/
+
+/* APPLE*/
+
+.appleCommandStyle {
+    --background-principal: #181818;
+    --background-terminal: #282828;
+    --background-header: linear-gradient(354deg, rgba(216,216,216,1) 0%, rgba(238,238,238,1) 49%, rgba(216,216,216,1) 100%);
+    --color-text-principal: #d8d8d8;
+}
+/* WINDOWS*/
+
+.windowsPowerShell {
+    --background-principal: #181818;
+    --background-terminal: #022258;
+    --background-header: linear-gradient(354deg, rgb(162, 162, 162) 0%, rgb(139, 138, 138) 49%, rgba(216,216,216,1) 100%);
+    --color-text-principal: #000000;
+}
+/* LINUX*/
+
+.linuxCommandStyle {
+    --background-principal: #181818;
+    --background-terminal: #282828;
+    --background-header: linear-gradient(354deg, rgba(216,216,216,1) 0%, rgba(238,238,238,1) 49%, rgba(216,216,216,1) 100%);
+    --color-text-principal: #d8d8d8;
+}
+
+
+
+
 .terminal__font {
     color: var(--color-text-principal);
     font-size: 18px;
