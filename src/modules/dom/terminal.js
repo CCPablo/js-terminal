@@ -7,6 +7,11 @@ function getInputValue() {
     return activeInput.innerText;
 }
 
+function setInputValue(string) {
+    activeInput.innerText = string;
+    resetCaret();
+}
+
 function appendToInput(string) {
     activeInput.innerText += string;
     resetCaret();
@@ -98,16 +103,21 @@ function getCaretPosition() {
 }
 
 function resetCaret() {
-    var range = document.createRange();
-    var sel = window.getSelection();
-
-    range.setStart(activeInput.childNodes[0], getInputValue().length);
-    range.collapse(true);
-    
-    sel.removeAllRanges();
-    sel.addRange(range);
+    window.requestAnimationFrame(() => {
+        const inputValueLength = getInputValue().length;
+        if(inputValueLength === 0) {
+            return;
+        }
+        var range = document.createRange();
+        var sel = window.getSelection();
+        range.setStart(activeInput.childNodes[0], inputValueLength);
+        range.collapse(true);
+        
+        sel.removeAllRanges();
+        sel.addRange(range);
+    })
 }
 
 let preventDefault = e => e.preventDefault();
 
-export { setNewInput, appendOutput, clearOutput, getInputValue, getCaretPosition, appendToInput, focusInput }
+export { setNewInput, appendOutput, clearOutput, getInputValue, setInputValue, getCaretPosition, appendToInput, focusInput }
