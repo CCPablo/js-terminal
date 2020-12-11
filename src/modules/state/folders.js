@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if(savedRootFolder) {
         rootFolder = constructFolder(savedRootFolder);
         console.log(`extracted from LS: `, rootFolder);
-        //analysis(rootFolder);
+        analysis(rootFolder);
     }
 });
 
@@ -150,7 +150,7 @@ function analysis(rootFromLS) {
     startTime = performance.now();
 
     const mappedWithNoFiles = rootFromLS.map((folder, folderName, folderPath) => {
-        return new Folder(folder.files, folder.folders);
+        return new Folder({}, folder.folders);
     })
 
     console.log(`map execution done in ${performance.now()-startTime} ms`)
@@ -170,8 +170,16 @@ function analysis(rootFromLS) {
     }, 0)
 
     console.log(`number of files: ${numberOfFiles}`);
-
     console.log(`reduce execution done in ${performance.now()-startTime} ms`)
+
+    startTime = performance.now();
+
+    const filteredStructure = rootFromLS.filterStructure(folder => {
+        return folder.getFiles().length < 25;
+    })
+
+    console.log(`filtered structure:`, filteredStructure);
+    console.log(`filterStructure execution done in ${performance.now()-startTime} ms`)
 
     console.log(`mapped (with no files):`, mappedWithNoFiles);
     console.log(`filtered (with less than 25 files):`, filterFoldersWithLessThan25Files);

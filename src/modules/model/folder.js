@@ -79,7 +79,7 @@ class Folder {
                 foldersCopy[fold] = iterate(foldersCopy[fold], callback, fold);
                 folderPath = folderPathCopy;
             }
-            return callback(folder, folderName, folderPathCopy);
+            return callback(new Folder(folder.files, foldersCopy), folderName, folderPathCopy);
         }
     }
 
@@ -116,6 +116,40 @@ class Folder {
             if(callback(folder, folderName, folderPath)) {
                 validFolders.push(folder);
             }
+        }
+    }
+
+    filterStructure = function (callback) {
+        let folderPath = [];
+        return iterate({...this}, callback);
+
+        function iterate(folder, callback, folderName = []) {
+            const folderPathCopy = [...folderPath];
+            folderPath = folderPath.concat(folderName);
+            let foldersCopy = {...folder.folders};
+            for(let fold in foldersCopy) {
+                if(callback(folder, folderName, folderPath)) {
+                    foldersCopy[fold] = iterate(foldersCopy[fold], callback, fold);
+                } else {
+                    console.log('eeeeo')
+                    delete foldersCopy[fold];
+                }
+                folderPath = folderPathCopy;
+            }
+            return new Folder(folder.files, foldersCopy);
+            
+        }
+    }
+
+    deepClone = function () {
+        return clone({...this});
+
+        function clone(folder) {
+            const foldersClone = {...folder.folders};
+            for(let fold in foldersClone) {
+                foldersClone[fold] = clone(foldersClone[fold]);
+            }
+            return new Folder({...folder.files}, foldersClone);
         }
     }
 
