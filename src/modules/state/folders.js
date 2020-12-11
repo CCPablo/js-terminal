@@ -160,6 +160,16 @@ function analysis(rootFromLS) {
 
     console.log(`filter execution done in ${performance.now()-startTime} ms`)
 
+    startTime = performance.now();
+
+    const numberOfFiles = rootFromLS.reduce((folder, acc) => {
+        return acc + folder.getFiles().length;
+    }, 0)
+
+    console.log(`number of files: ${numberOfFiles}`);
+
+    console.log(`reduce execution done in ${performance.now()-startTime} ms`)
+
     console.log(`mapped (with no files):`, mappedWithNoFiles);
     console.log(`filtered (with less than 25 files):`, filterFoldersWithLessThan25Files);
 

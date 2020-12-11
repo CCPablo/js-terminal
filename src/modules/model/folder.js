@@ -83,6 +83,23 @@ class Folder {
         }
     }
 
+    reduce = function(callback, accumulated = 0) {
+        let folderPath = [];
+        return iterate({...this}, callback);
+
+        function iterate(folder, callback, folderName = []) {
+            const folderPathCopy = [...folderPath];
+            folderPath = folderPath.concat(folderName);
+            let foldersCopy = {...folder.folders};
+            for(let fold in foldersCopy) {
+                iterate(foldersCopy[fold], callback, fold);
+                folderPath = folderPathCopy;
+            }
+            accumulated = callback(folder, accumulated, folderName, folderPathCopy);
+            return accumulated;
+        }
+    }
+
     filter = function (callback) {
         let folderPath = [];
         let validFolders = [];
