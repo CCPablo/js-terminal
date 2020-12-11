@@ -131,37 +131,10 @@ const cmdMode = new Command(
     (argumentList, parameterList) => {
         let setTheme  = function (themeName) {
             document.documentElement.className = themeName ;
-            appendOutput(`Thhe commmand console changed to ${argumentList}`);
+            appendOutput(`The commmand console changed to ${argumentList}`);
             }
         setTheme(argumentList)
     });
-
-
-
-        
-/// TO DO
-/// Equalize class name to input in function
-/// Extract to module where command list take place
-/*
-        if (argumentList == 'Windows'){
-            
-            setTheme('windowsPowerShell');
-            console.log ('error 404')
-            return 'Changed to Powershell'
-        }
-
-        else if (argumentList == "Apple") {
-            setTheme('appleCommandStyle');
-            console.log ('No java accepted')
-            return 'Changed to Apple Command prompt'
-        }
-        else if (argumentList == "Linux") {
-            setTheme('linuxCommandStyle');
-            console.log ('I am free')
-            return 'Changed to Linux Command prompt'
-        }
-        return '**';
-    }*/
 
 
 export function runCommand(com, argumentList = [], parametersList = []) {
