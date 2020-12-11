@@ -6,6 +6,20 @@ let rootFolder = new Folder();
 
 let absolutPath = [];
 
+document.addEventListener("DOMContentLoaded", () => {
+    const savedRootFolder = JSON.parse(localStorage.getItem('root'));
+    if(savedRootFolder) {
+        rootFolder = constructFolder(savedRootFolder);
+        console.log(`extracted from LS: `, rootFolder);
+        //analysis(rootFolder);
+    }
+});
+
+setTimeout(() => {
+    //TODO: Save when modify rootFolder
+    localStorage.setItem('root', JSON.stringify(rootFolder));
+}, 300)
+
 function getFolder(relativePath = "") {
     const relativePathPointer = getRelativePathPointer(relativePath);
     return extractFolder(relativePathPointer);
@@ -115,17 +129,6 @@ function autocomplete(parentPath, letters) {
     }
 }
 
-setTimeout(() => {
-    localStorage.setItem('root', JSON.stringify(rootFolder));
-    let saved = localStorage.getItem('root');
-    console.log(`saved string of ${saved.length} characters`)
-    const savedObject = JSON.parse(saved);
-    const rootFromLS = constructFolder(savedObject);
-    console.log(`folder from local Storage (without functions):`, JSON.parse(JSON.stringify(rootFolder)));
-    console.log(rootFromLS)
-    analysis(rootFromLS)
-}, 300);
-
 function analysis(rootFromLS) {
     let startTime = performance.now();
 
@@ -218,7 +221,6 @@ for(let g = 0; g<5; g++) {
     }
     exitFolder();
 }
-
 enterFolder('/');
 
 export {getFolder, 
