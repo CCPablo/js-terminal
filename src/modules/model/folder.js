@@ -43,23 +43,17 @@ class Folder {
         delete this.files[name];
     }
 
-    removeFiles = function (callbackCondition = () => true) {
+    removeSources = function (callbackCondition = () => true, includeFolders = false) {
         for(let file in this.files) {
             if(callbackCondition(file, this.files[file])) {
                 delete this.files[file];
             }
         }
-    }
-
-    removeSources = function (callbackCondition = () => true) {
-        for(let file in this.files) {
-            if(callbackCondition(file, this.files[file])) {
-                delete this.files[file];
-            }
-        }
-        for(let folder in this.folders) {
-            if(callbackCondition(folder, this.folders[folder])) {
-                delete this.folders[folder];
+        if(includeFolders) {
+            for(let folder in this.folders) {
+                if(callbackCondition(folder, this.folders[folder])) {
+                    delete this.folders[folder];
+                }
             }
         }
     }
@@ -86,8 +80,14 @@ class Folder {
         return Object.values(this.folders);
     }
 
-    getFiles = function() {
-        return Object.values(this.files);
+    getFiles = function(condition = ()=>true) {
+        const filesArray = [];
+        for(const name in this.files) {
+            if(condition(name)) {
+                filesArray.push(this.files[name])
+            }
+        }
+        return filesArray;
     }
 
     getFolderNames = function () {

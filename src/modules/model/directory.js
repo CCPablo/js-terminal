@@ -19,29 +19,16 @@ export class Directory {
         return this.getFolder(path, 1).addFile(path.getSource());
     }
 
-    removeFolder = function (rawRelativePath = "") {
+    removeSources = function (rawRelativePath = "", includesFolders) {
         const path = this.getPath(rawRelativePath);
-        const folderName = path.getSource();
-        if(folderName === "*") {
-            this.getFolder(path, 1).removeSources();
-        } else if(folderName.endsWith("*")) {
+        const name = path.getSource();
+        if(name === "*") {
+            this.getFolder(path, 1).removeSources(()=>true,includesFolders);
+        } else if(name.endsWith("*")) {
             this.getFolder(path, 1)
-                .removeSources(sourceName => sourceName.startsWith(sourceName.slice(0, -1)));
+                .removeSources(name => name.startsWith(name.slice(0, -1)), includesFolders);
         } else {
-            this.getFolder(path, 1).removeFolder(folderName);
-        }
-    }
-
-    removeFile = function (rawRelativePath = "") {
-        const path = this.getPath(rawRelativePath);
-        const fileName = path.getSource();
-        if(fileName === "*") {
-            this.getFolder(path, 1).removeFiles();
-        } else if(fileName.endsWith("*")) {
-            this.getFolder(path, 1)
-                .removeFiles(fileName => fileName.startsWith(fileName.slice(0, -1)));
-        } else {
-            this.getFolder(path, 1).removeFile(fileName);
+            this.getFolder(path, 1).removeSources((name)=>name === path.getSource(), includesFolders);
         }
     }
 
@@ -65,6 +52,21 @@ export class Directory {
         if(this.folderExists(path)) {
             this.absolutPath.setPath(path.getPath());
         }
+    }
+
+    getFileContent = function (rawRelativePath) {
+        const path = this.getPath(rawRelativePath);
+        const fileName = path.getSource();
+        let content = '';
+        if(fileName === "*") {
+            this.getFolder(path, 1).getFiles().forEach(file => content += file.getContent());
+        } else if(fileName.endsWith("*")) {
+            this.getFolder(path, 1).getFiles(file => file.startsWith(fileName.slice(0, -1)))
+                .forEach(file => content += file.getContent());
+        } else {
+            content += this.getFolder(path, 1).getFile(fileName).getContent();
+        }
+        return content;
     }
 
     getRawPath = function () {

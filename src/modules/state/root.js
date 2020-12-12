@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 setTimeout(() => {
-    analysis(rootDirectory.getFolder());
     console.log('root folder', JSON.parse(JSON.stringify(rootDirectory.rootFolder)));
     console.log(`root size: ${rootDirectory.rootFolder.getSize()/1000} kb`)
 }, 300)
@@ -23,16 +22,16 @@ function createFolder(relativePath = "") {
     return rootDirectory.createFolder(relativePath);
 }
 
+function getFileContent(relativePath) {
+    return rootDirectory.getFileContent(relativePath);
+}
+
 function createFile(relativePath = "") {
     return rootDirectory.createFile(relativePath);
 }
 
-function removeFolder(relativePath = "") {
-    rootDirectory.removeFolder(relativePath);
-}
-
-function removeFile(relativePath = "") {
-    rootDirectory.removeFile(relativePath);
+function removeSources(relativePath = "", includesFolders) {
+    rootDirectory.removeSources(relativePath, includesFolders);
 }
 
 function getSourceNames(relativePath = "", recursive = false, detailed = false, sortedByCreation = false) {
@@ -108,19 +107,19 @@ for(let g = 0; g<5; g++) {
     createFolder(`folder${g}`)
     changePath(`folder${g}`);
     for(let j = 0; j<5; j++) {
-        createFile(`file${g}${String.fromCharCode(j + 97)}.js`).setContent(Array(201).join('x'))
+        createFile(`file${g}${String.fromCharCode(j + 97)}.js`).setContent(`file${g}${String.fromCharCode(j + 97)}.js`)
     }
     for(let i = 0; i<5; i++) {
         createFolder(`folder${g}-${i}`)
         changePath(`folder${g}-${i}`);
         for(let j = 0; j<20; j++) {
-            createFile(`file${g}-${i}${String.fromCharCode(j + 97)}.js`).setContent(Array(201).join('x'))
+            createFile(`file${g}-${i}${String.fromCharCode(j + 97)}.js`).setContent(`file${g}-${i}${String.fromCharCode(j + 97)}.js`)
         }
         for(let k = 0; k<20; k++) {
             createFolder(`folder${g}-${i}-${k}`)
             changePath(`folder${g}-${i}-${k}`);
             for(let j = 0; j<30; j++) {
-                createFile(`file${g}-${i}-${k}${String.fromCharCode(j + 97)}.js`).setContent(Array(201).join('x'))
+                createFile(`file${g}-${i}-${k}${String.fromCharCode(j + 97)}.js`).setContent(Array(201).join(`file${g}-${i}-${k}${String.fromCharCode(j + 97)}.js`))
             }
             changePath("..");
         }
@@ -133,8 +132,8 @@ changePath('/');
 export {
     changePath,
     createFolder,
-    removeFolder,
-    removeFile,
+    removeSources,
+    getFileContent,
     getPath,
     getSourceNames,
     autocomplete}

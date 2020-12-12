@@ -1,5 +1,5 @@
 import {Command} from '../model/command.js'
-import { changePath, createFolder, removeFile, removeFolder, getPath, getSourceNames } from '../state/root.js'
+import { changePath, createFolder, getFileContent, getPath, getSourceNames, removeSources } from '../state/root.js'
 import { appendOutput, clearOutput, setNewInput } from '../dom/terminal.js'
 import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan} from './manFiles/manFileReferenceCaller.js';
 
@@ -60,18 +60,31 @@ const echo = new Command(
 const cat = new Command(
     'cat - concatenate files and print on the standard output',
     manCat.All,
-    (argumentList, parameterList) => {}
+    (argumentList, parameterList) => {
+        if(argumentList.includes('>')) {
+
+        }
+
+        let textFromFiles = '';
+        argumentList.forEach(path => textFromFiles += getFileContent(path));
+        return textFromFiles;
+
+    }
+)
+
+const tac = new Command(
+    'cat - concatenate files and print on the standard output',
+    manCat.All,
+    (argumentList, parameterList) => {
+
+    }
 )
 
 const rm = new Command(
     'rm - remove files or directories ',
     manRm.All,
     (argumentList, parameterList) => {
-        if(parameterList.includes("-r")) {
-            argumentList.forEach(path => removeFolder(path));
-        } else {
-            argumentList.forEach(path => removeFile(path));
-        }
+        argumentList.forEach(path => removeSources(path, parameterList.includes("-r")));
     }
 )
 
