@@ -104,6 +104,27 @@ class Folder {
         return sourcesNames;
     }
 
+    getSources = function(condition = () => true) {
+        const sourcesArray = [];
+        for(const name in this.files) {
+            if(condition(name)) {
+                sourcesArray.push({
+                    name: name,
+                    type: 'file'
+                })
+            }
+        }
+        for(const name in this.folders) {
+            if(condition(name)) {
+                sourcesArray.push({
+                    name: name,
+                    type: 'folder'
+                })
+            }
+        }
+        return sourcesArray;
+    }
+
     hasFolder = function (folderName) {
         return Object.keys(this.folders).includes(folderName);
     }

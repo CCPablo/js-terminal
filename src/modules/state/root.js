@@ -2,6 +2,7 @@
 import {Folder} from '../model/folder.js'
 import {File} from '../model/file.js'
 import {Directory} from '../model/directory.js'
+import { Path } from '../model/path.js';
 
 let rootDirectory = new Directory();
 
@@ -46,6 +47,48 @@ function getPath() {
     return rootDirectory.getRawPath();
 }
 
+function autocomplete(relativePath = "") {
+    let path = new Path();
+    path = path.appendRelative(relativePath, true);
+    
+    let equivalences = rootDirectory.getSources(relativePath, !path.getSource() ? 0 : 1, (name) => name.startsWith(path.getSource()));
+    console.log(equivalences)
+    if(equivalences.length === 0) {
+        return '';
+    } else if (equivalences.length === 1) {
+        return equivalences[0].name.slice(path.getSource().length) + endChar(equivalences[0].type);
+    } else {
+        return getWordBeforeConflict(path.getSource().length).slice(path.getSource().length)
+    }
+
+    function endChar(type) {
+        return type === 'folder' ? '/' : '&nbsp;'
+    }
+
+    function getWordBeforeConflict(initialIndex) {
+        equivalences.sort((a, b) => b.name.length - a.name.length);
+        const maxWord = equivalences[0].name;
+        let result = false;
+
+        for(let i = initialIndex; i <= maxWord.length; i++) {
+            result = checkOdd(maxWord.slice(0, i));
+            if(result) {
+                break;
+            }
+        }
+        return result;
+    }
+
+    function checkOdd(word) {
+        for(let i = 0; i < equivalences.length; i++) {
+            if(!equivalences[i].name.startsWith(word)) {
+                return word.slice(0, -1);
+            }
+        }
+        return false;
+    }
+}
+/*
 function autocomplete(parentPath, letters) {
     let equivalences = getSourceNames(parentPath).filter(source => source.startsWith(letters));
 
@@ -80,7 +123,7 @@ function autocomplete(parentPath, letters) {
         return false;
     }
 }
-
+*/
 function analysis(rootFromLS) {
     let startTime = performance.now();
 

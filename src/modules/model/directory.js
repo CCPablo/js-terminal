@@ -44,6 +44,11 @@ export class Directory {
             this.getFolder(path, 1).removeFile(fileName);
         }
     }
+
+    getSources = function (rawRelativePath = "", levelsUp = 0, condition = () => true) {
+        const path = this.getPath(rawRelativePath);
+        return this.getFolder(path, levelsUp).getSources(condition);
+    }
     
     getSourceNames = function (rawRelativePath = "", levelsUp = 0) {
         const path = this.getPath(rawRelativePath);

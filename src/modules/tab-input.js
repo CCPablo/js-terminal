@@ -2,7 +2,6 @@ import { autocomplete } from './state/root.js';
 import { decode } from './filter-input.js'
 import { appendToInput, getCaretPosition, getInputValue } from './dom/terminal.js';
 
-const parentPathRegex = /\S+\//;
 const lastWordRegex = /\S+$/;
 
 document.addEventListener('keydown', (event) => {
@@ -12,10 +11,7 @@ document.addEventListener('keydown', (event) => {
         if(caretUnderCommand(decoded.command.length)) {
             return;
         }
-        const pathToAutocomplete = getWordUnderCursor();
-        const parentPath = getParentPath(pathToAutocomplete);
-        const lettersToAutocomplete = pathToAutocomplete.replace(parentPath, "");
-        appendToInput(autocomplete(parentPath, lettersToAutocomplete))
+        appendToInput(autocomplete(getWordUnderCursor()))
     }
 
     function caretUnderCommand(commandLength) {
@@ -32,22 +28,6 @@ document.addEventListener('keydown', (event) => {
             return '';
         } else {
             return word[0];
-        }
-    }
-
-    function getParentPath(relativePath) {
-        if(relativePath.includes('/')) {
-            if(relativePath.startsWith('/')) {
-                const parentPath = parentPathRegex.exec(relativePath);
-                if(parentPath === null) {
-                    return '/'
-                } else {
-                    return parentPath[0]
-                }
-            }
-            return parentPathRegex.exec(relativePath)[0];
-        } else {
-            return '';
         }
     }
 });

@@ -8,12 +8,12 @@ function getInputValue() {
 }
 
 function setInputValue(string) {
-    activeInput.innerText = string;
+    activeInput.innerHTML = string;
     resetCaret();
 }
 
 function appendToInput(string) {
-    activeInput.innerText += string;
+    activeInput.innerHTML += string;
     resetCaret();
 }
 

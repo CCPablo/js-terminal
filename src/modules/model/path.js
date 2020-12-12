@@ -37,13 +37,13 @@ class Path {
         return new Path(this.path.slice(0, level).concat(foldersDown));
     }
 
-    appendRelative = function(rawRelative) {
+    appendRelative = function(rawRelative, withEmptySource = false) {
         if(!rawRelative || rawRelative.length === 0) {
             return this.newPath(this.path.length, []);
         }
         let items = rawRelative.split('/');
         if(items[0] === '') {
-            items = items.filter(folder => folder !== "");
+            items = items.filter(folder => folder !== "" || withEmptySource);
             return this.newPath(0, items);
         } else {
             let level = this.path.length;
@@ -55,7 +55,7 @@ class Path {
                     level--;
                     return false;
                 }
-                return folder !== "";
+                return folder !== "" || withEmptySource;
             })
             return this.newPath(level, items);
         }
