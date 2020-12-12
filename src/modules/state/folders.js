@@ -25,6 +25,14 @@ function getSources(relativePath = "") {
     return getFolder(relativePath).getSources();
 }
 
+function removeFile(file) {
+    if (getFolder().hasFolder(file)) {
+        delete getFolder().folders[`${file}`];
+    } else if (getFolder().hasFile(file)) {
+        delete getFolder().files[`${file}`];
+    }
+}
+
 function removeAllSources(path) {
     getFolder(path).folders = {};
     getFolder(path).files = {};
@@ -155,6 +163,7 @@ export {
     exitFolder,
     getAbsolutPath,
     getSources,
+    removeFile,
     removeAllSources,
     removeFilesThatStartsWith,
     autocomplete

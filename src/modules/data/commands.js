@@ -1,5 +1,5 @@
 import {Command} from '../model/command.js'
-import {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources, removeAllSources, removeFilesThatStartsWith} from '../state/folders.js'
+import {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources, removeFile, removeAllSources, removeFilesThatStartsWith} from '../state/folders.js'
 import {appendOutput, clearOutput, setNewInput} from '../dom/terminal.js'
 
 const pwd = new Command(
@@ -16,6 +16,7 @@ const ls = new Command(
     (argumentList, parameterList) => {
         const sources = getSources(argumentList[0]);
         sources.sort();
+        console.log(getFolder())
         return sources.join(' ');
     }
 )
@@ -66,9 +67,7 @@ const rm = new Command(
     '',
     function rm(argumentList, parametersList) {
         // rm all files in the current dir
-        if (argumentList.includes('*')) {
-            removeAllSources(getAbsolutPath())
-        }
+        if (argumentList.includes('*')) {removeAllSources(getAbsolutPath())}
         // rm fil* removes all files that start with fil
         argumentList.forEach(file => {
             if (file.charAt(file.length - 1) === '*') {
@@ -76,13 +75,7 @@ const rm = new Command(
             }
         })
         // rm fileName removes that file name
-        argumentList.forEach(argument => {
-            if (getFolder().hasFolder(argument)) {
-                delete getFolder().folders[`${argument}`]
-            } else if (getFolder().hasFile(argument)) {
-                delete getFolder().files[`${argument}`]
-            }
-        })
+        argumentList.forEach(argument => {removeFile(argument);})
     }
 )
 
