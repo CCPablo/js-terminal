@@ -1,18 +1,32 @@
 
 import {Folder} from '../model/folder.js'
+import {File} from '../model/file.js'
 
 let rootFolder = new Folder();
 
 let absolutPath = [];
 
-/*
-    - returns the relative folder based on current path
-    - throws error if folder does not exist
-*/
+document.addEventListener("DOMContentLoaded", () => {
+    const savedRootFolder = JSON.parse(localStorage.getItem('root'));
+    if (savedRootFolder) {
+        rootFolder = constructFolder(savedRootFolder);
+        console.log(`extracted from LS: `, rootFolder);
+        //analysis(rootFolder);
+    }
+});
+
+setTimeout(() => {
+    //TODO: Save when modify rootFolder
+    localStorage.setItem('root', JSON.stringify(rootFolder));
+}, 300)
 
 function getFolder(relativePath = "") {
     const relativePathPointer = getRelativePathPointer(relativePath);
     return extractFolder(relativePathPointer);
+}
+
+function addFolder(name, relativePath = "") {
+    getFolder(relativePath).addFolder(name);
 }
 
 function extractFolder(relativePathPointer) {
@@ -41,7 +55,7 @@ function removeAllSources(path) {
 function removeFilesThatStartsWith(pattern) {
     for (let key in getFolder().folders) {
         if (key.startsWith(pattern.slice(0, -1))) {
-            delete getFolder().files[`${key}`]
+            delete getFolder().folders[`${key}`]
         }
     }
     for (let key in getFolder().files) {
@@ -54,7 +68,6 @@ function removeFilesThatStartsWith(pattern) {
 function enterFolder(relativePath) {
     const relativePathPointer = getRelativePathPointer(relativePath);
     try {
-        //checks if folder exist
         extractFolder(relativePathPointer);
     } catch (err) {
         throw err;
@@ -86,7 +99,7 @@ function getRelativePathPointer(relativePath) {
     if (relativePath.startsWith('/')) {
         return {
             foldersDown: folders,
-            levelsUp: 100
+            levelsUp: 1000
         }
     } else {
         let levelsUp = 0;
@@ -142,20 +155,99 @@ function autocomplete(parentPath, letters) {
     }
 }
 
+function analysis(rootFromLS) {
+    let startTime = performance.now();
 
+    let totalSizeOfFiles = 0;
+    let totalFolders = 0;
+    let totalFiles = 0;
+    rootFromLS.forEach((folder, folderName, folderPath) => {
+        totalSizeOfFiles += folder.getFiles().map(file => file.content.length).reduce((prev, acc) => prev + acc, 0);
+        totalFolders++;
+        totalFiles += folder.getFiles().length;
+    })
+
+    console.log(`total folders: ${totalFolders}`)
+    console.log(`total files: ${totalFiles}`)
+    console.log(`total size of files in path: ${totalSizeOfFiles / 1000} kbs`)
+
+    console.log(`forEach execution done in ${performance.now() - startTime} ms`)
+
+    startTime = performance.now();
+
+    const mappedWithNoFiles = rootFromLS.map((folder, folderName, folderPath) => {
+        return new Folder(folder.files, folder.folders);
+    })
+
+    console.log(`map execution done in ${performance.now() - startTime} ms`)
+
+    startTime = performance.now();
+
+    const filterFoldersWithLessThan25Files = rootFromLS.filter((folder, folderName, folderPath) => {
+        return folder.getFiles().length < 25;
+    })
+
+    console.log(`filter execution done in ${performance.now() - startTime} ms`)
+
+    startTime = performance.now();
+
+    const numberOfFiles = rootFromLS.reduce((folder, acc) => {
+        return acc + folder.getFiles().length;
+    }, 0)
+
+    console.log(`number of files: ${numberOfFiles}`);
+
+    console.log(`reduce execution done in ${performance.now() - startTime} ms`)
+
+    console.log(`mapped (with no files):`, mappedWithNoFiles);
+    console.log(`filtered (with less than 25 files):`, filterFoldersWithLessThan25Files);
+
+}
+
+function constructFolder(folder) {
+    for (let fold in folder.folders) {
+        folder.folders[fold] = constructFolder(folder.folders[fold]);
+    }
+    for (let fil in folder.files) {
+        folder.files[fil] = createFile(folder.files[fil])
+    }
+    return new Folder(folder.files, folder.folders);
+}
+
+function createFile(file) {
+    return new File(file.name, file.content);
+}
 
 ////
 
-getFolder().addFolder('1')
-getFolder().addFolder('2')
-getFolder().addFolder('3')
-getFolder().addFile('file1.js')
-getFolder().addFile('file2.js')
-getFolder().addFile('file3.js')
-getFolder().addFolder('new-folder')
-enterFolder('new-folder')
-
-getFolder().addFile('file4.js')
+for (let g = 0; g < 5; g++) {
+    getFolder().addFolder(`folder${g}`)
+    enterFolder(`folder${g}`);
+    for (let j = 0; j < 5; j++) {
+        getFolder().addFile(`file${g}${String.fromCharCode(j + 97)}.js`);
+        getFolder().getFile(`file${g}${String.fromCharCode(j + 97)}.js`).setContent(Array(201).join('x'))
+    }
+    for (let i = 0; i < 5; i++) {
+        getFolder().addFolder(`folder${g}-${i}`)
+        enterFolder(`folder${g}-${i}`);
+        for (let j = 0; j < 20; j++) {
+            getFolder().addFile(`file${g}-${i}${String.fromCharCode(j + 97)}.js`);
+            getFolder().getFile(`file${g}-${i}${String.fromCharCode(j + 97)}.js`).setContent(Array(201).join('x'))
+        }
+        for (let k = 0; k < 20; k++) {
+            getFolder().addFolder(`folder${g}-${i}-${k}`)
+            enterFolder(`folder${g}-${i}-${k}`);
+            for (let j = 0; j < 30; j++) {
+                getFolder().addFile(`file${g}-${i}-${k}${String.fromCharCode(j + 97)}.js`);
+                getFolder().getFile(`file${g}-${i}-${k}${String.fromCharCode(j + 97)}.js`).setContent(Array(201).join('x'))
+            }
+            exitFolder();
+        }
+        exitFolder();
+    }
+    exitFolder();
+}
+enterFolder('/');
 
 export {
     getFolder,

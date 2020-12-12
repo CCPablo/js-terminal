@@ -1,11 +1,11 @@
-import manFile from '../../model/manFile';
+import {manFile} from '../../model/manFile.js';
 
 
-const manRm = new manFile (
+export const manRm = new manFile (
         (`
         <div  class = 'h2Item'>
         <h2>Name</h2>
-        rm - remove files or directories
+        rm - remove files or direcgittories
         </div>
         `),
 
@@ -78,7 +78,7 @@ const manRm = new manFile (
         );
 
 
-        module.exports = { manRm };
+//module.exports = { manRm };
 
 
 

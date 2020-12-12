@@ -14,15 +14,6 @@
 <script>
 
 
-
-    let stringToHTML = function (str) {
-        let parser = new DOMParser();
-        let doc = parser.parseFromString(str, 'text/html');
-        let InnerHtmlToAdd = doc.getElementsByClassName('h2Item')[0].innerHTML;
-        //console.log(InnerHtmlToAdd);
-        return InnerHtmlToAdd;
-    }
-
     class manFile {
         constructor(name, sinopsis, description, examples, author) {
             this.name = name;
@@ -32,60 +23,59 @@
             this.author = author;
         }
 
-        async stringToHTML(str) {
-            stringToHTML = function (str) {
-                let parser = new DOMParser();
-                let doc = parser.parseFromString(str, 'text/html');
-                let InnerHtmlToAdd = doc.getElementsByClassName('h2Item')[0].innerHTML;
-                //console.log(InnerHtmlToAdd);
-                return InnerHtmlToAdd;
-            }
-
-            get Name() {
-                return this.stringToHTML(this.name);
-            }
-
-            get Sinopsis() {
-                return this.stringToHTML(this.sinopsis);
-            }
-
-            get Description() {
-                return this.stringToHTML(this.description);
-
-            };
-            get Examples() {
-                return this.stringToHTML(this.examples);
-
-            };
-            get Author() {
-                return this.stringToHTML(this.author);
-            };
-
-            get All() {
-                return this.stringToHTML(this.name) + this.stringToHTML(this.sinopsis) + this.stringToHTML(this.description) + this.stringToHTML(this.examples) + this.stringToHTML(this.author);
-            };
-
+        stringToHTML = function (str) {
+            let parser = new DOMParser();
+            let doc = parser.parseFromString(str, 'text/html');
+            let InnerHtmlToAdd = doc.getElementsByClassName('h2Item')[0].innerHTML;
+            //console.log(InnerHtmlToAdd);
+            return InnerHtmlToAdd;
         }
 
+        get Name() {
+            return this.stringToHTML(this.name);
+        }
+
+        get Sinopsis() {
+            return this.stringToHTML(this.sinopsis);
+        }
+
+        get Description() {
+            return this.stringToHTML(this.description);
+
+        };
+        get Examples() {
+            return this.stringToHTML(this.examples);
+
+        };
+        get Author() {
+            return this.stringToHTML(this.author);
+        };
+
+        get All() {
+            return this.stringToHTML(this.name) + this.stringToHTML(this.sinopsis) + this.stringToHTML(this.description) + this.stringToHTML(this.examples) + this.stringToHTML(this.author);
+
+        };
+    }
 
 
-        const manLs = new manFile(
 
-            `
+    const manLs = new manFile(
+
+        `
             <div  class = 'h2Item'>
             <h2>Name</h2>
             <p>ls - list directory contents </p>
             </div>
             `,
 
-            `
+        `
             <div  class = 'h2Item'>
             <h2>Synopsis</h2>
             <b>ls</b> [<i>OPTION</i>]... [<i>FILE</i>]...
             </div>
             `,
 
-            `
+        `
             <div  class = 'h2Item'>
             <h2>Description</h2>
             <p>List information about the FILEs (the current directory by default). Sort entries alphabetically if none of <b>-cftuvSUX</b> nor <b>--sort</b>.
@@ -210,7 +200,7 @@
             </div>
             `,
 
-            `
+        `
             <div  class = 'h2Item'>
             <p>SELinux options:
             <dl compact>
@@ -235,21 +225,21 @@
             </div>
             `,
 
-            `
+        `
             <div  class = 'h2Item'>
             <h2>Author</h2>
             <p>Written by Richard M. Stallman and David Ma </p>
             </div>
             `
 
-        );
+    );
 
 
 
 
-        //import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm} from './manFileReferenceCaller.js';
+    //import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm} from './manFileReferenceCaller.js';
 
-        let test = document.getElementById('test');
+    let test = document.getElementById('test');
     //console.log(manLs.Sinopsis);
     //console.log(manLs.Name);
     //console.log(manLs.Description);
