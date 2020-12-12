@@ -127,7 +127,6 @@ const help = new Command(
     }
 )
 
-/// Generate to return all commands man and help
 const man = new Command(
     'man - an interface to the system reference manuals.',
     manMan.All,

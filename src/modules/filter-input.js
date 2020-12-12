@@ -1,6 +1,7 @@
 import {runCommand} from './data/commands.js'
 import { getInputValue, focusInput } from './dom/terminal.js';
 import { addToHistory } from './state/history.js';
+import { splitWhiteSpaces } from './util/string.js';
 
 document.addEventListener('keydown', e => {
     if (e.key === "Enter") {
@@ -16,7 +17,10 @@ document.addEventListener('click', () => {
 function decode(rawInput) {
     const decoded = {command: '', parameters: [], argumentList: []}
 
-    let splitted = rawInput.split(' ').removeWhiteSpaces();
+    let splitted = splitWhiteSpaces(rawInput);
+
+    console.log(splitted);
+
     decoded.command = splitted.shift();
 
     splitted.forEach(element => {
@@ -38,10 +42,6 @@ function process(rawInput) {
     } catch(error) {
         alert(error)
     }
-}
-
-Array.prototype.removeWhiteSpaces = function() {
-    return this.map((string) => string.replace(/\s/g, ""));
 }
 
 export { decode };
