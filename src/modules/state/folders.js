@@ -30,8 +30,17 @@ function removeAllSources(path) {
     getFolder(path).files = {};
 }
 
-function removeFilesThatStartsWith() {
-
+function removeFilesThatStartsWith(pattern) {
+    for (let key in getFolder().folders) {
+        if (key.startsWith(pattern.slice(0, -1))) {
+            delete getFolder().files[`${key}`]
+        }
+    }
+    for (let key in getFolder().files) {
+        if (key.startsWith(pattern.slice(0, -1))) {
+            delete getFolder().files[`${key}`]
+        }
+    }
 }
 
 function enterFolder(relativePath) {
@@ -147,6 +156,7 @@ export {
     getAbsolutPath,
     getSources,
     removeAllSources,
+    removeFilesThatStartsWith,
     autocomplete
 }
 

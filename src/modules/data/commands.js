@@ -1,5 +1,5 @@
 import {Command} from '../model/command.js'
-import {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources, removeAllSources} from '../state/folders.js'
+import {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources, removeAllSources, removeFilesThatStartsWith} from '../state/folders.js'
 import {appendOutput, clearOutput, setNewInput} from '../dom/terminal.js'
 
 const pwd = new Command(
@@ -72,17 +72,7 @@ const rm = new Command(
         // rm fil* removes all files that start with fil
         argumentList.forEach(file => {
             if (file.charAt(file.length - 1) === '*') {
-                let nameOfFile = file.slice(0, -1);
-                for (let key in getFolder().folders) {
-                    if (key.startsWith(nameOfFile)) {
-                        delete getFolder().files[`${key}`]
-                    }
-                }
-                for (let key in getFolder().files) {
-                    if (key.startsWith(nameOfFile)) {
-                        delete getFolder().files[`${key}`]
-                    }
-                }
+                removeFilesThatStartsWith(file)
             }
         })
         // rm fileName removes that file name
