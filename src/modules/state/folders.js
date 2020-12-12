@@ -1,10 +1,11 @@
 
 import {Folder} from '../model/folder.js'
 import {File} from '../model/file.js'
+import { Path } from '../util/paths.js';
 
 let rootFolder = new Folder();
 
-let absolutPath = [];
+let path = new Path();
 
 document.addEventListener("DOMContentLoaded", () => {
     const savedRootFolder = JSON.parse(localStorage.getItem('root'));
@@ -21,77 +22,35 @@ setTimeout(() => {
 }, 300)
 
 function getFolder(relativePath = "") {
-    const relativePathPointer = getRelativePathPointer(relativePath);
-    return extractFolder(relativePathPointer);
+    path.setRelativePath(relativePath);
+    return path.getSourcePath().reduce((parentFolder, folderName) => parentFolder.getFolder(folderName), rootFolder);
 }
 
-function extractFolder(relativePathPointer) {
-    return absolutPath.slice(0, absolutPath.length - relativePathPointer.levelsUp)
-                        .concat(relativePathPointer.foldersDown)
-                        .reduce((parentFolder, folderName) => parentFolder.getFolder(folderName), rootFolder);
+function getParentFolder(relativePath = "") {
+    path.setRelativePath(relativePath);
+    return path.getSourcePath().reduce((parentFolder, folderName) => parentFolder.getFolder(folderName), rootFolder);
 }
 
-function addFolder(name, relativePath = "") {
-    getFolder(relativePath).addFolder(name);
+function createFolder(relativePath = "") {
+
+    getFolder(relativePath)
 }
 
 function getSourceNames(relativePath = "") {
     return getFolder(relativePath).getSourceNames();
 }
 
-function enterFolder(relativePath) {
-    const relativePathPointer = getRelativePathPointer(relativePath);
-    try {
-        extractFolder(relativePathPointer);
-    } catch(err) {
-        throw err;
-    }
-    exitFolder(relativePathPointer.levelsUp);
-    enterPath(relativePathPointer.foldersDown);
+function enterFolder(relativePath = "") {
+    path.setRelativePath(relativePath);
+    path.setSourceToAbsolut();
 }
 
-function exitFolder(levelsUp = 1) {
-    absolutPath.splice(-levelsUp, levelsUp);
-}
-
-function enterPath(foldersDown) {
-    absolutPath = absolutPath.concat(foldersDown);
+function exitFolder(levels = 1) {
+    path.popAbsolutPath(levels);
 }
 
 function getAbsolutPath() {
-    return `/${absolutPath.join('/')}`;
-}
-
-function getRelativePathPointer(relativePath) {
-    if(!relativePath) {
-        return {
-            foldersDown: [],
-            levelsUp: 0
-        }
-    }
-    let folders = relativePath.split('/').filter((folder) => folder !== "");
-    if(relativePath.startsWith('/')) {
-        return {
-            foldersDown: folders,
-            levelsUp: 1000
-        }
-    } else {
-        let levelsUp = 0;
-        folders = folders.filter(folder => {
-            if(folder === ".") {
-                return false;
-            }
-            else if(folder === "..") {
-                levelsUp++;
-                return false;
-            }
-            return true;
-        });
-        return {
-            foldersDown: folders,
-            levelsUp: levelsUp
-        };
-    }
+    return path.getAbsolutRawPath();
 }
 
 function autocomplete(parentPath, letters) {
@@ -204,8 +163,16 @@ function constructFolder(folder) {
 
 
 
-////
+console.log(getFolder());
+getFolder().addFolder('rerere');
 
+enterFolder('rerere');
+console.log(path.absolutPath)
+console.log(path.pointer)
+getFolder().addFile('file in rerere')
+console.log(getFolder());
+////
+/*
 getFolder().addFile('root.js')
 for(let g = 0; g<5; g++) {
     getFolder().addFolder(`folder${g}`)
@@ -235,9 +202,11 @@ for(let g = 0; g<5; g++) {
     exitFolder();
 }
 enterFolder('/');
+*/
 
 export {getFolder, 
-    enterFolder, 
+    enterFolder,
+    createFolder, 
     exitFolder, 
     getAbsolutPath, 
     getSourceNames,

@@ -1,5 +1,5 @@
 import {Command} from '../model/command.js'
-import {getFolder, enterFolder, exitFolder, getAbsolutPath, getSourceNames } from '../state/folders.js'
+import {getFolder, enterFolder, createFolder, exitFolder, getAbsolutPath, getSourceNames } from '../state/folders.js'
 import { appendOutput, clearOutput, setNewInput } from '../dom/terminal.js'
 import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan} from './manFiles/manFileReferenceCaller.js';
 
@@ -34,7 +34,8 @@ const mkdir = new Command(
     'mkdir - make directories',
     manMkdir.All,
     function mkdir(argumentList) {
-        getFolder().addFolder(argumentList[0]) //TODO: Create folder in realative path
+        const rawRelativePath = argumentList[0];
+        createFolder(rawRelativePath);
     }
 )
 
