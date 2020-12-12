@@ -1,8 +1,54 @@
+/* DIFFERENT COMMAND STYLE CREATIONS*/
+
+/* APPLE*/
+
+.apple {
+    --max-dot-normal: #34C84A;
+    --max-dot-icon: #34C84A;
+    --max-dot-hover: #0A630C;
+    --min-dot-normal: #FDBC40;
+    --min-dot-icon: #FDBC40;
+    --min-dot-hover: #985813;
+    --close-dot-normal:#FC615D;
+    --close-dot-icon: #FC615D;
+    --close-dot-hover: #4C0102;
+    --buttons-border-radius: 50%;
+
+}
+/* WINDOWS*/
+
+.windows {
+    --max-dot-normal: #ffffff;
+    --max-dot-icon: #000000;
+    --max-dot-hover:  #000000;
+    --min-dot-normal: #ffffff;
+    --min-dot-icon: #000000;
+    --min-dot-hover: #000000;
+    --close-dot-normal:#ffffff;
+    --close-dot-icon: #000000;
+    --close-dot-hover: #fd0000;
+    --middle-button-position: 2;
+}
+/* LINUX*/
+
+.linux{
+    --max-dot-normal: #34C84A;
+    --max-dot-icon: #34C84A;
+    --max-dot-hover: #0A630C;
+    --min-dot-normal: #FDBC40;
+    --min-dot-icon: #FDBC40;
+    --min-dot-hover: #985813;
+    --close-dot-normal:#FC615D;
+    --close-dot-icon: #FC615D;
+    --close-dot-hover: #4C0102;
+
+}
+
 .dot {
     height: 15px;
     width: 15px;
-    background-color: #FDBC40;
-    border-radius: 50%;
+    background-color: var(--min-dot-normal);
+    border-radius: var(--buttons-border-radius);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -11,13 +57,18 @@
     padding: 0.2px;
 }
 .dot .min {
-    color: #FDBC40;
+    color: var(--min-dot-icon);
 }
+
+.dot:nth-child(2) {
+    order: var(--middle-button-position);
+  }
+
 .dot .min:hover {
-    color: #985813;
+    color: var(--min-dot-hover);
 }
 .dot:first-child {
-    background-color: #FC615D;
+    background-color:var(--close-dot-normal);
     margin-left: 10px;
 }
 .dot:first-child:active {
@@ -25,19 +76,20 @@
     margin-left: 10px;
 }
 .dot .cross {
-    color: #FC615D;
+    color: var(--close-dot-icon);
 }
 .dot .cross:hover {
-    color: #4C0102;
+    color: var(--close-dot-hover);
 }
 
 .dot:last-child {
-    background-color: #34C84A;
+    background-color: var(--max-dot-normal);
 }
 
 .dot .fullscreen {
-    color: #34C84A;
+    color: var(--max-dot-icon);
 }
+
 .dot .fullscreen:hover {
-    color: #0A630C;
+    color: var(--max-dot-hover);
 }
