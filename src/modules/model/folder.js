@@ -41,10 +41,6 @@ class Folder {
         return this.folders[name];
     }
 
-    getFiles = function() {
-        return Object.values(this.files);
-    }
-
     getFile = function (name) {
         if(!this.hasFile(name)) {
             throw FOLDER_DOES_NOT_EXIST_MSG(name);
@@ -54,12 +50,12 @@ class Folder {
 
     forEach = function (callback) {
         let folderPath = [];
-        iterate(this);
+        forEach(this);
 
-        function iterate(folder, folderName = []) {
+        function forEach(folder, folderName = []) {
             for(let name in folder.folders) {
                 folderPath.push(name);
-                iterate(folder.folders[name], name);
+                forEach(folder.folders[name], name);
                 folderPath.pop();
             }
             callback(folder, folderName, folderPath);
@@ -68,12 +64,12 @@ class Folder {
 
     map = function (callback) {
         let folderPath = [];
-        return iterate(this.clone(), callback);
+        return map(this.clone(), callback);
 
-        function iterate(folder, folderName = []) {
+        function map(folder, folderName = []) {
             for(let name in folder.folders) {
                 folderPath.push(name);
-                folder.folders[name] = iterate(folder.folders[name].clone(), name);
+                folder.folders[name] = map(folder.folders[name].clone(), name);
                 folderPath.pop();
             }
             return callback(folder, folderName, folderPath);
@@ -82,12 +78,12 @@ class Folder {
 
     reduce = function(callback, accumulated = 0) {
         let folderPath = [];
-        return iterate(this);
+        return reduce(this);
 
-        function iterate(folder, folderName = []) {
+        function reduce(folder, folderName = []) {
             for(let name in folder.folders) {
                 folderPath.push(name);
-                iterate(folder.folders[name], name);
+                reduce(folder.folders[name], name);
                 folderPath.pop();
             }
             accumulated = callback(accumulated, folder, folderName, folderPath);
@@ -98,13 +94,13 @@ class Folder {
     filter = function (callback) {
         let folderPath = [];
         let validFolders = [];
-        iterate(this);
+        filter(this);
         return validFolders;
 
-        function iterate(folder, folderName = []) {
+        function filter(folder, folderName = []) {
             for(let name in folder.folders) {
                 folderPath.push(name);
-                iterate(folder.folders[name], name);
+                filter(folder.folders[name], name);
                 folderPath.pop();
             }
             if(callback(folder, folderName, folderPath)) {
@@ -115,13 +111,13 @@ class Folder {
 
     filterStructure = function (callback) {
         let folderPath = [];
-        return iterate(this.clone());
+        return filterStructure(this.clone());
 
-        function iterate(folder, folderName = []) {
+        function filterStructure(folder, folderName = []) {
             for(let name in folder.folders) {
                 if(callback(folder.folders[name], folderName, folderPath)) {
                     folderPath.push(name);
-                    folder.folders[name] = iterate(folder.folders[name].clone(), name);
+                    folder.folders[name] = filterStructure(folder.folders[name].clone(), name);
                     folderPath.pop();
                 } else {
                     delete folder.folders[name];
@@ -140,6 +136,14 @@ class Folder {
         return new Folder(filesClone, foldersClone);
     }
 
+    getFolders = function() {
+        return Object.values(this.folders);
+    }
+
+    getFiles = function() {
+        return Object.values(this.files);
+    }
+
     getFolderNames = function () {
         return Object.keys(this.folders);
     }
@@ -148,7 +152,7 @@ class Folder {
         return Object.keys(this.files);
     }
 
-    getSources = function() {
+    getSourceNames = function() {
         return this.getFileNames().concat(this.getFolderNames())
     }
 

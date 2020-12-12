@@ -9,7 +9,7 @@ let absolutPath = [];
 document.addEventListener("DOMContentLoaded", () => {
     const savedRootFolder = JSON.parse(localStorage.getItem('root'));
     if(savedRootFolder) {
-        rootFolder = constructFolder(savedRootFolder);
+        //rootFolder = constructFolder(savedRootFolder);
     }
 });
 
@@ -17,16 +17,12 @@ setTimeout(() => {
     //TODO: Save when modify rootFolder
     //localStorage.setItem('root', JSON.stringify(rootFolder));
     analysis(rootFolder);
-    console.log(JSON.parse(JSON.stringify(rootFolder)));
+    console.log('root folder', JSON.parse(JSON.stringify(rootFolder)));
 }, 300)
 
 function getFolder(relativePath = "") {
     const relativePathPointer = getRelativePathPointer(relativePath);
     return extractFolder(relativePathPointer);
-}
-
-function addFolder(name, relativePath = "") {
-    getFolder(relativePath).addFolder(name);
 }
 
 function extractFolder(relativePathPointer) {
@@ -35,8 +31,12 @@ function extractFolder(relativePathPointer) {
                         .reduce((parentFolder, folderName) => parentFolder.getFolder(folderName), rootFolder);
 }
 
-function getSources(relativePath = "") {
-    return getFolder(relativePath).getSources();
+function addFolder(name, relativePath = "") {
+    getFolder(relativePath).addFolder(name);
+}
+
+function getSourceNames(relativePath = "") {
+    return getFolder(relativePath).getSourceNames();
 }
 
 function enterFolder(relativePath) {
@@ -95,7 +95,7 @@ function getRelativePathPointer(relativePath) {
 }
 
 function autocomplete(parentPath, letters) {
-    let equivalences = getSources(parentPath).filter(source => source.startsWith(letters));
+    let equivalences = getSourceNames(parentPath).filter(source => source.startsWith(letters));
 
     if(equivalences.length === 0) {
         return '';
@@ -196,11 +196,13 @@ function constructFolder(folder) {
         folder.files[fil] = createFile(folder.files[fil])
     }
     return new Folder(folder.files, folder.folders);
+
+    function createFile(file) {
+        return new File(file.name, file.content);
+    }
 }
 
-function createFile(file) {
-    return new File(file.name, file.content);
-}
+
 
 ////
 
@@ -238,6 +240,6 @@ export {getFolder,
     enterFolder, 
     exitFolder, 
     getAbsolutPath, 
-    getSources,
+    getSourceNames,
     autocomplete}
 

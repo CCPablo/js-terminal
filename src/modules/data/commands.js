@@ -1,5 +1,5 @@
 import {Command} from '../model/command.js'
-import {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources } from '../state/folders.js'
+import {getFolder, enterFolder, exitFolder, getAbsolutPath, getSourceNames } from '../state/folders.js'
 import { appendOutput, clearOutput, setNewInput } from '../dom/terminal.js'
 import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan} from './manFiles/manFileReferenceCaller.js';
 
@@ -16,7 +16,7 @@ const ls = new Command(
     'ls - list directory contents',
     manLs.All,
     (argumentList, parameterList) =>  {
-        const sources = getSources(argumentList[0]);
+        const sources = getSourceNames(argumentList[0]);
         sources.sort();
         return sources.join(' ');
     }
