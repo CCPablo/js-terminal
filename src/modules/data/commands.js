@@ -1,6 +1,7 @@
 import {Command} from '../model/command.js'
-import {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources } from '../state/folders.js'
-import { appendOutput, clearOutput, setNewInput } from '../dom/terminal.js'
+
+import {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources, removeFile, removeAllSources, removeFilesThatStartsWith} from '../state/folders.js'
+import {appendOutput, clearOutput, setNewInput} from '../dom/terminal.js'
 import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan} from './manFiles/manFileReferenceCaller.js';
 
 
@@ -15,9 +16,10 @@ const pwd = new Command(
 const ls = new Command(
     'ls - list directory contents',
     manLs.All,
-    (argumentList, parameterList) =>  {
+    (argumentList, parameterList) => {
         const sources = getSources(argumentList[0]);
         sources.sort();
+        console.log(getFolder())
         return sources.join(' ');
     }
 )
@@ -25,7 +27,7 @@ const ls = new Command(
 const cd = new Command(
     'cd - change the shell working directory.',
     manCd.All,
-    (argumentList, parameterList) =>  {
+    (argumentList, parameterList) => {
         enterFolder(argumentList[0]);
     }
 )
@@ -33,15 +35,16 @@ const cd = new Command(
 const mkdir = new Command(
     'mkdir - make directories',
     manMkdir.All,
-    function mkdir(argumentList) {
+    (argumentList) => {
         getFolder().addFolder(argumentList[0]) //TODO: Create folder in realative path
     }
 )
 
 const echo = new Command(
     'echo - Write arguments to the standard output.',
+    '',
     manEcho.All,
-    (argumentList, parameterList) =>  {
+    (argumentList, parameterList) => {
         if (argumentList[argumentList.indexOf('>')]) {
             let indexOfBiggerThan = argumentList.indexOf('>')
             let stringToEcho = argumentList.slice(0, indexOfBiggerThan)
@@ -66,7 +69,18 @@ const cat = new Command(
 const rm = new Command(
     'rm - remove files or directories ',
     manRm.All,
-    (argumentList, parameterList) => {}
+    (argumentList, parameterList) => {
+        // rm all files in the current dir
+        if (argumentList.includes('*')) {removeAllSources(getAbsolutPath())}
+        // rm fil* removes all files that start with fil
+        argumentList.forEach(file => {
+            if (file.charAt(file.length - 1) === '*') {
+                removeFilesThatStartsWith(file)
+            }
+        })
+        // rm fileName removes that file name
+        argumentList.forEach(argument => {removeFile(argument);})
+    }
 )
 
 const mv = new Command(
@@ -81,10 +95,10 @@ const help = new Command(
     (argumentList, parameterList) => {
         if (argumentList.length === 0) {
             let cl = "";
-            for ( let command in commandsList) {
+            for (let command in commandsList) {
                 const cl = commandsList[command].description;
                 appendOutput(cl);
-                }
+            }
         } else {
             return commandsList[argumentList[0]].description;
 
@@ -98,7 +112,7 @@ const man = new Command(
     manMan.All,
     (argumentList, parameterList) => {
         if (argumentList.length === 0) {
-            for ( let command in commandsList) {
+            for (let command in commandsList) {
                 const descriptions = commandsList[command].manRef;
                 appendOutput(descriptions);
             }
@@ -129,10 +143,10 @@ const cmdMode = new Command(
     'cmdMode - changes the terminal Mode',
     '',
     (argumentList, parameterList) => {
-        let setTheme  = function (themeName) {
-            document.documentElement.className = themeName ;
+        let setTheme = function (themeName) {
+            document.documentElement.className = themeName;
             appendOutput(`The commmand console changed to ${argumentList}`);
-            }
+        }
         setTheme(argumentList)
     });
 

@@ -8,7 +8,7 @@ let absolutPath = [];
 
 document.addEventListener("DOMContentLoaded", () => {
     const savedRootFolder = JSON.parse(localStorage.getItem('root'));
-    if(savedRootFolder) {
+    if (savedRootFolder) {
         rootFolder = constructFolder(savedRootFolder);
         console.log(`extracted from LS: `, rootFolder);
         //analysis(rootFolder);
@@ -31,19 +31,45 @@ function addFolder(name, relativePath = "") {
 
 function extractFolder(relativePathPointer) {
     return absolutPath.slice(0, absolutPath.length - relativePathPointer.levelsUp)
-                        .concat(relativePathPointer.foldersDown)
-                        .reduce((parentFolder, folderName) => parentFolder.getFolder(folderName), rootFolder);
+        .concat(relativePathPointer.foldersDown)
+        .reduce((parentFolder, folderName) => parentFolder.getFolder(folderName), rootFolder);
 }
 
 function getSources(relativePath = "") {
     return getFolder(relativePath).getSources();
 }
 
+function removeFile(file) {
+    if (getFolder().hasFolder(file)) {
+        delete getFolder().folders[`${file}`];
+    } else if (getFolder().hasFile(file)) {
+        delete getFolder().files[`${file}`];
+    }
+}
+
+function removeAllSources(path) {
+    getFolder(path).folders = {};
+    getFolder(path).files = {};
+}
+
+function removeFilesThatStartsWith(pattern) {
+    for (let key in getFolder().folders) {
+        if (key.startsWith(pattern.slice(0, -1))) {
+            delete getFolder().folders[`${key}`]
+        }
+    }
+    for (let key in getFolder().files) {
+        if (key.startsWith(pattern.slice(0, -1))) {
+            delete getFolder().files[`${key}`]
+        }
+    }
+}
+
 function enterFolder(relativePath) {
     const relativePathPointer = getRelativePathPointer(relativePath);
     try {
         extractFolder(relativePathPointer);
-    } catch(err) {
+    } catch (err) {
         throw err;
     }
     exitFolder(relativePathPointer.levelsUp);
@@ -63,14 +89,14 @@ function getAbsolutPath() {
 }
 
 function getRelativePathPointer(relativePath) {
-    if(!relativePath) {
+    if (!relativePath) {
         return {
             foldersDown: [],
             levelsUp: 0
         }
     }
     let folders = relativePath.split('/').filter((folder) => folder !== "");
-    if(relativePath.startsWith('/')) {
+    if (relativePath.startsWith('/')) {
         return {
             foldersDown: folders,
             levelsUp: 1000
@@ -78,10 +104,10 @@ function getRelativePathPointer(relativePath) {
     } else {
         let levelsUp = 0;
         folders = folders.filter(folder => {
-            if(folder === ".") {
+            if (folder === ".") {
                 return false;
             }
-            else if(folder === "..") {
+            else if (folder === "..") {
                 levelsUp++;
                 return false;
             }
@@ -97,9 +123,9 @@ function getRelativePathPointer(relativePath) {
 function autocomplete(parentPath, letters) {
     let equivalences = getSources(parentPath).filter(source => source.startsWith(letters));
 
-    if(equivalences.length === 0) {
+    if (equivalences.length === 0) {
         return '';
-    } else if(equivalences.length === 1) {
+    } else if (equivalences.length === 1) {
         return equivalences[0].slice(letters.length);
     } else {
         return getWordBeforeConflict(equivalences, letters).slice(letters.length);
@@ -110,9 +136,9 @@ function autocomplete(parentPath, letters) {
         const maxWord = equivalences[0];
         let result = false;
 
-        for(let i = initalLetters.length; i <= maxWord.length; i++) {
+        for (let i = initalLetters.length; i <= maxWord.length; i++) {
             result = checkOdd(equivalences, maxWord.slice(0, i));
-            if(result) {
+            if (result) {
                 break;
             }
         }
@@ -120,8 +146,8 @@ function autocomplete(parentPath, letters) {
     }
 
     function checkOdd(arrayOfWords, word) {
-        for(let i = 0; i < arrayOfWords.length; i++) {
-            if(!arrayOfWords[i].startsWith(word)) {
+        for (let i = 0; i < arrayOfWords.length; i++) {
+            if (!arrayOfWords[i].startsWith(word)) {
                 return word.slice(0, -1);
             }
         }
@@ -136,16 +162,16 @@ function analysis(rootFromLS) {
     let totalFolders = 0;
     let totalFiles = 0;
     rootFromLS.forEach((folder, folderName, folderPath) => {
-        totalSizeOfFiles += folder.getFiles().map(file => file.content.length).reduce((prev, acc) => prev+acc, 0);
+        totalSizeOfFiles += folder.getFiles().map(file => file.content.length).reduce((prev, acc) => prev + acc, 0);
         totalFolders++;
         totalFiles += folder.getFiles().length;
     })
 
     console.log(`total folders: ${totalFolders}`)
     console.log(`total files: ${totalFiles}`)
-    console.log(`total size of files in path: ${totalSizeOfFiles/1000} kbs`)
-    
-    console.log(`forEach execution done in ${performance.now()-startTime} ms`)
+    console.log(`total size of files in path: ${totalSizeOfFiles / 1000} kbs`)
+
+    console.log(`forEach execution done in ${performance.now() - startTime} ms`)
 
     startTime = performance.now();
 
@@ -153,7 +179,7 @@ function analysis(rootFromLS) {
         return new Folder(folder.files, folder.folders);
     })
 
-    console.log(`map execution done in ${performance.now()-startTime} ms`)
+    console.log(`map execution done in ${performance.now() - startTime} ms`)
 
     startTime = performance.now();
 
@@ -161,7 +187,7 @@ function analysis(rootFromLS) {
         return folder.getFiles().length < 25;
     })
 
-    console.log(`filter execution done in ${performance.now()-startTime} ms`)
+    console.log(`filter execution done in ${performance.now() - startTime} ms`)
 
     startTime = performance.now();
 
@@ -171,7 +197,7 @@ function analysis(rootFromLS) {
 
     console.log(`number of files: ${numberOfFiles}`);
 
-    console.log(`reduce execution done in ${performance.now()-startTime} ms`)
+    console.log(`reduce execution done in ${performance.now() - startTime} ms`)
 
     console.log(`mapped (with no files):`, mappedWithNoFiles);
     console.log(`filtered (with less than 25 files):`, filterFoldersWithLessThan25Files);
@@ -179,10 +205,10 @@ function analysis(rootFromLS) {
 }
 
 function constructFolder(folder) {
-    for(let fold in folder.folders) {
+    for (let fold in folder.folders) {
         folder.folders[fold] = constructFolder(folder.folders[fold]);
     }
-    for(let fil in folder.files) {
+    for (let fil in folder.files) {
         folder.files[fil] = createFile(folder.files[fil])
     }
     return new Folder(folder.files, folder.folders);
@@ -194,24 +220,24 @@ function createFile(file) {
 
 ////
 
-for(let g = 0; g<5; g++) {
+for (let g = 0; g < 5; g++) {
     getFolder().addFolder(`folder${g}`)
     enterFolder(`folder${g}`);
-    for(let j = 0; j<5; j++) {
+    for (let j = 0; j < 5; j++) {
         getFolder().addFile(`file${g}${String.fromCharCode(j + 97)}.js`);
         getFolder().getFile(`file${g}${String.fromCharCode(j + 97)}.js`).setContent(Array(201).join('x'))
     }
-    for(let i = 0; i<5; i++) {
+    for (let i = 0; i < 5; i++) {
         getFolder().addFolder(`folder${g}-${i}`)
         enterFolder(`folder${g}-${i}`);
-        for(let j = 0; j<20; j++) {
+        for (let j = 0; j < 20; j++) {
             getFolder().addFile(`file${g}-${i}${String.fromCharCode(j + 97)}.js`);
             getFolder().getFile(`file${g}-${i}${String.fromCharCode(j + 97)}.js`).setContent(Array(201).join('x'))
         }
-        for(let k = 0; k<20; k++) {
+        for (let k = 0; k < 20; k++) {
             getFolder().addFolder(`folder${g}-${i}-${k}`)
             enterFolder(`folder${g}-${i}-${k}`);
-            for(let j = 0; j<30; j++) {
+            for (let j = 0; j < 30; j++) {
                 getFolder().addFile(`file${g}-${i}-${k}${String.fromCharCode(j + 97)}.js`);
                 getFolder().getFile(`file${g}-${i}-${k}${String.fromCharCode(j + 97)}.js`).setContent(Array(201).join('x'))
             }
@@ -223,10 +249,15 @@ for(let g = 0; g<5; g++) {
 }
 enterFolder('/');
 
-export {getFolder, 
-    enterFolder, 
-    exitFolder, 
-    getAbsolutPath, 
+export {
+    getFolder,
+    enterFolder,
+    exitFolder,
+    getAbsolutPath,
     getSources,
-    autocomplete}
+    removeFile,
+    removeAllSources,
+    removeFilesThatStartsWith,
+    autocomplete
+}
 
