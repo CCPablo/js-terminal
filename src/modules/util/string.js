@@ -11,16 +11,16 @@ function splitWhiteSpaces(string) {
 
 function extractQuotedText(string) {
     const quotedSections = [];
-    let result = null;
+    let match = false;
     let filteredString = string;
     do {
-        result = quotesRegex.exec(filteredString);
-        console.log(result);
-        if(result !== null) {
+        match = quotesRegex.test(filteredString);
+        if(match) {
+            let result = quotesRegex.exec(filteredString);
             quotedSections.push(result[2]);
             filteredString = filteredString.replace(result[0], "")
         }
-    } while(result !== null)
+    } while(match)
     return {
         filteredString: filteredString,
         quotedSections: quotedSections

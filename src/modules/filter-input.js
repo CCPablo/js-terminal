@@ -19,8 +19,6 @@ function decode(rawInput) {
 
     let splitted = splitWhiteSpaces(rawInput);
 
-    console.log(splitted);
-
     decoded.command = splitted.shift();
 
     splitted.forEach(element => {
