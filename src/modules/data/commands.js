@@ -39,8 +39,9 @@ const mkdir = new Command(
 
 const echo = new Command(
     'echo - Write arguments to the standard output.',
+    '',
     manEcho.All,
-    (argumentList, parameterList) =>  {
+    (argumentList, parameterList) => {
         if (argumentList[argumentList.indexOf('>')]) {
             let indexOfBiggerThan = argumentList.indexOf('>')
             let stringToEcho = argumentList.slice(0, indexOfBiggerThan)
@@ -86,10 +87,10 @@ const help = new Command(
     (argumentList, parameterList) => {
         if (argumentList.length === 0) {
             let cl = "";
-            for ( let command in commandsList) {
+            for (let command in commandsList) {
                 const cl = commandsList[command].description;
                 appendOutput(cl);
-                }
+            }
         } else {
             return commandsList[argumentList[0]].description;
 
@@ -103,7 +104,7 @@ const man = new Command(
     manMan.All,
     (argumentList, parameterList) => {
         if (argumentList.length === 0) {
-            for ( let command in commandsList) {
+            for (let command in commandsList) {
                 const descriptions = commandsList[command].manRef;
                 appendOutput(descriptions);
             }
@@ -134,10 +135,10 @@ const terminal = new Command(
     'terminal - changes the terminal Mode',
     '',
     (argumentList, parameterList) => {
-        let setTheme  = function (themeName) {
-            document.documentElement.className = themeName ;
+        let setTheme = function (themeName) {
+            document.documentElement.className = themeName;
             appendOutput(`The commmand console changed to ${argumentList}`);
-            }
+        }
         setTheme(argumentList)
     });
 

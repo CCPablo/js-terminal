@@ -1,5 +1,5 @@
 export class manFile {
-    constructor( name, sinopsis, description, examples, author ){
+    constructor(name, sinopsis, description, examples, author) {
         this.name = name;
         this.sinopsis = sinopsis;
         this.description = description;
@@ -7,37 +7,36 @@ export class manFile {
         this.author = author;
     }
 
-    stringToHTML = function(str) {
-            let parser = new DOMParser();
-            let doc = parser.parseFromString(str, 'text/html');
-            let InnerHtmlToAdd = doc.getElementsByClassName('h2Item')[0].innerHTML;
-            //console.log(InnerHtmlToAdd);
-            return InnerHtmlToAdd;
-        }
+    stringToHTML = function (str) {
+        let parser = new DOMParser();
+        let doc = parser.parseFromString(str, 'text/html');
+        let InnerHtmlToAdd = doc.getElementsByClassName('h2Item')[0].innerHTML;
+        //console.log(InnerHtmlToAdd);
+        return InnerHtmlToAdd;
+    }
 
-    get Name () {
+    get Name() {
         return this.stringToHTML(this.name);
-            };
+    };
 
-    get Sinopsis () {
+    get Sinopsis() {
         return this.stringToHTML(this.sinopsis);
-            };
+    };
 
-    get Description () {
+    get Description() {
         return this.stringToHTML(this.description);
 
     };
-    get Examples () {            
+    get Examples() {
         return this.stringToHTML(this.examples);
 
     };
-    get Author () {
+    get Author() {
         return this.stringToHTML(this.author);
     };
-    
-    get All () {
+
+    get All() {
         return this.stringToHTML(this.name) + this.stringToHTML(this.sinopsis) + this.stringToHTML(this.description) + this.stringToHTML(this.examples) + this.stringToHTML(this.author);
-       
     };
 
 }
