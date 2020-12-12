@@ -2,16 +2,7 @@ export {File}
 
 class File {
     constructor(name, content = '') {
-        this.name = name;
         this.content = content;
-    }
-
-    getName = function () {
-        return this.name;
-    }
-
-    setName = function (name) {
-        this.name = name;
     }
 
     getContent = function () {
@@ -20,6 +11,10 @@ class File {
 
     setContent = function (content) {
         this.content = content;
+    }
+
+    getSize = function () {
+        return this.content.length;
     }
 
     eval = function () {

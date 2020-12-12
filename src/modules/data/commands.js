@@ -16,10 +16,6 @@ const ls = new Command(
     'ls - list directory contents',
     manLs.All,
     (argumentList, parameterList) =>  {
-        let ouput = "";
-        if(argumentList.length > 1) {
-
-        }
         const sources = getSourceNames(argumentList[0]);
         return sources.join(' ');
     }
@@ -134,8 +130,8 @@ const square = new Command(
     }
 )
 
-const cmdMode = new Command(
-    'cmdMode - changes the terminal Mode',
+const terminal = new Command(
+    'terminal - changes the terminal Mode',
     '',
     (argumentList, parameterList) => {
         let setTheme  = function (themeName) {
@@ -152,6 +148,6 @@ export function runCommand(com, argumentList = [], parametersList = []) {
     setNewInput();
 }
 
-const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help, man, square, clear, cmdMode}
+const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help, man, square, clear, terminal}
 
 

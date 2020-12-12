@@ -43,6 +43,31 @@ class Folder {
         delete this.files[name];
     }
 
+    removeFiles = function (callbackCondition = () => true) {
+        for(let file in this.files) {
+            if(callbackCondition(file, this.files[file])) {
+                delete this.files[file];
+            }
+        }
+    }
+
+    removeSources = function (callbackCondition = () => true) {
+        for(let file in this.files) {
+            if(callbackCondition(file, this.files[file])) {
+                delete this.files[file];
+            }
+        }
+        for(let folder in this.folders) {
+            if(callbackCondition(folder, this.folders[folder])) {
+                delete this.folders[folder];
+            }
+        }
+    }
+
+    getSize = function () {
+        return this.reduce((acc, folder) => acc + folder.getFiles().reduce((acc, file) => acc+file.getSize(), 0))
+    }
+
     getFolder = function (name) {
         if(!this.hasFolder(name)) {
             throw FOLDER_DOES_NOT_EXIST_MSG(name);

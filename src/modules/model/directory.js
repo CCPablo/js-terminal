@@ -21,12 +21,28 @@ export class Directory {
 
     removeFolder = function (rawRelativePath = "") {
         const path = this.getPath(rawRelativePath);
-        return this.getFolder(path, 1).removeFolder(path.getSource());
+        const folderName = path.getSource();
+        if(folderName === "*") {
+            this.getFolder(path, 1).removeSources();
+        } else if(folderName.endsWith("*")) {
+            this.getFolder(path, 1)
+                .removeSources(sourceName => sourceName.startsWith(sourceName.slice(0, -1)));
+        } else {
+            this.getFolder(path, 1).removeFolder(folderName);
+        }
     }
 
     removeFile = function (rawRelativePath = "") {
         const path = this.getPath(rawRelativePath);
-        return this.getFolder(path, 1).removeFile(path.getSource());
+        const fileName = path.getSource();
+        if(fileName === "*") {
+            this.getFolder(path, 1).removeFiles();
+        } else if(fileName.endsWith("*")) {
+            this.getFolder(path, 1)
+                .removeFiles(fileName => fileName.startsWith(fileName.slice(0, -1)));
+        } else {
+            this.getFolder(path, 1).removeFile(fileName);
+        }
     }
     
     getSourceNames = function (rawRelativePath = "", levelsUp = 0) {

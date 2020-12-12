@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
 setTimeout(() => {
     analysis(rootDirectory.getFolder());
     console.log('root folder', JSON.parse(JSON.stringify(rootDirectory.rootFolder)));
+    console.log(`root size: ${rootDirectory.rootFolder.getSize()/1000} kb`)
 }, 300)
 
 function createFolder(relativePath = "") {
