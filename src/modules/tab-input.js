@@ -1,4 +1,4 @@
-import { autocomplete } from './state/folders.js';
+import { autocomplete } from './state/root.js';
 import { decode } from './filter-input.js'
 import { appendToInput, getCaretPosition, getInputValue } from './dom/terminal.js';
 

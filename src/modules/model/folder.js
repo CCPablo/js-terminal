@@ -1,5 +1,4 @@
 import {File} from './file.js'
-
 export {Folder}
 
 const FOLDER_EXISTS_MSG = function (folderName) {
@@ -25,6 +24,7 @@ class Folder {
             throw FOLDER_EXISTS_MSG(name);
         }
         this.folders[name] = new Folder(files, folders);
+        return this.folders[name];
     }
 
     addFile = function (name, content = '') {
@@ -32,6 +32,15 @@ class Folder {
             throw FILE_EXISTS_MSG(name);
         }
         this.files[name] = new File(name, content);
+        return this.files[name];
+    }
+
+    removeFolder = function (name) {
+        delete this.folders[name];
+    }
+
+    removeFile = function (name) {
+        delete this.files[name];
     }
 
     getFolder = function (name) {
@@ -46,6 +55,36 @@ class Folder {
             throw FOLDER_DOES_NOT_EXIST_MSG(name);
         }
         return this.files[name];
+    }
+
+    getFolders = function() {
+        return Object.values(this.folders);
+    }
+
+    getFiles = function() {
+        return Object.values(this.files);
+    }
+
+    getFolderNames = function () {
+        return Object.keys(this.folders);
+    }
+
+    getFileNames = function () {
+        return Object.keys(this.files);
+    }
+
+    getSourceNames = function() {
+        const sourcesNames = this.getFileNames().concat(this.getFolderNames());
+        sourcesNames.sort();
+        return sourcesNames;
+    }
+
+    hasFolder = function (folderName) {
+        return Object.keys(this.folders).includes(folderName);
+    }
+
+    hasFile = function (fileName) {
+        return Object.keys(this.files).includes(fileName);
     }
 
     forEach = function (callback) {
@@ -134,33 +173,5 @@ class Folder {
         }
         const foldersClone = {...this.folders};
         return new Folder(filesClone, foldersClone);
-    }
-
-    getFolders = function() {
-        return Object.values(this.folders);
-    }
-
-    getFiles = function() {
-        return Object.values(this.files);
-    }
-
-    getFolderNames = function () {
-        return Object.keys(this.folders);
-    }
-
-    getFileNames = function () {
-        return Object.keys(this.files);
-    }
-
-    getSourceNames = function() {
-        return this.getFileNames().concat(this.getFolderNames())
-    }
-
-    hasFolder = function (folderName) {
-        return Object.keys(this.folders).includes(folderName);
-    }
-
-    hasFile = function (fileName) {
-        return Object.keys(this.files).includes(fileName);
     }
 }

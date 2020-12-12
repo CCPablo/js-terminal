@@ -1,5 +1,5 @@
 import {Command} from '../model/command.js'
-import {getFolder, enterFolder, createFolder, exitFolder, getAbsolutPath, getSourceNames } from '../state/folders.js'
+import { changePath, createFolder, removeFile, removeFolder, getPath, getSourceNames } from '../state/root.js'
 import { appendOutput, clearOutput, setNewInput } from '../dom/terminal.js'
 import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan} from './manFiles/manFileReferenceCaller.js';
 
@@ -8,7 +8,7 @@ const pwd = new Command(
     'print name of current/working directory',
     manPwd.All,
     (argumentList, parameterList) => {
-        return getAbsolutPath();
+        return getPath();
     }
 )
 
@@ -16,8 +16,11 @@ const ls = new Command(
     'ls - list directory contents',
     manLs.All,
     (argumentList, parameterList) =>  {
+        let ouput = "";
+        if(argumentList.length > 1) {
+
+        }
         const sources = getSourceNames(argumentList[0]);
-        sources.sort();
         return sources.join(' ');
     }
 )
@@ -26,7 +29,7 @@ const cd = new Command(
     'cd - change the shell working directory.',
     manCd.All,
     (argumentList, parameterList) =>  {
-        enterFolder(argumentList[0]);
+        changePath(argumentList[0]);
     }
 )
 
@@ -34,8 +37,7 @@ const mkdir = new Command(
     'mkdir - make directories',
     manMkdir.All,
     function mkdir(argumentList) {
-        const rawRelativePath = argumentList[0];
-        createFolder(rawRelativePath);
+        argumentList.forEach(path => createFolder(path));
     }
 )
 
@@ -67,7 +69,13 @@ const cat = new Command(
 const rm = new Command(
     'rm - remove files or directories ',
     manRm.All,
-    (argumentList, parameterList) => {}
+    (argumentList, parameterList) => {
+        if(parameterList.includes("-r")) {
+            argumentList.forEach(path => removeFolder(path));
+        } else {
+            argumentList.forEach(path => removeFile(path));
+        }
+    }
 )
 
 const mv = new Command(

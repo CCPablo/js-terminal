@@ -1,11 +1,9 @@
 
 import {Folder} from '../model/folder.js'
 import {File} from '../model/file.js'
-import { Path } from '../util/paths.js';
+import {Directory} from '../model/directory.js'
 
-let rootFolder = new Folder();
-
-let path = new Path();
+let rootDirectory = new Directory();
 
 document.addEventListener("DOMContentLoaded", () => {
     const savedRootFolder = JSON.parse(localStorage.getItem('root'));
@@ -15,42 +13,36 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 setTimeout(() => {
-    //TODO: Save when modify rootFolder
-    //localStorage.setItem('root', JSON.stringify(rootFolder));
-    analysis(rootFolder);
-    console.log('root folder', JSON.parse(JSON.stringify(rootFolder)));
+    analysis(rootDirectory.getFolder());
+    console.log('root folder', JSON.parse(JSON.stringify(rootDirectory.rootFolder)));
 }, 300)
 
-function getFolder(relativePath = "") {
-    path.setRelativePath(relativePath);
-    return path.getSourcePath().reduce((parentFolder, folderName) => parentFolder.getFolder(folderName), rootFolder);
-}
-
-function getParentFolder(relativePath = "") {
-    path.setRelativePath(relativePath);
-    return path.getSourcePath().reduce((parentFolder, folderName) => parentFolder.getFolder(folderName), rootFolder);
-}
-
 function createFolder(relativePath = "") {
-
-    getFolder(relativePath)
+    return rootDirectory.createFolder(relativePath);
 }
 
-function getSourceNames(relativePath = "") {
-    return getFolder(relativePath).getSourceNames();
+function createFile(relativePath = "") {
+    return rootDirectory.createFile(relativePath);
 }
 
-function enterFolder(relativePath = "") {
-    path.setRelativePath(relativePath);
-    path.setSourceToAbsolut();
+function removeFolder(relativePath = "") {
+    rootDirectory.removeFolder(relativePath);
 }
 
-function exitFolder(levels = 1) {
-    path.popAbsolutPath(levels);
+function removeFile(relativePath = "") {
+    rootDirectory.removeFile(relativePath);
 }
 
-function getAbsolutPath() {
-    return path.getAbsolutRawPath();
+function getSourceNames(relativePath = "", recursive = false, detailed = false, sortedByCreation = false) {
+    return rootDirectory.getSourceNames(relativePath);
+}
+
+function changePath(relativePath = "") {
+    rootDirectory.enterFolder(relativePath)
+}
+
+function getPath() {
+    return rootDirectory.getRawPath();
 }
 
 function autocomplete(parentPath, letters) {
@@ -161,54 +153,39 @@ function constructFolder(folder) {
     }
 }
 
-
-
-console.log(getFolder());
-getFolder().addFolder('rerere');
-
-enterFolder('rerere');
-console.log(path.absolutPath)
-console.log(path.pointer)
-getFolder().addFile('file in rerere')
-console.log(getFolder());
-////
-/*
-getFolder().addFile('root.js')
+createFile('root.js')
 for(let g = 0; g<5; g++) {
-    getFolder().addFolder(`folder${g}`)
-    enterFolder(`folder${g}`);
+    createFolder(`folder${g}`)
+    changePath(`folder${g}`);
     for(let j = 0; j<5; j++) {
-        getFolder().addFile(`file${g}${String.fromCharCode(j + 97)}.js`);
-        getFolder().getFile(`file${g}${String.fromCharCode(j + 97)}.js`).setContent(Array(201).join('x'))
+        createFile(`file${g}${String.fromCharCode(j + 97)}.js`).setContent(Array(201).join('x'))
     }
     for(let i = 0; i<5; i++) {
-        getFolder().addFolder(`folder${g}-${i}`)
-        enterFolder(`folder${g}-${i}`);
+        createFolder(`folder${g}-${i}`)
+        changePath(`folder${g}-${i}`);
         for(let j = 0; j<20; j++) {
-            getFolder().addFile(`file${g}-${i}${String.fromCharCode(j + 97)}.js`);
-            getFolder().getFile(`file${g}-${i}${String.fromCharCode(j + 97)}.js`).setContent(Array(201).join('x'))
+            createFile(`file${g}-${i}${String.fromCharCode(j + 97)}.js`).setContent(Array(201).join('x'))
         }
         for(let k = 0; k<20; k++) {
-            getFolder().addFolder(`folder${g}-${i}-${k}`)
-            enterFolder(`folder${g}-${i}-${k}`);
+            createFolder(`folder${g}-${i}-${k}`)
+            changePath(`folder${g}-${i}-${k}`);
             for(let j = 0; j<30; j++) {
-                getFolder().addFile(`file${g}-${i}-${k}${String.fromCharCode(j + 97)}.js`);
-                getFolder().getFile(`file${g}-${i}-${k}${String.fromCharCode(j + 97)}.js`).setContent(Array(201).join('x'))
+                createFile(`file${g}-${i}-${k}${String.fromCharCode(j + 97)}.js`).setContent(Array(201).join('x'))
             }
-            exitFolder();
+            changePath("..");
         }
-        exitFolder();
+        changePath("..");
     }
-    exitFolder();
+    changePath("..");
 }
-enterFolder('/');
-*/
+changePath('/');
 
-export {getFolder, 
-    enterFolder,
-    createFolder, 
-    exitFolder, 
-    getAbsolutPath, 
+export {
+    changePath,
+    createFolder,
+    removeFolder,
+    removeFile,
+    getPath,
     getSourceNames,
     autocomplete}
 
