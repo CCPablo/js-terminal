@@ -26,6 +26,14 @@ function getFileContent(relativePath) {
     return rootDirectory.getFileContent(relativePath);
 }
 
+function setFileContent(relativePath, content) {
+    return rootDirectory.setFileContent(relativePath, content);
+}
+
+function appendFileContent(relativePath, content) {
+    return rootDirectory.appendFileContent(relativePath, content);
+}
+
 function createFile(relativePath = "") {
     return rootDirectory.createFile(relativePath);
 }
@@ -134,6 +142,8 @@ export {
     createFolder,
     removeSources,
     getFileContent,
+    setFileContent,
+    appendFileContent,
     getPath,
     getSourceNames,
     autocomplete}

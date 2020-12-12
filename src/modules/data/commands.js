@@ -1,5 +1,5 @@
 import {Command} from '../model/command.js'
-import { changePath, createFolder, getFileContent, getPath, getSourceNames, removeSources } from '../state/root.js'
+import { changePath, createFolder, getFileContent, setFileContent, appendFileContent, getPath, getSourceNames, removeSources } from '../state/root.js'
 import { appendOutput, clearOutput, setNewInput } from '../dom/terminal.js'
 import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan} from './manFiles/manFileReferenceCaller.js';
 
@@ -62,21 +62,37 @@ const cat = new Command(
     manCat.All,
     (argumentList, parameterList) => {
         if(argumentList.includes('>')) {
-
+            const origins = getAllBeforeMark('>');
+            const targets = getAllAfterMark('>');
+            removeMark('>');
+            const originText = origins.reduce((acc, path) => acc + getFileContent(path), '');
+            targets.forEach(path => setFileContent(path, originText));
+        } else if(argumentList.includes('>>')) {
+            const origins = getAllBeforeMark('>>');
+            const targets = getAllAfterMark('>>');
+            removeMark('>>');
+            const originText = origins.reduce((acc, path) => acc + getFileContent(path), '');
+            targets.forEach(path => appendFileContent(path, originText));
+        } else {
+            let textFromFiles = '';
+            argumentList.forEach(path => textFromFiles += getFileContent(path));
+            return textFromFiles;
         }
 
-        let textFromFiles = '';
-        argumentList.forEach(path => textFromFiles += getFileContent(path));
-        return textFromFiles;
+        function getAllBeforeMark(mark) {
+            var i = argumentList.indexOf(mark);
+            return argumentList.slice(0, i);
+        }
 
-    }
-)
+        function getAllAfterMark(mark) {
+            var i = argumentList.indexOf(mark);
+            return argumentList.slice(i+1, argumentList.length);
+        }
 
-const tac = new Command(
-    'cat - concatenate files and print on the standard output',
-    manCat.All,
-    (argumentList, parameterList) => {
-
+        function removeMark(mark) {
+            var i = argumentList.indexOf(mark);
+            argumentList.splice(i, 1);
+        }
     }
 )
 

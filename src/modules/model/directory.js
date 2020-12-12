@@ -69,6 +69,32 @@ export class Directory {
         return content;
     }
 
+    setFileContent = function (rawRelativePath, content) {
+        const path = this.getPath(rawRelativePath);
+        const fileName = path.getSource();
+        if(fileName === "*") {
+            this.getFolder(path, 1).getFiles().forEach(file => file.setContent(content));
+        } else if(fileName.endsWith("*")) {
+            this.getFolder(path, 1).getFiles(file => file.startsWith(fileName.slice(0, -1)))
+                .forEach(file => file.setContent(content));
+        } else {
+            this.getFolder(path, 1).getFile(fileName).setContent(content);
+        }
+    }
+
+    appendFileContent = function (rawRelativePath, content) {
+        const path = this.getPath(rawRelativePath);
+        const fileName = path.getSource();
+        if(fileName === "*") {
+            this.getFolder(path, 1).getFiles().forEach(file => file.appendContent(content));
+        } else if(fileName.endsWith("*")) {
+            this.getFolder(path, 1).getFiles(file => file.startsWith(fileName.slice(0, -1)))
+                .forEach(file => file.appendContent(content));
+        } else {
+            this.getFolder(path, 1).getFile(fileName).appendContent(content);
+        }
+    }
+
     getRawPath = function () {
         return this.absolutPath.getRawPath();
     }

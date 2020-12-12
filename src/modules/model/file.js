@@ -1,7 +1,7 @@
 export {File}
 
 class File {
-    constructor(name, content = '') {
+    constructor(content = '') {
         this.content = content;
     }
 
@@ -11,6 +11,10 @@ class File {
 
     setContent = function (content) {
         this.content = content;
+    }
+
+    appendContent = function (content) {
+        this.content += content;
     }
 
     getSize = function () {
