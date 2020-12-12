@@ -54,48 +54,43 @@ class Folder {
 
     forEach = function (callback) {
         let folderPath = [];
-        iterate(this, callback);
+        iterate(this);
 
-        function iterate(folder, callback, folderName = []) {
-            const folderPathCopy = [...folderPath];
-            folderPath = folderPath.concat(folderName);
-            for(let fold in folder.folders) {
-                iterate(folder.folders[fold], callback, fold);
-                folderPath = folderPathCopy;
+        function iterate(folder, folderName = []) {
+            for(let name in folder.folders) {
+                folderPath.push(name);
+                iterate(folder.folders[name], name);
+                folderPath.pop();
             }
-            callback(folder, folderName, folderPathCopy);
+            callback(folder, folderName, folderPath);
         }
     }
 
     map = function (callback) {
         let folderPath = [];
-        return iterate(this, callback);
+        return iterate(this.clone(), callback);
 
-        function iterate(folder, callback, folderName = []) {
-            const folderPathCopy = [...folderPath];
-            folderPath = folderPath.concat(folderName);
-            let foldersCopy = {...folder.folders};
-            for(let fold in foldersCopy) {
-                foldersCopy[fold] = iterate(foldersCopy[fold], callback, fold);
-                folderPath = folderPathCopy;
+        function iterate(folder, folderName = []) {
+            for(let name in folder.folders) {
+                folderPath.push(name);
+                folder.folders[name] = iterate(folder.folders[name].clone(), name);
+                folderPath.pop();
             }
-            return callback(new Folder(folder.files, foldersCopy), folderName, folderPathCopy);
+            return callback(folder, folderName, folderPath);
         }
     }
 
     reduce = function(callback, accumulated = 0) {
         let folderPath = [];
-        return iterate({...this}, callback);
+        return iterate(this);
 
-        function iterate(folder, callback, folderName = []) {
-            const folderPathCopy = [...folderPath];
-            folderPath = folderPath.concat(folderName);
-            let foldersCopy = {...folder.folders};
-            for(let fold in foldersCopy) {
-                iterate(foldersCopy[fold], callback, fold);
-                folderPath = folderPathCopy;
+        function iterate(folder, folderName = []) {
+            for(let name in folder.folders) {
+                folderPath.push(name);
+                iterate(folder.folders[name], name);
+                folderPath.pop();
             }
-            accumulated = callback(folder, accumulated, folderName, folderPathCopy);
+            accumulated = callback(accumulated, folder, folderName, folderPath);
             return accumulated;
         }
     }
@@ -103,15 +98,14 @@ class Folder {
     filter = function (callback) {
         let folderPath = [];
         let validFolders = [];
-        iterate(this, callback);
+        iterate(this);
         return validFolders;
 
-        function iterate(folder, callback, folderName = []) {
-            const folderPathCopy = [...folderPath];
-            folderPath = folderPath.concat(folderName);
-            for(let fold in folder.folders) {
-                iterate(folder.folders[fold], callback, fold);
-                folderPath = folderPathCopy;
+        function iterate(folder, folderName = []) {
+            for(let name in folder.folders) {
+                folderPath.push(name);
+                iterate(folder.folders[name], name);
+                folderPath.pop();
             }
             if(callback(folder, folderName, folderPath)) {
                 validFolders.push(folder);
@@ -121,36 +115,29 @@ class Folder {
 
     filterStructure = function (callback) {
         let folderPath = [];
-        return iterate({...this}, callback);
+        return iterate(this.clone());
 
-        function iterate(folder, callback, folderName = []) {
-            const folderPathCopy = [...folderPath];
-            folderPath = folderPath.concat(folderName);
-            let foldersCopy = {...folder.folders};
-            for(let fold in foldersCopy) {
-                if(callback(folder, folderName, folderPath)) {
-                    foldersCopy[fold] = iterate(foldersCopy[fold], callback, fold);
+        function iterate(folder, folderName = []) {
+            for(let name in folder.folders) {
+                if(callback(folder.folders[name], folderName, folderPath)) {
+                    folderPath.push(name);
+                    folder.folders[name] = iterate(folder.folders[name].clone(), name);
+                    folderPath.pop();
                 } else {
-                    console.log('eeeeo')
-                    delete foldersCopy[fold];
+                    delete folder.folders[name];
                 }
-                folderPath = folderPathCopy;
             }
-            return new Folder(folder.files, foldersCopy);
-            
+            return folder;
         }
     }
-
-    deepClone = function () {
-        return clone({...this});
-
-        function clone(folder) {
-            const foldersClone = {...folder.folders};
-            for(let fold in foldersClone) {
-                foldersClone[fold] = clone(foldersClone[fold]);
-            }
-            return new Folder({...folder.files}, foldersClone);
+    
+    clone = function () {
+        const filesClone = {};
+        for(const name in this.files) {
+            filesClone[name] = new File(this.files[name].name, this.files[name].content);
         }
+        const foldersClone = {...this.folders};
+        return new Folder(filesClone, foldersClone);
     }
 
     getFolderNames = function () {

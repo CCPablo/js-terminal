@@ -10,8 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const savedRootFolder = JSON.parse(localStorage.getItem('root'));
     if(savedRootFolder) {
         rootFolder = constructFolder(savedRootFolder);
-        console.log(`extracted from LS: `, rootFolder);
-        analysis(rootFolder);
     }
 });
 
@@ -19,7 +17,7 @@ setTimeout(() => {
     //TODO: Save when modify rootFolder
     //localStorage.setItem('root', JSON.stringify(rootFolder));
     analysis(rootFolder);
-    console.log(rootFolder)
+    console.log(JSON.parse(JSON.stringify(rootFolder)));
 }, 300)
 
 function getFolder(relativePath = "") {
@@ -151,8 +149,11 @@ function analysis(rootFromLS) {
 
     startTime = performance.now();
 
-    const mappedWithNoFiles = rootFromLS.map((folder, folderName, folderPath) => {
-        return new Folder({}, folder.folders);
+    const mappedWithEmptyFiles = rootFromLS.map((folder, folderName, folderPath) => {
+        folder.getFiles().forEach(file => {
+            file.content = '';
+        })
+        return folder;
     })
 
     console.log(`map execution done in ${performance.now()-startTime} ms`)
@@ -167,11 +168,10 @@ function analysis(rootFromLS) {
 
     startTime = performance.now();
 
-    const numberOfFiles = rootFromLS.reduce((folder, acc) => {
+    const numberOfFiles = rootFromLS.reduce((acc, folder) => {
         return acc + folder.getFiles().length;
     }, 0)
 
-    console.log(`number of files: ${numberOfFiles}`);
     console.log(`reduce execution done in ${performance.now()-startTime} ms`)
 
     startTime = performance.now();
@@ -180,12 +180,12 @@ function analysis(rootFromLS) {
         return folder.getFiles().length < 25;
     })
 
-    console.log(`filtered structure:`, filteredStructure);
     console.log(`filterStructure execution done in ${performance.now()-startTime} ms`)
 
-    console.log(`mapped (with no files):`, mappedWithNoFiles);
-    console.log(`filtered (with less than 25 files):`, filterFoldersWithLessThan25Files);
 
+    console.log(`mapped (with empty files):`, JSON.parse(JSON.stringify(mappedWithEmptyFiles)));
+    console.log(`filtered array (with less than 25 files):`, JSON.parse(JSON.stringify(filterFoldersWithLessThan25Files)));
+    console.log(`filtered structure (with less than 25 files):`, JSON.parse(JSON.stringify(filteredStructure)));
 }
 
 function constructFolder(folder) {
@@ -204,7 +204,7 @@ function createFile(file) {
 
 ////
 
-getFolder().addFile('rootFile.js');
+getFolder().addFile('root.js')
 for(let g = 0; g<5; g++) {
     getFolder().addFolder(`folder${g}`)
     enterFolder(`folder${g}`);
