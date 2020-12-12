@@ -80,30 +80,30 @@ const help = new Command(
     manHelp.All,
     (argumentList, parameterList) => {
         if (argumentList.length === 0) {
+            let cl = "";
             for ( let command in commandsList) {
-                const descriptions = commandsList[command].description
-                return descriptions;
-            }
+                const cl = commandsList[command].description;
+                appendOutput(cl);
+                }
         } else {
-            const descriptions = commandsList[argumentList].description;
-            return descriptions;
+            return commandsList[argumentList[0]].description;
+
         }
     }
 )
 
-
+/// Generate to return all commands man and help
 const man = new Command(
     'man - an interface to the system reference manuals.',
     manMan.All,
     (argumentList, parameterList) => {
         if (argumentList.length === 0) {
             for ( let command in commandsList) {
-                const descriptions = commandsList[command].manRef
-                return descriptions;
+                const descriptions = commandsList[command].manRef;
+                appendOutput(descriptions);
             }
         } else {
-            const descriptions = commandsList[argumentList].manRef;
-            return descriptions;
+            return commandsList[argumentList].manRef;
         }
     }
 )
@@ -125,12 +125,24 @@ const square = new Command(
     }
 )
 
+const cmdMode = new Command(
+    'cmdMode - changes the terminal Mode',
+    '',
+    (argumentList, parameterList) => {
+        let setTheme  = function (themeName) {
+            document.documentElement.className = themeName ;
+            appendOutput(`The commmand console changed to ${argumentList}`);
+            }
+        setTheme(argumentList)
+    });
+
+
 export function runCommand(com, argumentList = [], parametersList = []) {
     const output = commandsList[com].run(argumentList, parametersList);
     appendOutput(output);
     setNewInput();
 }
 
-const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help, man, square, clear}
+const commandsList = {pwd, ls, cd, mkdir, echo, cat, rm, mv, help, man, square, clear, cmdMode}
 
 

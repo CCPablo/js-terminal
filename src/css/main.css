@@ -6,17 +6,64 @@
     --background-terminal: #282828;
     --background-header: linear-gradient(354deg, rgba(216,216,216,1) 0%, rgba(238,238,238,1) 49%, rgba(216,216,216,1) 100%);
     --color-text-principal: #d8d8d8;
+    --background-body: url(https://i.pinimg.com/originals/52/4c/e1/524ce152036f33b5527e4dd736ced5f5.jpg);
 }
+
 * {
     margin: 0;
     box-sizing: border-box;
     padding: 0;
 }
+
+
+/* DIFFERENT COMMAND STYLE CREATIONS*/
+
+/* APPLE*/
+
+.apple {
+    --background-principal: #181818;
+    --background-terminal: #ffffff;
+    --background-header: linear-gradient(354deg, rgba(216,216,216,1) 0%, rgba(238,238,238,1) 49%, rgba(216,216,216,1) 100%);
+    --color-text-principal: #000000;
+    --color-text-input: #000000;
+    --background-body: url(https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/245f4571-14d4-4069-90a7-259b2971229f/dd8hkax-2446974f-4e52-4f85-8fb0-314ca6328ae8.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvMjQ1ZjQ1NzEtMTRkNC00MDY5LTkwYTctMjU5YjI5NzEyMjlmXC9kZDhoa2F4LTI0NDY5NzRmLTRlNTItNGY4NS04ZmIwLTMxNGNhNjMyOGFlOC5qcGcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.9ss8h5pb16YQ51TiWA1lLgYOx9DZCs8xT7Lnh4oIgGE);
+    --header-flex-direction: row;
+    --command-caret-color: rgba(0, 0, 0, 0.308);
+}
+/* WINDOWS*/
+
+.windows {
+    --background-principal: #181818;
+    --background-terminal: #022258;
+    --background-header: white;
+    --color-text-principal: white;
+    --color-text-input: yellow;
+    --background-body: url(http://getwallpapers.com/wallpaper/full/2/5/4/727006-best-windows-xp-desktop-backgrounds-3840x2160.jpg);
+    --header-flex-direction: row-reverse;
+    --command-caret-color: rgba(255, 255, 255, 0.308);
+}
+/* LINUX*/
+
+.linux{
+    --background-principal: rgb(61, 52, 52);
+    --background-terminal: rgb(61, 52, 52);
+    --background-header: linear-gradient(354deg, rgba(216,216,216,1) 0%, rgba(238,238,238,1) 49%, rgba(216,216,216,1) 100%);
+    --color-text-principal: #d8d8d8;
+    --color-text-input: rgb(255, 102, 0);
+    --background-body: url(https://preview.redd.it/vfz1blyegd231.png?width=960&crop=smart&auto=webp&s=d53725ff48b98fed1d609ad76063a4f13b7d3101);
+    --header-flex-direction: row;
+    --command-caret-color: rgba(255, 255, 255, 0.308);
+}
+
+
 body {
-    background: url(https://i.pinimg.com/originals/52/4c/e1/524ce152036f33b5527e4dd736ced5f5.jpg);
+    background: var(--background-body);
+    background-repeat: no-repeat;
+    background-size: cover;
     font-family: 'FiraCode';
     font-weight: 300;
 }
+
 .terminal__font {
     color: var(--color-text-principal);
     font-size: 18px;
@@ -59,10 +106,13 @@ body {
     align-items: center;
     justify-content: space-between;
     background: var(--background-header);
+    flex-direction: var(--header-flex-direction);
 }
 .header__buttons {
     display: flex;
     flex-flow: row;
+    flex-direction: var(--header-flex-direction);
+
 }
 .terminal__body {
     position: relative;
@@ -79,7 +129,7 @@ body {
 .terminal__output {
     width: 100%;
     padding: 4px 10px;
-    color: yellow;
+    color: var(--color-text-principal);
 }
 .terminal__input-wrapper {
     width: 100%;
@@ -97,9 +147,9 @@ body {
 .terminal__input {
     width: 100%;
     cursor: default;
-    caret-color: rgba(255, 255, 255, 0.308);
+    caret-color: var(--command-caret-color);
     text-indent: 90px;
-    color: var(--color-text-principal);
+    color: var(--color-text-input);
     background-color: var(--background-terminal);
 }
 
