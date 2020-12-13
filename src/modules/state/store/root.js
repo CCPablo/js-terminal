@@ -1,22 +1,13 @@
 
-import {Folder} from '../model/structure/folder.js'
-import {File} from '../model/structure/file.js'
-import {Directory} from '../model/structure/directory.js'
-import { Path } from '../model/structure/path.js';
+import {Folder} from '../model/folder.js'
+import {File} from '../model/file.js'
+import {Directory} from '../model/directory.js'
 
 let rootDirectory = new Directory();
 
-document.addEventListener("DOMContentLoaded", () => {
-    const savedRootFolder = JSON.parse(localStorage.getItem('root'));
-    if(savedRootFolder) {
-        //rootFolder = constructFolder(savedRootFolder);
-    }
-});
-
-setTimeout(() => {
-    console.log('root folder', JSON.parse(JSON.stringify(rootDirectory.rootFolder)));
-    //console.log(`root size: ${rootDirectory.rootFolder.getSize()/1000} kb`)
-}, 300)
+function rootInitialLoad(folder) {
+    rootDirectory.load(constructFolder(folder));
+}
 
 function createFolder(relativePath = "") {
     return rootDirectory.createFolder(relativePath);
@@ -96,6 +87,7 @@ for(let g = 0; g<5; g++) {
 changePath('/');
 
 export {
+    rootInitialLoad,
     changePath,
     createFolder,
     removeSources,

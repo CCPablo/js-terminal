@@ -9,6 +9,10 @@ export class Directory {
 
     //Public
 
+    load = function (folder) {
+        this.rootFolder = folder;
+    }
+
     createFolder = function (rawRelativePath = "") {
         const path = this.getPath(rawRelativePath);
         return this.getParentFolder(path).addFolder(path.getChild());

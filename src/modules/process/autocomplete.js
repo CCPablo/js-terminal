@@ -1,5 +1,5 @@
-import { Path } from "../model/structure/path.js";
-import { getSources } from '../state/root.js'
+import { Path } from "../state/model/path.js";
+import { getSources } from '../state/store/root.js'
 import { getInputValue, appendToInput, getCaretPosition } from "../terminal/access.js";
 import { decode } from "./process.js";
 
@@ -32,9 +32,7 @@ document.addEventListener('keydown', (event) => {
 });
 
 function autocomplete(relativePath = "") {
-    let path = new Path();
-    path = path.appendRelative(relativePath, true);
-    const letters = path.getChild();
+    const letters = new Path().appendRelative(relativePath, true).getChild();
     
     let equivalences = getSources(relativePath, !letters ? 0 : 1, (name) => name.startsWith(letters));
     if(equivalences.length === 0) {

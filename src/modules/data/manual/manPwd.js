@@ -1,4 +1,4 @@
-import {manFile} from '../../model/process/manFile.js';
+import {manFile} from '../model/manFile.js';
 
 export const manPwd = new manFile(
         (`

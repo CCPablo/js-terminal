@@ -1,6 +1,21 @@
-export { splitWhiteSpaces }
+export { decode }
 
 const quotesRegex = /(["'])((?:\\\1|(?:(?!\1)).)*)(\1)/
+
+function decode(rawInput) {
+    let splitted = splitWhiteSpaces(rawInput);
+    const decoded = {command: splitted.shift(), parameters: [], argumentList: []}
+
+    splitted.forEach(element => {
+        if (element.startsWith('-')) {
+            decoded.parameters.push(element);
+        } else {
+            decoded.argumentList.push(element);
+        }
+    })
+
+    return decoded;
+}
 
 function splitWhiteSpaces(string) {
     const quoted = extractQuotedText(string);

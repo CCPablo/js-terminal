@@ -1,4 +1,4 @@
-import { getPath } from "../state/root.js";
+import { getPath } from "../state/store/root.js";
 
 const terminalBody = document.querySelector('.terminal__body');
 let activeInput;

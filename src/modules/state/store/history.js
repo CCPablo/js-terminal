@@ -1,4 +1,4 @@
-import { getInputValue, setInputValue } from '../terminal/access.js'
+import { getInputValue, setInputValue } from '../../terminal/access.js'
 
 const MAX_ITEMS = 50;
 
@@ -7,13 +7,6 @@ let instructionPointer = -1;
 
 let currentInputValue = '';
 let currentlySearchingFlag = false;
-
-document.addEventListener("DOMContentLoaded", () => {
-    const savedInstructionHistory = JSON.parse(localStorage.getItem('instructionHistory'));
-    if(savedInstructionHistory) {
-        instructionHistory = savedInstructionHistory;
-    }
-});
 
 document.addEventListener('keydown', e => {
     if(e.key === "ArrowUp" || e.key === "ArrowDown") {
@@ -39,6 +32,10 @@ function processKeyInput(key) {
     } else if(key === "ArrowUp" && !currentIsOldest()) {
         setInputValue(getHistoryItem(key));
     }
+}
+
+function historyInitialLoad(instructionList) {
+    instructionHistory = [...instructionList];
 }
 
 function addToHistory(instruction) {
@@ -67,4 +64,4 @@ function historyIsFull() {
     return instructionHistory.length === MAX_ITEMS;
 }
 
-export { addToHistory }
+export { addToHistory, historyInitialLoad }
