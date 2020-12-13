@@ -18,17 +18,16 @@ export const sharedCommands = {
         manCat.All,
         (argumentList, parameterList) => {
             const decoded = decodeMark(argumentList);
+            console.log(decoded);
             if(decoded) {
-                const originText = decoded.source.reduce((acc, path) => acc + getFileContent(path).join(' '), '');
-                console.log('text to include: ', originText);
-                const settedContent = decoded.target.map(path => {
+                const originText = decoded.source.reduce((acc, path) => acc + getFileContent(path, asteriskCondition).join(' '), '');
+                decoded.target.map(path => {
                     if(decoded.mark === '>') {
                         return setFileContent(path, originText, asteriskCondition);
-                    } else if(decoded.mark === '>') {
+                    } else if(decoded.mark === '>>') {
                         return appendFileContent(path, originText, asteriskCondition);
                     }
                 });
-                console.log('included text: ', settedContent.join(''))
             } else {
                 return argumentList.reduce((acc, path) => acc + getFileContent(path), '');
             }

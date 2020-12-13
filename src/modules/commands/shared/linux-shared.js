@@ -38,7 +38,9 @@ export const linuxSharedCommands = {
             if(argumentList.length === 0) {
                 return getSources().map(source => source.name).join(' ');
             } else {
-                return argumentList.map(path => getSources(path).map(source => source.name).join(' ')).join('<br>');
+                return argumentList.map(path => {
+                    getSources(path).map(source => source.name).join(' ')
+                }).join('<br>');
             }
         }
     ),

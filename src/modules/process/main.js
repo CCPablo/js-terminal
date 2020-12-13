@@ -1,7 +1,7 @@
 import { getInputValue, focusInput, appendOutput, setNewInput } from '../terminal/access.js';
 import { addToHistory } from '../store/history.js';
 import { decodeInstruction } from '../util/decode.js';
-import { getCommandList } from '../store/theme.js'
+import { getCommand, getCommandList } from '../store/theme.js'
 
 document.addEventListener('keydown', e => {
     if (e.key === "Enter") {
@@ -25,7 +25,7 @@ function process(rawInput) {
 }
 
 function runCommand(com, argumentList = [], parametersList = []) {
-    const output = getCommandList()[com].run(argumentList, parametersList);
+    const output = getCommand(com).run(argumentList, parametersList);
     appendOutput(output);
     setNewInput();
 }
