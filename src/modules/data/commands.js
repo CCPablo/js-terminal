@@ -1,6 +1,6 @@
 import {Command} from '../model/command.js'
 
-import {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources, removeFile, removeAllSources, removeFilesThatStartsWith} from '../state/folders.js'
+import {getFolder, enterFolder, exitFolder, getAbsolutPath, getSources, removeFile, removeAllSources, removeFilesThatStartsWith, cdHome} from '../state/folders.js'
 import {appendOutput, clearOutput, setNewInput} from '../dom/terminal.js'
 import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan} from './manFiles/manFileReferenceCaller.js';
 
@@ -28,7 +28,11 @@ const cd = new Command(
     'cd - change the shell working directory.',
     manCd.All,
     (argumentList, parameterList) => {
-        enterFolder(argumentList[0]);
+        if (argumentList.length <= 0) {
+            cdHome();
+        } else {
+            enterFolder(argumentList[0])
+        }
     }
 )
 

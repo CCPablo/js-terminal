@@ -76,6 +76,10 @@ function enterFolder(relativePath) {
     enterPath(relativePathPointer.foldersDown);
 }
 
+function cdHome() {
+    enterFolder('/')
+}
+
 function exitFolder(levelsUp = 1) {
     absolutPath.splice(-levelsUp, levelsUp);
 }
@@ -258,6 +262,7 @@ export {
     removeFile,
     removeAllSources,
     removeFilesThatStartsWith,
+    cdHome,
     autocomplete
 }
 
