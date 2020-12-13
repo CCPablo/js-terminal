@@ -29,37 +29,10 @@ class Folder {
 
     addFile = function (name, content = '') {
         if (this.hasFile(name)) {
-            throw FILE_EXISTS_MSG(name);
+            return this.files[name];
         }
         this.files[name] = new File(name, content);
         return this.files[name];
-    }
-
-    removeFolder = function (name) {
-        delete this.folders[name];
-    }
-
-    removeFile = function (name) {
-        delete this.files[name];
-    }
-
-    removeSources = function (callbackCondition = () => true, includeFolders = false) {
-        for(let file in this.files) {
-            if(callbackCondition(file, this.files[file])) {
-                delete this.files[file];
-            }
-        }
-        if(includeFolders) {
-            for(let folder in this.folders) {
-                if(callbackCondition(folder, this.folders[folder])) {
-                    delete this.folders[folder];
-                }
-            }
-        }
-    }
-
-    getSize = function () {
-        return this.reduce((acc, folder) => acc + folder.getFiles().reduce((acc, file) => acc+file.getSize(), 0))
     }
 
     getFolder = function (name) {
@@ -76,53 +49,70 @@ class Folder {
         return this.files[name];
     }
 
-    getFolders = function() {
-        return Object.values(this.folders);
+    getFolders = function(condition = () => true) {
+        return Object.entries(this.folders)
+            .filter(condition)
+            .map(entry =>  {
+                return {
+                    name: entry[0],
+                    value: entry[1]
+                }
+            });
     }
 
-    getFiles = function(condition = ()=>true) {
-        const filesArray = [];
-        for(const name in this.files) {
-            if(condition(name)) {
-                filesArray.push(this.files[name])
-            }
-        }
-        return filesArray;
-    }
-
-    getFolderNames = function () {
-        return Object.keys(this.folders);
-    }
-
-    getFileNames = function () {
-        return Object.keys(this.files);
-    }
-
-    getSourceNames = function() {
-        const sourcesNames = this.getFileNames().concat(this.getFolderNames());
-        sourcesNames.sort();
-        return sourcesNames;
+    getFiles = function(condition = () => true) {
+        return Object.entries(this.files)
+            .filter(condition)
+            .map(entry =>  {
+                return {
+                    name: entry[0], 
+                    value: entry[1]
+                }
+            });
     }
 
     getSources = function(condition = () => true) {
-        const sourcesArray = [];
-        for(const name in this.files) {
-            if(condition(name)) {
-                sourcesArray.push({
-                    name: name,
-                    type: 'file'
-                })
-            }
-        }
-        for(const name in this.folders) {
-            if(condition(name)) {
-                sourcesArray.push({
-                    name: name,
+        return getFolders(condition).concat(getFiles(condition));
+    }
+
+    getSources = function(condition = () => true) {
+        return Object.entries(this.folders)
+            .filter(entry => condition(entry[0]))
+            .map(entry => {
+                return {
+                    name: entry[0],
                     type: 'folder'
-                })
+                }
+            })
+        .concat(
+            Object.entries(this.files)
+            .filter(entry => condition(entry[0]))
+            .map(entry => {
+                return {
+                    name: entry[0],
+                    type: 'file'
+                }
+            })
+        )
+    }
+
+    removeSources = function (condition = () => true, includeFolders = false) {
+        for(let file in this.files) {
+            if(condition(file, this.files[file])) {
+                delete this.files[file];
             }
         }
-        return sourcesArray;
+        if(includeFolders) {
+            for(let folder in this.folders) {
+                if(condition(folder, this.folders[folder])) {
+                    delete this.folders[folder];
+                }
+            }
+        }
+    }
+
+    getSize = function () {
+        return this.reduce((acc, folder) => acc + folder.getFiles().reduce((acc, file) => acc+file.getSize(), 0))
     }
 
     hasFolder = function (folderName) {

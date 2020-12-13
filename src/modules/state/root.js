@@ -1,8 +1,8 @@
 
-import {Folder} from '../model/folder.js'
-import {File} from '../model/file.js'
-import {Directory} from '../model/directory.js'
-import { Path } from '../model/path.js';
+import {Folder} from '../model/structure/folder.js'
+import {File} from '../model/structure/file.js'
+import {Directory} from '../model/structure/directory.js'
+import { Path } from '../model/structure/path.js';
 
 let rootDirectory = new Directory();
 
@@ -42,8 +42,8 @@ function removeSources(relativePath = "", includesFolders) {
     rootDirectory.removeSources(relativePath, includesFolders);
 }
 
-function getSourceNames(relativePath = "", recursive = false, detailed = false, sortedByCreation = false) {
-    return rootDirectory.getSourceNames(relativePath);
+function getSources(relativePath = "", levelsUp = 0, condition = () => true) {
+    return rootDirectory.getSources(relativePath, levelsUp, condition);
 }
 
 function changePath(relativePath = "") {
@@ -52,48 +52,6 @@ function changePath(relativePath = "") {
 
 function getPath() {
     return rootDirectory.getRawPath();
-}
-
-function autocomplete(relativePath = "") {
-    let path = new Path();
-    path = path.appendRelative(relativePath, true);
-    
-    let equivalences = rootDirectory.getSources(relativePath, !path.getSource() ? 0 : 1, (name) => name.startsWith(path.getSource()));
-    console.log(equivalences)
-    if(equivalences.length === 0) {
-        return '';
-    } else if (equivalences.length === 1) {
-        return equivalences[0].name.slice(path.getSource().length) + endChar(equivalences[0].type);
-    } else {
-        return getWordBeforeConflict(path.getSource().length).slice(path.getSource().length)
-    }
-
-    function endChar(type) {
-        return type === 'folder' ? '/' : '&nbsp;'
-    }
-
-    function getWordBeforeConflict(initialIndex) {
-        equivalences.sort((a, b) => b.name.length - a.name.length);
-        const maxWord = equivalences[0].name;
-        let result = false;
-
-        for(let i = initialIndex; i <= maxWord.length; i++) {
-            result = checkOdd(maxWord.slice(0, i));
-            if(result) {
-                break;
-            }
-        }
-        return result;
-    }
-
-    function checkOdd(word) {
-        for(let i = 0; i < equivalences.length; i++) {
-            if(!equivalences[i].name.startsWith(word)) {
-                return word.slice(0, -1);
-            }
-        }
-        return false;
-    }
 }
 
 function constructFolder(folder) {
@@ -145,6 +103,5 @@ export {
     setFileContent,
     appendFileContent,
     getPath,
-    getSourceNames,
-    autocomplete}
+    getSources }
 

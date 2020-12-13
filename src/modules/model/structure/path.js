@@ -17,7 +17,7 @@ class Path {
         return `/${this.path.join('/')}`;
     }
 
-    getSource = function() {
+    getChild = function() {
         return this.path[this.path.length-1];
     }
 

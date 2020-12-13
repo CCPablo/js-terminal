@@ -6,7 +6,8 @@ function splitWhiteSpaces(string) {
     const quoted = extractQuotedText(string);
     return  quoted.filteredString.split(' ')
         .filter(string => string !== "")
-        .concat(quoted.quotedSections);
+        .concat(quoted.quotedSections)
+        .map(string => string.trim());
 }
 
 function extractQuotedText(string) {

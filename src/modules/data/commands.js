@@ -1,13 +1,12 @@
-import {Command} from '../model/command.js'
-import { changePath, createFolder, getFileContent, setFileContent, appendFileContent, getPath, getSourceNames, removeSources } from '../state/root.js'
-import { appendOutput, clearOutput, setNewInput } from '../dom/terminal.js'
+import {Command} from '../model/process/command.js'
+import { changePath, createFolder, getFileContent, setFileContent, appendFileContent, getPath, getSources, removeSources } from '../state/root.js'
+import { appendOutput, clearOutput, setNewInput } from '../terminal/access.js'
 import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan} from './manFiles/manFileReferenceCaller.js';
-
 
 const pwd = new Command(
     'print name of current/working directory',
     manPwd.All,
-    (argumentList, parameterList) => {
+    () => {
         return getPath();
     }
 )
@@ -16,15 +15,15 @@ const ls = new Command(
     'ls - list directory contents',
     manLs.All,
     (argumentList, parameterList) =>  {
-        const sources = getSourceNames(argumentList[0]);
-        return sources.join(' ');
+        const sources = getSources(argumentList[0]);
+        return sources.map(source => source.name).join(' ');
     }
 )
 
 const cd = new Command(
     'cd - change the shell working directory.',
     manCd.All,
-    (argumentList, parameterList) =>  {
+    (argumentList) =>  {
         changePath(argumentList[0]);
     }
 )

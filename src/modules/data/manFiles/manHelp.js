@@ -1,4 +1,4 @@
-import {manFile} from '../../model/manFile.js';
+import {manFile} from '../../model/process/manFile.js';
 
 export const manHelp = new manFile (
 

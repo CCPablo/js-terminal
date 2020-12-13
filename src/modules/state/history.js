@@ -1,4 +1,4 @@
-import { getInputValue, setInputValue } from '../dom/terminal.js'
+import { getInputValue, setInputValue } from '../terminal/access.js'
 
 const MAX_ITEMS = 50;
 
