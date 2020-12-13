@@ -21,20 +21,6 @@ export const debianCommands = {
             return sources.map(source => source.name).join(' ');
         }
     ),
-    cd: new Command(
-        'cd - change the shell working directory.',
-        manCd.All,
-        (argumentList) =>  {
-            changePath(argumentList[0]);
-        }
-    ),
-    mkdir: new Command(
-        'mkdir - make directories',
-        manMkdir.All,
-        function mkdir(argumentList) {
-            argumentList.forEach(path => createFolder(path));
-        }
-    ),
     echo: new Command(
         'echo - Write arguments to the standard output.',
         '',
