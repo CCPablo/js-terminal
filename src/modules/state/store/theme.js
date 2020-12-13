@@ -6,6 +6,10 @@ function getCommandList() {
     return currentCommandList;
 }
 
+function getCommand(command) {
+    return currentCommandList[command];
+}
+
 function setTerminal(theme) {
     if(commandList.hasOwnProperty(theme)) {
         currentCommandList = commandList[theme];
@@ -16,4 +20,4 @@ function setTerminal(theme) {
     }
 }
 
-export { getCommandList, setTerminal }
+export { getCommand, getCommandList, setTerminal }

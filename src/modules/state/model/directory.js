@@ -78,9 +78,12 @@ export class Directory {
         const path = this.getPath(rawRelativePath);
         const name = path.getChild();
 
-        if(name.includes("*")) {
+        if(name.endsWith("*")) {
             this.getParentFolder(path)
                 .removeSources(source => source.startsWith(name.slice(0, name.indexOf("*"))), includesFolders);
+        } else if(name.startsWith("*")) {
+            this.getParentFolder(path)
+                .removeSources(source => source.endsWith(name.slice(name.indexOf("*")+1)), includesFolders);
         } else {
             this.getParentFolder(path).removeSources(source => source === name, includesFolders);
         }

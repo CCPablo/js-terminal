@@ -91,13 +91,6 @@ export const windowsCommands = {
             }
         }
     ),
-    rm: new Command(
-        'rm - remove files or directories ',
-        manRm.All,
-        (argumentList, parameterList) => {
-            argumentList.forEach(path => removeSources(path, parameterList.includes("-r")));
-        }
-    ),
     mv: new Command(
         'mv - move (rename) files ',
         manMv.All,

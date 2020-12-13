@@ -2,6 +2,8 @@ import {Command} from '../model/command.js'
 import { changePath, createFolder, getFileContent, setFileContent, appendFileContent, getPath, getSources, removeSources } from '../../state/store/root.js'
 import { appendOutput, clearOutput } from '../../terminal/access.js'
 import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan} from '../manual/manFileReferenceCaller.js';
+import { decodeMark } from '../../util/decode.js'
+import { getCommand, getCommandList } from '../../state/store/theme.js';
 
 export const debianCommands = {
     pwd: new Command(
@@ -56,37 +58,16 @@ export const debianCommands = {
         'cat - concatenate files and print on the standard output',
         manCat.All,
         (argumentList, parameterList) => {
-            if(argumentList.includes('>')) {
-                const origins = getAllBeforeMark('>');
-                const targets = getAllAfterMark('>');
-                removeMark('>');
-                const originText = origins.reduce((acc, path) => acc + getFileContent(path), '');
-                targets.forEach(path => setFileContent(path, originText));
-            } else if(argumentList.includes('>>')) {
-                const origins = getAllBeforeMark('>>');
-                const targets = getAllAfterMark('>>');
-                removeMark('>>');
-                const originText = origins.reduce((acc, path) => acc + getFileContent(path), '');
-                targets.forEach(path => appendFileContent(path, originText));
+            const decodedMark = decodeMark(argumentList);
+            if(decodedMark) {
+                const originText = decodedMark.before.reduce((acc, path) => acc + getFileContent(path), '');
+                if(decodedMark.mark === '>') {
+                    decodedMark.after.forEach(path => setFileContent(path, originText));
+                } else if(decodedMark.mark === '>>') {
+                    decodedMark.after.forEach(path => appendFileContent(path, originText));
+                }
             } else {
-                let textFromFiles = '';
-                argumentList.forEach(path => textFromFiles += getFileContent(path));
-                return textFromFiles;
-            }
-
-            function getAllBeforeMark(mark) {
-                var i = argumentList.indexOf(mark);
-                return argumentList.slice(0, i);
-            }
-
-            function getAllAfterMark(mark) {
-                var i = argumentList.indexOf(mark);
-                return argumentList.slice(i+1, argumentList.length);
-            }
-
-            function removeMark(mark) {
-                var i = argumentList.indexOf(mark);
-                argumentList.splice(i, 1);
+                return argumentList.reduce((acc, path) => acc + getFileContent(path), '');
             }
         }
     ),
@@ -107,8 +88,8 @@ export const debianCommands = {
         manHelp.All,
         (argumentList, parameterList) => {
             return argumentList.length === 0 ?
-            commandsList.reduce(command => command.description).join('<br>') :
-            argumentList.reduce(command => commandsList[command].description).join('<br>');
+            Object.values(getCommandList()).map(command => command.description).join('<br>') :
+            argumentList.map(command => getCommand(command).description).join('<br>')
         }
     ),
     man: new Command(

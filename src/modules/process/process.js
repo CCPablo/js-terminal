@@ -1,6 +1,6 @@
 import { getInputValue, focusInput, appendOutput, setNewInput } from '../terminal/access.js';
 import { addToHistory } from '../state/store/history.js';
-import { decode } from '../util/decode.js';
+import { decodeInstruction } from '../util/decode.js';
 import { getCommandList } from '../state/store/theme.js'
 
 document.addEventListener('keydown', e => {
@@ -16,7 +16,7 @@ document.addEventListener('click', () => {
 
 function process(rawInput) {
     addToHistory(rawInput);
-    const decoded = decode(rawInput)
+    const decoded = decodeInstruction(rawInput)
     try {
         runCommand(decoded.command, decoded.argumentList, decoded.parameters);
     } catch(error) {
@@ -29,5 +29,3 @@ function runCommand(com, argumentList = [], parametersList = []) {
     appendOutput(output);
     setNewInput();
 }
-
-export { decode };

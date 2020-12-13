@@ -1,12 +1,12 @@
 import { Path } from "../state/model/path.js";
 import { getSources } from '../state/store/root.js'
 import { getInputValue, appendToInput, getCaretPosition } from "../terminal/access.js";
-import { decode } from "./process.js";
+import { decodeInstruction } from "../util/decode.js";
 
 document.addEventListener('keydown', (event) => {
     if (event.key === "Tab") {
         event.preventDefault();
-        const decoded = decode(getInputValue());
+        const decoded = decodeInstruction(getInputValue());
         if(caretUnderCommand(decoded.command.length)) {
             return;
         }
