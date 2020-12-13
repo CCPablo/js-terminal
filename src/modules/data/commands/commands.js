@@ -4,7 +4,7 @@ import { debianCommands } from './debian.js'
 import { sharedCommands } from './shared.js'
 
 export const commandList = {
-    'windows': {...windowsCommands, ...sharedCommands},
-    'mac': {...macCommands, ...sharedCommands},
-    'debian': {...debianCommands, ...sharedCommands}
+    windows: {...windowsCommands, ...sharedCommands},
+    mac: {...macCommands, ...sharedCommands},
+    debian: {...debianCommands, ...sharedCommands}
 }

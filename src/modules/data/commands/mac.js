@@ -146,15 +146,5 @@ export const macCommands = {
         (argumentList, parameterList) => {
             return '**';
         }
-    ),
-    terminal: new Command(
-        'terminal - changes the terminal Mode',
-        '',
-        (argumentList, parameterList) => {
-            let setTheme = function (themeName) {
-                document.documentElement.className = themeName;
-            }
-            setTheme(argumentList)
-        }
     )
 }
