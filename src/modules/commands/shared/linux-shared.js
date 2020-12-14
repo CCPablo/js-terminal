@@ -62,29 +62,53 @@ export const linuxSharedCommands = {
                 appendOutput(`<table class="ls__output__table" ><tr><th>Size</th><th>Date Modified</th><th>Name</th></tr></table>`)
             }
 
+            if (parameterList.includes('-R')) {
+
+            }
+
             if (argumentList.length === 0) {
                 if (showDetailed) {
                     return getSources().sources.sort(sortedCondition).map((source => {
-                        let date = new Date(source.value.timestamp);
+                        let date = new Date(source.value.lastModified);
                         const monthNames = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
                         let dayAndMonth = date.getDay() + ' ' + monthNames[date.getMonth()];
                         let minutes = '';
                         date.getMinutes() < 9 ? minutes = '0' + date.getMinutes() : minutes = date.getMinutes();
                         let time = date.getHours() + ':' + minutes;
-                        return `<table class="ls__output__table"> <tr><td>${source.value.getSize()} B</td><td>${dayAndMonth}   ${time}</td><td>${source.name}</td></tr></table>`
+                        let size = source.value.getSize()
+                        size.toString().length >= 4 ? size = Math.round(size / 1000 * 10) + ' k' : size = ' &nbsp' + size + ' b';
+                        return `<table class="ls__output__table"> <tr><td>${size}</td><td>${dayAndMonth}   ${time}</td><td>${source.name}</td></tr></table>`
                     })).join(' ');
                 } else {
                     return getSources().sources.sort(sortedCondition).map((source => source.name)).join(' ');
                 }
             } else {
-                return argumentList.map(argument => {
-                    let multi = argument.includes('*')
-                    let sources = getSources(argument, multi ? 1 : 0, multi ? asteriskCondition : () => true);
-                    if (argumentList.length === 1) {
-                        return `${sources.sources.sort(sortedCondition).map(source => source.name).join(' ')}`
-                    } return `/${sources.absolutPath.join('/')}:<br>
+                if (showDetailed) {
+                    return argumentList.map(argument => {
+                        return getSources(argument).sources.sort(sortedCondition).map((source => {
+                            let date = new Date(source.value.lastModified);
+                            const monthNames = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+                            let dayAndMonth = date.getDay() + ' ' + monthNames[date.getMonth()];
+                            let minutes = '';
+                            date.getMinutes() < 9 ? minutes = '0' + date.getMinutes() : minutes = date.getMinutes();
+                            let time = date.getHours() + ':' + minutes;
+                            let size = source.value.getSize()
+                            size.toString().length >= 4 ? size = Math.round(size / 1000 * 10) + ' k' : size = ' &nbsp' + size + ' b';
+                            return `<table class="ls__output__table"> <tr><td>${size}</td><td>${dayAndMonth}   ${time}</td><td>${source.name}</td></tr></table>`
+                        })).join(' ');
+
+                    })
+                } else {
+                    return argumentList.map(argument => {
+                        let multi = argument.includes('*')
+                        let sources = getSources(argument, multi ? 1 : 0, multi ? asteriskCondition : () => true);
+                        if (argumentList.length === 1) {
+                            return `${sources.sources.sort(sortedCondition).map(source => source.name).join(' ')}`
+                        } return `/${sources.absolutPath.join('/')}:<br>
                         ${sources.sources.sort(sortedCondition).map(source => source.name).join(' ')}`
-                }).join('<br><br>')
+                    }).join('<br><br>')
+
+                }
             }
 
             function orderByTimestamp(a, b) {
