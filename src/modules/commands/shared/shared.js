@@ -1,6 +1,6 @@
 import { manCat, manClear, manEcho, manHelp, manMan, manMkdir } from '../../manual/manFileReferenceCaller.js';
 import { appendFileContent, createFolder, getFileContent, setFileContent } from "../../store/root.js";
-import { getCommandList, setTerminal } from "../../store/theme.js";
+import { getCommandList, setTerminal, getCommand} from "../../store/theme.js";
 import { clearOutput } from "../../terminal/access.js";
 import { decodeMark } from "../../util/decode.js";
 import { Command } from "../model/command.js";
@@ -70,7 +70,7 @@ export const sharedCommands = {
                 return commandsList.map( command => command.manRef).join("<br>");
 
             } else {
-                return commandsList[argumentList].manRef;
+                return getCommand(argumentList).manRef;
             }
         }
     ),
@@ -82,7 +82,8 @@ export const sharedCommands = {
             if (argumentList.length === 0) {
                 return commandsList.map( command => command.description).join("<br>");
             } else {
-                return commandsList[argumentList[0]].description;
+                return getCommand(argumentList).description
+                //return commandsList[argumentList].description;
 
             }
         }
