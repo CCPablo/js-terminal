@@ -1,7 +1,7 @@
 import { Command } from "../../commands/model/command.js";
 
 import { manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan, manTouch} from '../../manual/manFileReferenceCaller.js';
-import { changePath, createFile, getPath, getSources, removeSources } from "../../store/root.js";
+import { changePath, getPath, getSources, removeSources, addSources } from "../../store/root.js";
 import { Folder } from "../../store/structure/folder.js";
 import { Directory } from "../../store/structure/directory.js";
 
@@ -39,7 +39,17 @@ export const linuxSharedCommands = {
     mv: new Command(
         'mv - move (rename) files ',
         manMv.All,
-        (argumentList, parameterList) => {}
+        (argumentList, parameterList) => {
+            const target = argumentList.splice(-1)[0];
+            const deleted = argumentList.flatMap(path => removeSources(path, asteriskCondition));
+            if(deleted.length === 1) {
+                const child = new Path().appendRelative(target).getChild();
+                deleted[0].name = child;
+                addSources(target, 1, deleted);
+            } else {
+                addSources(target, 0, deleted);
+            }
+        }
     ),
     ls: new Command(
         'ls - list directory contents',
@@ -50,7 +60,7 @@ export const linuxSharedCommands = {
                 return getSources().map(source => source.name).join(' ');
             } else {
                 return argumentList.map(path => {
-                    getSources(path).map(source => source.name).join(' ')
+                    return getSources(path).map(source => source.name).join(' ')
                 }).join('<br>');
             }
         }
