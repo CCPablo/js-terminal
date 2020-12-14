@@ -41,7 +41,7 @@
     --command-caret-color: rgba(255, 255, 255, 0.308);
     --header-text: 'Windows PowerShell' ;
     --header-command-visibility: none;
-    --path-text: ' %';
+    --path-text: '>_';
 }
 
 .debian{
