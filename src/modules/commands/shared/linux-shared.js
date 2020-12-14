@@ -46,24 +46,35 @@ export const linuxSharedCommands = {
         'ls - list directory contents',
         manLs.All,
         (argumentList, parameterList) => {
-            let sortedCondition;
+            let sortedCondition = orderByName;
+
             if (parameterList.includes('-S')) {
                 sortedCondition = orderBySize;
             } else if (parameterList.includes('-t')) {
                 sortedCondition = orderByTimestamp;
             }
+
             if (argumentList.length === 0) {
                 return getSources().sort(sortedCondition).map((source => source.name)).join(' ');
             } else {
+                console.log(argumentList.map(path => {
+                    return getSources(path).sort(sortedCondition);
+                }));
                 return argumentList.map(path => {
-                    return getSources(path).map(source => source.name).join(' ')
+                    return getSources(path).sort(sortedCondition).map((source => source.name)).join(' ');
                 }).join('<br>');
             }
+
             function orderByTimestamp(a, b) {
                 return a.value.timestamp - b.value.timestamp
             }
             function orderBySize(a, b) {
                 return a.value.getSize() - b.value.getSize()
+            }
+            function orderByName(a, b) {
+                if (a.name > b.name) {return 1;}
+                if (a.name < b.name) {return -1;}
+                return 0;
             }
         }
     ),

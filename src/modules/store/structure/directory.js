@@ -1,5 +1,5 @@
-import { Path } from "./path.js";
-import { Folder } from "./folder.js";
+import {Path} from "./path.js";
+import {Folder} from "./folder.js";
 
 export class Directory {
     constructor() {
@@ -25,22 +25,25 @@ export class Directory {
 
     enterFolder = function (rawRelativePath = "") {
         const path = this.getPath(rawRelativePath);
-        if(this.folderExists(path)) {
+        if (this.folderExists(path)) {
             this.absolutPath.setPath(path.getPath());
         }
     }
 
-    addSources = function(rawRelativePath = "", levelsUp = 0, sources) {
+    addSources = function (rawRelativePath = "", levelsUp = 0, sources) {
         const path = this.getPath(rawRelativePath);
         return this.getFolder(path, levelsUp).addSources(sources);
     }
 
     getSources = function (rawRelativePath = "", levelsUp = 0, condition = () => true) {
         const path = this.getPath(rawRelativePath);
-        return this.getFolder(path, levelsUp).getSources(condition);
+        return {
+            sources: this.getFolder(path, levelsUp).getSources(condition),
+            absolutPath: path
+        }
     }
-    
-    getFileContent = function (rawRelativePath, condition = (name,_,child) => name === child) {
+
+    getFileContent = function (rawRelativePath, condition = (name, _, child) => name === child) {
         const path = this.getPath(rawRelativePath);
         let child = path.getChild();
         return this.getParentFolder(path)
@@ -48,7 +51,7 @@ export class Directory {
             .map(file => file.value.getContent());
     }
 
-    setFileContent = function (rawRelativePath, content, condition = (name,_,child) => name === child) {
+    setFileContent = function (rawRelativePath, content, condition = (name, _, child) => name === child) {
         const path = this.getPath(rawRelativePath);
         const child = path.getChild();
         return this.getParentFolder(path)
@@ -56,7 +59,7 @@ export class Directory {
             .map(file => file.value.setContent(content));
     }
 
-    appendFileContent = function (rawRelativePath, content,  condition = (name,_,child) => name === child) {
+    appendFileContent = function (rawRelativePath, content, condition = (name, _, child) => name === child) {
         const path = this.getPath(rawRelativePath);
         const child = path.getChild();
         return this.getParentFolder(path)
@@ -64,7 +67,7 @@ export class Directory {
             .map(file => file.value.appendContent(content));
     }
 
-    removeSources = function (rawRelativePath = "",  condition = (name,_,child) => name === child) {
+    removeSources = function (rawRelativePath = "", condition = (name, _, child) => name === child) {
         const path = this.getPath(rawRelativePath);
         const child = path.getChild();
         return this.getParentFolder(path)
@@ -77,7 +80,7 @@ export class Directory {
 
     //Private
 
-    getPath = function(rawRelativePath = "") {
+    getPath = function (rawRelativePath = "") {
         return this.absolutPath.appendRelative(rawRelativePath);
     }
 
@@ -86,15 +89,15 @@ export class Directory {
             .reduce((parentFolder, folderName) => parentFolder.getFolder(folderName), this.rootFolder);
     }
 
-    getParentFolder = function(folderPath = this.absolutPath) {
+    getParentFolder = function (folderPath = this.absolutPath) {
         return folderPath.getPath(1)
             .reduce((parentFolder, folderName) => parentFolder.getFolder(folderName), this.rootFolder);
     }
-    
+
     folderExists = function (folderPath) {
         try {
             this.getFolder(folderPath);
-        } catch(error) {
+        } catch (error) {
             throw error;
         }
         return true;
