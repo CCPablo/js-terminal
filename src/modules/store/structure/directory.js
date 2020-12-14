@@ -30,6 +30,11 @@ export class Directory {
         }
     }
 
+    addSources = function(rawRelativePath = "", sources) {
+        const path = this.getPath(rawRelativePath);
+        return this.getParentFolder(path).addSources(sources);
+    }
+
     getSources = function (rawRelativePath = "", levelsUp = 0, condition = () => true) {
         const path = this.getPath(rawRelativePath);
         return this.getFolder(path, levelsUp).getSources(condition);
