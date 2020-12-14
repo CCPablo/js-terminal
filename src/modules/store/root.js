@@ -13,6 +13,10 @@ function createFolder(relativePath = "") {
     return rootDirectory.createFolder(relativePath);
 }
 
+function addSources(relativePath = "", levelsUp, sources) {
+    return rootDirectory.addSources(relativePath, levelsUp, sources);
+}
+
 function getFileContent(relativePath, condition) {
     return rootDirectory.getFileContent(relativePath, condition);
 }
@@ -91,6 +95,7 @@ export {
     changePath,
     createFolder,
     removeSources,
+    addSources,
     getFileContent,
     setFileContent,
     appendFileContent,
