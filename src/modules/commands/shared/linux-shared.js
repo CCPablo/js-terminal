@@ -1,6 +1,6 @@
 import { Command } from "../../commands/model/command.js";
 
-import { manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan} from '../../manual/manFileReferenceCaller.js';
+import { manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan, manTouch} from '../../manual/manFileReferenceCaller.js';
 import { changePath, getPath, getSources, removeSources } from "../../store/root.js";
 import { Folder } from "../../store/structure/folder.js";
 
@@ -35,6 +35,7 @@ export const linuxSharedCommands = {
         'ls - list directory contents',
         manLs.All,
         (argumentList, parameterList) =>  {
+            console.log(getSources());
             if(argumentList.length === 0) {
                 return getSources().map(source => source.name).join(' ');
             } else {
