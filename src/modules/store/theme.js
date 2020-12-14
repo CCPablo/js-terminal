@@ -22,7 +22,7 @@ function setTerminal(theme) {
         if(theme == 'windows'){
             console.log('this is windows')
             let fullscreen = document.querySelector('.fullscreen')
-            fullscreen.className = "far fa-square fa-xs fullscreen"
+            fullscreen.className = "far fa-square fa-xs fullscreen";
         }
     } else {
         throw 'not available terminal';
