@@ -50,6 +50,7 @@ export const linuxSharedCommands = {
         (argumentList, parameterList) => {
             let sortedCondition = orderByName;
             let showDetailed = false;
+            let showRecursive = false;
 
             if (parameterList.includes('-S')) {
                 sortedCondition = orderBySize;
@@ -63,7 +64,7 @@ export const linuxSharedCommands = {
             }
 
             if (parameterList.includes('-R')) {
-
+                showRecursive = true;
             }
 
             if (argumentList.length === 0) {
@@ -79,6 +80,8 @@ export const linuxSharedCommands = {
                         size.toString().length >= 4 ? size = Math.round(size / 1000 * 10) + ' k' : size = ' &nbsp' + size + ' b';
                         return `<table class="ls__output__table"> <tr><td>${size}</td><td>${dayAndMonth}   ${time}</td><td>${source.name}</td></tr></table>`
                     })).join(' ');
+                } else if (showRecursive) {
+
                 } else {
                     return getSources().sources.sort(sortedCondition).map((source => source.name)).join(' ');
                 }
