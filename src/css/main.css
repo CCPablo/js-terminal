@@ -27,7 +27,8 @@
     --command-caret-color: rgba(0, 0, 0, 0.308);
     --header-text:"-zsh";
     --header-command-visibility: ;
-    --path-text: ' $';
+    --path-text: ' %';
+    --path-symbol: '-';
 }
 
 .windows {
@@ -41,13 +42,14 @@
     --command-caret-color: rgba(255, 255, 255, 0.308);
     --header-text: 'Windows PowerShell' ;
     --header-command-visibility: none;
-    --path-text: '>_';
+    --path-text: '> ';
+    --path-symbol: "\\";
 }
 
 .debian{
     --background-principal: rgba(61, 52, 52, 0.5);
     --background-terminal: rgba(61, 52, 52, 0.5);
-    --background-header: linear-gradient(354deg, rgba(216,216,216,1) 0%, rgba(238,238,238,1) 49%, rgba(216,216,216,1) 100%);
+    --background-header: linear-gradient(300deg, rgb(151, 151, 151) 0%, rgba(255, 0, 0, 0.618) 49%, rgba(0, 0, 0, 0.713) 100%);
     --color-text-principal: #d8d8d8;
     --color-text-input: rgb(255, 0, 0);
     --background-body: url(https://wallpaperaccess.com/full/814814.jpg);
@@ -56,6 +58,7 @@
     --header-text: "Debian Console" ;
     --header-command-visibility: none;
     --path-text: ' >>>';
+    --path-symbol: '/';
 }
 
 
@@ -124,6 +127,7 @@ p.header__title::after{
     content: var(--header-text);
     padding-right: 1em;
     padding-left: 1em;
+    font-weight: bold;
 }
 
 p.header__title{
@@ -159,6 +163,11 @@ p.header__title{
     font-size: 12px;
     color: var(--color-text-principal);
 }
+
+.terminal__path::before {
+    content:var(--path-symbol);
+}
+
 .terminal__input {
     width: 100%;
     cursor: default;
