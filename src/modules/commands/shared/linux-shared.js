@@ -1,8 +1,8 @@
-import { Command } from "../../commands/model/command.js";
+import {Command} from "../../commands/model/command.js";
 
-import { manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan } from '../../manual/manFileReferenceCaller.js';
-import { changePath, getPath, getSources, removeSources } from "../../store/root.js";
-import { Folder } from "../../store/structure/folder.js";
+import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan} from '../../manual/manFileReferenceCaller.js';
+import {changePath, getPath, getSources, removeSources} from "../../store/root.js";
+import {Folder} from "../../store/structure/folder.js";
 
 export const linuxSharedCommands = {
     cd: new Command(
@@ -29,19 +29,31 @@ export const linuxSharedCommands = {
     mv: new Command(
         'mv - move (rename) files ',
         manMv.All,
-        (argumentList, parameterList) => { }
+        (argumentList, parameterList) => {}
     ),
     ls: new Command(
         'ls - list directory contents',
         manLs.All,
         (argumentList, parameterList) => {
+            let sortedCondition;
+            if (parameterList.includes('-S')) {
+                sortedCondition = orderBySize;
+            } else if (parameterList.includes('-t')) {
+                sortedCondition = orderByTimestamp;
+            }
             if (argumentList.length === 0) {
-                return getSources().map(source => source.name).join(' ');
+                return getSources().sort(sortedCondition).map((source => source.name)).join(' ');
             } else {
                 return argumentList.map(path => {
                     console.log(getSources(path).map(source => source.value.timestamp).join(' '))
                     return getSources(path).map(source => source.name).join(' ')
                 }).join('<br>');
+            }
+            function orderByTimestamp(a, b) {
+                return a.value.timestamp - b.value.timestamp
+            }
+            function orderBySize(a, b) {
+                return a.value.getSize() - b.value.getSize()
             }
         }
     ),
