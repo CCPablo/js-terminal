@@ -1,21 +1,9 @@
 import { manCat, manClear, manEcho, manHelp, manMan, manMkdir } from '../../manual/manFileReferenceCaller.js';
 import { appendFileContent, createFolder, getFileContent, setFileContent } from "../../store/root.js";
-import { setTerminal } from "../../store/theme.js";
+import { getCommandList, setTerminal } from "../../store/theme.js";
 import { clearOutput } from "../../terminal/access.js";
 import { decodeMark } from "../../util/decode.js";
 import { Command } from "../model/command.js";
-import { commandList } from "../commands.js";
-
-
-
-function appendOutput(text) {
-    if(text) {
-        const output = document.createElement('div');
-        output.classList.add('terminal__output')
-        output.innerHTML = text;
-        terminalBody.appendChild(output);
-    }
-}
 
 
 export const sharedCommands = {
@@ -77,14 +65,10 @@ export const sharedCommands = {
         'man - an interface to the system reference manuals.',
         manMan.All,
         (argumentList, parameterList) => {
-            let commandsList = commandList.windows;
+            let commandsList = Object.values(getCommandList());
             if (argumentList.length === 0) {
-                for (let command in commandsList) {
-                    let descriptions = commandsList[command].manRef;
-                    //commandsList.help.manRef
-                    appendOutput(descriptions)
-                    }
-                    
+                return commandsList.map( command => command.manRef).join("<br>");
+
             } else {
                 return commandsList[argumentList].manRef;
             }
@@ -94,16 +78,9 @@ export const sharedCommands = {
         'help - Display information about builtin commands.',
         manHelp.All,
         (argumentList, parameterList) => {
-            let commandsList = commandList.windows;
+            let commandsList = Object.values(getCommandList());
             if (argumentList.length === 0) {
-                let cl = "";
-                for (let command in commandsList) {
-                    let cl = commandsList[command].description;
-                   
-                    
-                    appendOutput(cl);
-                    //return cl
-                }
+                return commandsList.map( command => command.description).join("<br>");
             } else {
                 return commandsList[argumentList[0]].description;
 

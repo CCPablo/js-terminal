@@ -1,6 +1,6 @@
 import { getPath } from "../store/root.js";
 
-const terminalBody = document.querySelector('.terminal__body');
+export const terminalBody = document.querySelector('.terminal__body');
 let activeInput;
 
 function getInputValue() {
