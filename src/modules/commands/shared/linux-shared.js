@@ -55,6 +55,7 @@ export const linuxSharedCommands = {
         manLs.All,
         (argumentList, parameterList) =>  {
             if(argumentList.length === 0) {
+                console.log(getSources());
                 return getSources().map(source => source.name).join(' ');
             } else {
                 return argumentList.map(path => {
