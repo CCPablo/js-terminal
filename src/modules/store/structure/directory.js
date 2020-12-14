@@ -37,9 +37,10 @@ export class Directory {
 
     getSources = function (rawRelativePath = "", levelsUp = 0, condition = () => true) {
         const path = this.getPath(rawRelativePath);
+        let child = path.getChild();
         return {
-            sources: this.getFolder(path, levelsUp).getSources(condition),
-            absolutPath: path
+            sources: this.getFolder(path, levelsUp).getSources(source => condition(source[0], source[1], child)),
+            absolutPath: path.getPath(levelsUp)
         }
     }
 

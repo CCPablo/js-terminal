@@ -1,14 +1,14 @@
-import { Folder } from "../store/structure/folder.js";
-import { Path } from "../store/structure/path.js";
-import { getSources } from '../store/root.js'
-import { getInputValue, appendToInput, getCaretPosition } from "./access.js";
-import { decodeInstruction } from "../util/decode.js";
+import {Folder} from "../store/structure/folder.js";
+import {Path} from "../store/structure/path.js";
+import {getSources} from '../store/root.js'
+import {getInputValue, appendToInput, getCaretPosition} from "./access.js";
+import {decodeInstruction} from "../util/decode.js";
 
 document.addEventListener('keydown', (event) => {
     if (event.key === "Tab") {
         event.preventDefault();
         const decoded = decodeInstruction(getInputValue());
-        if(caretUnderCommand(decoded.command.length)) {
+        if (caretUnderCommand(decoded.command.length)) {
             return;
         }
         appendToInput(autocomplete(getWordUnderCursor()))
@@ -24,7 +24,7 @@ document.addEventListener('keydown', (event) => {
             caretPosition = getInputValue().length;
         }
         const word = /\S+$/.exec(getInputValue().slice(0, caretPosition));
-        if(word === null) {
+        if (word === null) {
             return '';
         } else {
             return word[0];
@@ -34,9 +34,9 @@ document.addEventListener('keydown', (event) => {
 
 function autocomplete(relativePath = "") {
     const letters = new Path().appendRelative(relativePath, true).getChild();
-    
-    let equivalences = getSources(relativePath, !letters ? 0 : 1, (source) => source[0].startsWith(letters));
-    if(equivalences.length === 0) {
+
+    let equivalences = getSources(relativePath, !letters ? 0 : 1, (source) => source[0].startsWith(letters)).sources;
+    if (equivalences.length === 0) {
         return '';
     } else if (equivalences.length === 1) {
         return equivalences[0].name.slice(letters.length) + endChar(equivalences[0].value instanceof Folder);
@@ -54,9 +54,9 @@ function autocomplete(relativePath = "") {
         const maxWord = equivalences[0].name;
         let result = false;
 
-        for(let i = letters.length; i <= maxWord.length; i++) {
+        for (let i = letters.length; i <= maxWord.length; i++) {
             result = checkOdd(maxWord.slice(0, i));
-            if(result) {
+            if (result) {
                 break;
             }
         }
@@ -64,8 +64,8 @@ function autocomplete(relativePath = "") {
     }
 
     function checkOdd(word) {
-        for(let i = 0; i < equivalences.length; i++) {
-            if(!equivalences[i].name.startsWith(word)) {
+        for (let i = 0; i < equivalences.length; i++) {
+            if (!equivalences[i].name.startsWith(word)) {
                 return word.slice(0, -1);
             }
         }

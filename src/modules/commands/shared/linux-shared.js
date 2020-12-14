@@ -1,9 +1,9 @@
-import {Command} from "../../commands/model/command.js";
+import { Command } from "../../commands/model/command.js";
 
-import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan} from '../../manual/manFileReferenceCaller.js';
-import {changePath, getPath, getSources, removeSources, addSources} from "../../store/root.js";
-import {Folder} from "../../store/structure/folder.js";
-import {Path} from "../../store/structure/path.js";
+import { manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan } from '../../manual/manFileReferenceCaller.js';
+import { changePath, getPath, getSources, removeSources, addSources } from "../../store/root.js";
+import { Folder } from "../../store/structure/folder.js";
+import { Path } from "../../store/structure/path.js";
 
 export const linuxSharedCommands = {
     cd: new Command(
@@ -55,14 +55,15 @@ export const linuxSharedCommands = {
             }
 
             if (argumentList.length === 0) {
-                return getSources().sort(sortedCondition).map((source => source.name)).join(' ');
+                return getSources().sources.sort(sortedCondition).map((source => source.name)).join(' ');
             } else {
-                console.log(argumentList.map(path => {
-                    return getSources(path).sort(sortedCondition);
-                }));
-                return argumentList.map(path => {
-                    return getSources(path).sort(sortedCondition).map((source => source.name)).join(' ');
-                }).join('<br>');
+                return argumentList.map(argument => {
+                    let sources = getSources(argument, argument.includes('*') ? 1 : 0, argument.includes('*') ? asteriskCondition : () => true)
+                    if (argumentList.length === 1) {
+                        return `${sources.sources.sort(sortedCondition).map(source => source.name).join(' ')}`
+                    } return `/${sources.absolutPath.join('/')}:<br>
+                        ${sources.sources.sort(sortedCondition).map(source => source.name).join(' ')}`
+                }).join('<br><br>')
             }
 
             function orderByTimestamp(a, b) {
@@ -72,8 +73,8 @@ export const linuxSharedCommands = {
                 return a.value.getSize() - b.value.getSize()
             }
             function orderByName(a, b) {
-                if (a.name > b.name) {return 1;}
-                if (a.name < b.name) {return -1;}
+                if (a.name > b.name) { return 1; }
+                if (a.name < b.name) { return -1; }
                 return 0;
             }
         }
