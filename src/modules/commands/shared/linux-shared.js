@@ -4,6 +4,7 @@ import { manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm
 import { changePath, getPath, getSources, removeSources, addSources } from "../../store/root.js";
 import { Folder } from "../../store/structure/folder.js";
 import { Path } from "../../store/structure/path.js";
+import { asteriskCondition } from '../util/condition.js'
 
 export const linuxSharedCommands = {
     cd: new Command(
@@ -24,7 +25,6 @@ export const linuxSharedCommands = {
                     return asteriskCondition(name,value,child);
                 }
             }));
-            console.log(deleted)
         }
     ),
     mv: new Command(
@@ -62,14 +62,4 @@ export const linuxSharedCommands = {
             return getPath();
         }
     ),
-}
-
-
-const asteriskCondition = (name, _, child) => {
-    const manyCondition = 
-        child.includes("*")
-        && name.startsWith(child.slice(0, child.indexOf("*"))) 
-        && name.endsWith(child.slice(child.indexOf("*") + 1));
-
-    return child === name || manyCondition;
 }

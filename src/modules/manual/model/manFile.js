@@ -11,7 +11,6 @@ export class manFile {
         let parser = new DOMParser();
         let doc = parser.parseFromString(str, 'text/html');
         let InnerHtmlToAdd = doc.getElementsByClassName('h2Item')[0].innerHTML;
-        //console.log(InnerHtmlToAdd);
         return InnerHtmlToAdd;
     }
 

@@ -4,7 +4,7 @@ import { setTerminal } from "../../store/theme.js";
 import { clearOutput } from "../../terminal/access.js";
 import { decodeMark } from "../../util/decode.js";
 import { Command } from "../model/command.js";
-
+import { asteriskCondition } from '../util/condition.js'
 
 export const sharedCommands = {
     mkdir: new Command(
@@ -19,7 +19,6 @@ export const sharedCommands = {
         manCat.All,
         (argumentList, parameterList) => {
             const decoded = decodeMark(argumentList);
-            console.log(decoded);
             if(decoded) {
                 const originText = decoded.source.reduce((acc, path) => acc + getFileContent(path, asteriskCondition).join(' '), '');
                 decoded.target.map(path => {
@@ -114,13 +113,4 @@ export const sharedCommands = {
             clearOutput();
         }
     )
-}
-
-const asteriskCondition = (name, _, child) => {
-    const manyCondition = 
-        child.includes("*")
-        && name.startsWith(child.slice(0, child.indexOf("*"))) 
-        && name.endsWith(child.slice(child.indexOf("*") + 1));
-
-    return child === name || manyCondition;
 }

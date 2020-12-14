@@ -45,7 +45,6 @@ function autocomplete(relativePath = "") {
     }
 
     function endChar(isFolder) {
-        console.log(isFolder)
         return isFolder ? '/' : '&nbsp;'
     }
 

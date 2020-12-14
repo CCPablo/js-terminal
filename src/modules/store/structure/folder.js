@@ -1,18 +1,7 @@
+import { EXIST_ERROR, NOT_EXIST_ERROR } from '../../error/exceptions.js';
 import { createFolder } from '../root.js';
 import {File} from './file.js'
 export {Folder}
-
-const FOLDER_EXISTS_MSG = function (folderName) {
-    return `A folder with name ${folderName} already exists in directory`;
-}
-
-const FOLDER_DOES_NOT_EXIST_MSG = function (folderName) {
-    return `Folder with name ${folderName} does not exists in directory`;
-}
-
-const FILE_EXISTS_MSG = function (fileName) {
-    return `A file with name ${fileName} already exists in directory`;
-}
 
 class Folder {
     constructor(files = {}, folders = {}, timestamp = Date.now(), lastModified = Date.now()) {
@@ -24,17 +13,15 @@ class Folder {
 
     addFolder = function (name, files = {}, folders = {}, timestamp = Date.now(), lastModified = Date.now()) {
         if (this.hasFolder(name)) {
-            throw FOLDER_EXISTS_MSG(name);
+            throw EXIST_ERROR(name, this.folders[name]);
         }
         this.folders[name] = new Folder(files, folders, timestamp, lastModified);
-        console.log(this.folders[name])
-
         return this.folders[name];
     }
 
     addFile = function (name, content = '', timestamp = Date.now(), lastModified = Date.now()) {
         if (this.hasFile(name)) {
-            return this.files[name];
+            throw EXIST_ERROR(name, this.folders[name]);
         }
         this.files[name] = new File(name, content, timestamp, lastModified);
         return this.files[name];
@@ -42,14 +29,14 @@ class Folder {
 
     getFolder = function (name) {
         if(!this.hasFolder(name)) {
-            throw FOLDER_DOES_NOT_EXIST_MSG(name);
+            throw NOT_EXIST_ERROR(name, this.folders[name]);
         }
         return this.folders[name];
     }
 
     getFile = function (name) {
         if(!this.hasFile(name)) {
-            throw FOLDER_DOES_NOT_EXIST_MSG(name);
+            throw NOT_EXIST_ERROR(name, this.files[name]);
         }
         return this.files[name];
     }
@@ -77,20 +64,14 @@ class Folder {
     }
 
     getSources = function(condition = () => true) {
-        console.log(this.getFolders(condition).concat(this.getFiles(condition)))
-
         return this.getFolders(condition).concat(this.getFiles(condition));
     }
 
     addSources = function(sources) {
-        console.log('deleted', sources)
         sources.forEach(source => {
-            console.log('item of deleted', source)
             if(source.value instanceof Folder) {
-                console.log('move folder', source);
                 this.addFolder(source.name, source.value.files, source.value.folders, source.value.timestamp, source.value.lastModified);
             } else if(source.value instanceof File) {
-                console.log('move file', source);
                 this.addFile(source.name, source.content, source.timestamp, source.lastModified);
             }
         })
