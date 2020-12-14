@@ -7,6 +7,7 @@
     --background-header: linear-gradient(354deg, rgba(216,216,216,1) 0%, rgba(238,238,238,1) 49%, rgba(216,216,216,1) 100%);
     --color-text-principal: #d8d8d8;
     --background-body: url(https://i.pinimg.com/originals/52/4c/e1/524ce152036f33b5527e4dd736ced5f5.jpg);
+    --color-text-input: #ffffff;
 }
 
 * {

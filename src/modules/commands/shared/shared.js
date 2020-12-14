@@ -4,7 +4,7 @@ import { setTerminal } from "../../store/theme.js";
 import { clearOutput } from "../../terminal/access.js";
 import { decodeMark } from "../../util/decode.js";
 import { Command } from "../model/command.js";
-
+import { commandList } from "../commands.js";
 
 export const sharedCommands = {
     mkdir: new Command(
@@ -60,15 +60,20 @@ export const sharedCommands = {
             clearOutput();
         }
     ),
+    
     man: new Command(
         'man - an interface to the system reference manuals.',
         manMan.All,
         (argumentList, parameterList) => {
+            let commandsList = commandList.windows;
             if (argumentList.length === 0) {
                 for (let command in commandsList) {
-                    const descriptions = commandsList[command].manRef;
-                    appendOutput(descriptions);
-                }
+                    let descriptions = commandsList[command].manRef;
+                    //commandsList.help.manRef
+                    console.log(descriptions)
+                    return descriptions;
+                    }
+                    
             } else {
                 return commandsList[argumentList].manRef;
             }
@@ -78,11 +83,15 @@ export const sharedCommands = {
         'help - Display information about builtin commands.',
         manHelp.All,
         (argumentList, parameterList) => {
+            let commandsList = commandList.windows;
             if (argumentList.length === 0) {
                 let cl = "";
                 for (let command in commandsList) {
-                    const cl = commandsList[command].description;
-                    appendOutput(cl);
+                    let cl = commandsList[command].description;
+                    console.log(cl);
+                    console.log(parent);
+                    //appendOutput(cl);
+                    //return cl
                 }
             } else {
                 return commandsList[argumentList[0]].description;
