@@ -24,7 +24,6 @@ export const linuxSharedCommands = {
                     return asteriskCondition(name,value,child);
                 }
             }));
-            console.log(deleted)
         }
     ),
     touch: new Command(
@@ -55,7 +54,6 @@ export const linuxSharedCommands = {
         'ls - list directory contents',
         manLs.All,
         (argumentList, parameterList) =>  {
-            console.log(getSources());
             if(argumentList.length === 0) {
                 return getSources().map(source => source.name).join(' ');
             } else {

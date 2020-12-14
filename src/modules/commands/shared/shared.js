@@ -1,7 +1,7 @@
 import { manCat, manClear, manEcho, manHelp, manMan, manMkdir, manTouch } from '../../manual/manFileReferenceCaller.js';
 import { appendFileContent, createFolder, getFileContent, setFileContent } from "../../store/root.js";
 import { setTerminal } from "../../store/theme.js";
-import { clearOutput } from "../../terminal/access.js";
+import { setNewInput, clearOutput, getInputValue } from "../../terminal/access.js";
 import { decodeMark } from "../../util/decode.js";
 import { Command } from "../model/command.js";
 
@@ -19,17 +19,29 @@ export const sharedCommands = {
         manCat.All,
         (argumentList, parameterList) => {
             const decoded = decodeMark(argumentList);
-            console.log(decoded);
             if(decoded) {
+                if (decoded.source.length === 0) {
+                    document.addEventListener('keydown', e => {
+                        if (e.ctrlKey && e.key === "d") {
+                            e.preventDefault();
+                            const originText = getInputValue();
+                            console.log(originText);
+                            decoded.target.map(path => {
+                                if(decoded.mark === '>') {
+                                    return setFileContent(path, originText, asteriskCondition);
+                                } else if(decoded.mark === '>>') {
+                                    return appendFileContent(path, originText, asteriskCondition);
+                                }
+                            });
+                            setNewInput();
+                        }
+                    });
+
+                }
                 const originText = decoded.source.reduce((acc, path) => acc + getFileContent(path, asteriskCondition).join(' '), '');
-                decoded.target.map(path => {
-                    if(decoded.mark === '>') {
-                        return setFileContent(path, originText, asteriskCondition);
-                    } else if(decoded.mark === '>>') {
-                        return appendFileContent(path, originText, asteriskCondition);
-                    }
-                });
+
             } else {
+                console.log(argumentList);
                 return argumentList.map(path => getFileContent(path, asteriskCondition).join('<br>')).join('<br>');
             }
         }

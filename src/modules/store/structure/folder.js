@@ -27,7 +27,6 @@ class Folder {
             throw FOLDER_EXISTS_MSG(name);
         }
         this.folders[name] = new Folder(files, folders, timestamp, lastModified);
-        console.log(this.folders[name])
 
         return this.folders[name];
     }
@@ -77,20 +76,15 @@ class Folder {
     }
 
     getSources = function(condition = () => true) {
-        console.log(this.getFolders(condition).concat(this.getFiles(condition)))
 
         return this.getFolders(condition).concat(this.getFiles(condition));
     }
 
     addSources = function(sources) {
-        console.log('deleted', sources)
         sources.forEach(source => {
-            console.log('item of deleted', source)
             if(source.value instanceof Folder) {
-                console.log('move folder', source);
                 this.addFolder(source.name, source.value.files, source.value.folders, source.value.timestamp, source.value.lastModified);
             } else if(source.value instanceof File) {
-                console.log('move file', source);
                 this.addFile(source.name, source.content, source.timestamp, source.lastModified);
             }
         })
