@@ -113,7 +113,11 @@ class Folder {
     }
 
     getSize = function () {
-        return this.reduce((acc, folder) => acc + folder.getFiles().reduce((acc, file) => acc + file.getSize(), 0))
+        return this.reduce((acc, folder) => {
+            return acc + folder.getFiles().reduce((acc, file) => {
+                return acc + file.value.getSize();
+            }, 0);
+        }, 0)
     }
 
     hasFolder = function (folderName) {

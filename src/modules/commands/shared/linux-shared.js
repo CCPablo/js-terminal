@@ -1,9 +1,11 @@
-import {Command} from "../../commands/model/command.js";
+import { Command } from "../../commands/model/command.js";
 
-import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan} from '../../manual/manFileReferenceCaller.js';
-import {changePath, getPath, getSources, removeSources, addSources} from "../../store/root.js";
-import {Folder} from "../../store/structure/folder.js";
-import {Path} from "../../store/structure/path.js";
+import { manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan } from '../../manual/manFileReferenceCaller.js';
+import { changePath, getPath, getSources, removeSources, addSources } from "../../store/root.js";
+
+import { Folder } from "../../store/structure/folder.js";
+import { Path } from "../../store/structure/path.js";
+import { appendOutput } from "../../terminal/access.js"
 
 export const linuxSharedCommands = {
     cd: new Command(
@@ -57,18 +59,19 @@ export const linuxSharedCommands = {
 
             if (parameterList.includes('-l')) {
                 showDetailed = true;
+                appendOutput(`<table width="55%"><tr><th>Size</th><th>Date Modified</th><th>Name</th></tr></table>`)
             }
 
             if (argumentList.length === 0) {
                 if (showDetailed) {
                     return getSources().sources.sort(sortedCondition).map((source => {
                         let date = new Date(source.value.timestamp);
-                        let dayAndMonth = date.getDay() + ' ' + date.getMonth();
-                        let minutes = ''
-                        date.getMinutes() < 9 ? minutes = '0' + date.getMinutes() : minutes = date.getMinutes()
+                        const monthNames = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+                        let dayAndMonth = date.getDay() + ' ' + monthNames[date.getMonth()];
+                        let minutes = '';
+                        date.getMinutes() < 9 ? minutes = '0' + date.getMinutes() : minutes = date.getMinutes();
                         let time = date.getHours() + ':' + minutes;
-                        return `<table><tr><th>Size</th><th>Date Modified</th><th>Name</th></tr>
-                            <tr><td>no size</td><td>${dayAndMonth} ${time}</td><td>${source.name}</td></tr></table>`
+                        return `<table width="60%"> <tr><td>${source.value.getSize()} bytes</td><td>${dayAndMonth}   ${time}</td><td>${source.name}</td></tr></table>`
                     })).join(' ');
                 } else {
                     return getSources().sources.sort(sortedCondition).map((source => source.name)).join(' ');
@@ -91,8 +94,8 @@ export const linuxSharedCommands = {
                 return a.value.getSize() - b.value.getSize()
             }
             function orderByName(a, b) {
-                if (a.name > b.name) {return 1;}
-                if (a.name < b.name) {return -1;}
+                if (a.name > b.name) { return 1; }
+                if (a.name < b.name) { return -1; }
                 return 0;
             }
         }
