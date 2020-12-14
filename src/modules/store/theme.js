@@ -1,4 +1,4 @@
-import { commandList } from '../commands/commands.js'
+import { commandList } from '../commands/commands.js';
 
 let currentCommandList = commandList['windows'];
 
@@ -24,4 +24,4 @@ function setTerminal(theme) {
     }
 }
 
-export { getCommand, getCommandList, setTerminal, getCurrentTerminal }
+export { getCommand, getCommandList, setTerminal, getCurrentTerminal };

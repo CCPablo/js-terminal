@@ -41,7 +41,7 @@ function decodeInstruction(rawInput) {
 }
 
 function decodeMark(array) {
-    const mark = array.find(item => /^[!@#><\$%\^\&*(+=._-]+$/.test(item));
+    const mark = array.find(item => /^[!@#><\$%\^\&(+=._]+$/.test(item));
     return mark ? {
         source: getAllBeforeMark(array,  mark),
         target: getAllAfterMark(array, mark),

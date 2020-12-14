@@ -19,8 +19,8 @@
     --background-principal: #181818;
     --background-terminal: #ffffff;
     --background-header: linear-gradient(354deg, rgba(216,216,216,1) 0%, rgba(238,238,238,1) 49%, rgba(216,216,216,1) 100%);
-    --color-text-principal: #ffffff;
-    --color-text-input: #ffffff;
+    --color-text-principal: #585252;
+    --color-text-input: #3d3131;
     --background-body: url(https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/245f4571-14d4-4069-90a7-259b2971229f/dd8hkax-2446974f-4e52-4f85-8fb0-314ca6328ae8.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvMjQ1ZjQ1NzEtMTRkNC00MDY5LTkwYTctMjU5YjI5NzEyMjlmXC9kZDhoa2F4LTI0NDY5NzRmLTRlNTItNGY4NS04ZmIwLTMxNGNhNjMyOGFlOC5qcGcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.9ss8h5pb16YQ51TiWA1lLgYOx9DZCs8xT7Lnh4oIgGE);
     --header-flex-direction: row;
     --command-caret-color: rgba(0, 0, 0, 0.308);

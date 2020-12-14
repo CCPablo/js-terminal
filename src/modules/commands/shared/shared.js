@@ -1,9 +1,10 @@
+import { manCat, manClear, manEcho, manHelp, manMan, manMkdir } from '../../manual/manFileReferenceCaller.js';
+import { appendFileContent, createFolder, getFileContent, setFileContent } from "../../store/root.js";
 import { setTerminal } from "../../store/theme.js";
+import { clearOutput } from "../../terminal/access.js";
+import { decodeMark } from "../../util/decode.js";
 import { Command } from "../model/command.js";
 
-import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan} from '../../manual/manFileReferenceCaller.js';
-import { appendFileContent, createFolder, getFileContent, setFileContent } from "../../store/root.js";
-import { decodeMark } from "../../util/decode.js";
 
 export const sharedCommands = {
     mkdir: new Command(
@@ -29,7 +30,7 @@ export const sharedCommands = {
                     }
                 });
             } else {
-                return argumentList.reduce((acc, path) => acc + getFileContent(path), '');
+                return argumentList.map(path => getFileContent(path, asteriskCondition).join('<br>')).join('<br>');
             }
         }
     ),
@@ -94,6 +95,7 @@ export const sharedCommands = {
         '',
         () => {
             setTerminal('windows')
+            clearOutput();
         }
     ),
     mac: new Command(
@@ -101,6 +103,7 @@ export const sharedCommands = {
         '',
         () => {
             setTerminal('mac')
+            clearOutput();
         }
     ),
     debian: new Command(
@@ -108,6 +111,7 @@ export const sharedCommands = {
         '',
         () => {
             setTerminal('debian')
+            clearOutput();
         }
     )
 }
