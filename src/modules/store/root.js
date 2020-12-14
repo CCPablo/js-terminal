@@ -13,8 +13,8 @@ function createFolder(relativePath = "") {
     return rootDirectory.createFolder(relativePath);
 }
 
-function addSources(relativePath = "", sources) {
-    return rootDirectory.addSources(relativePath, sources);
+function addSources(relativePath = "", levelsUp, sources) {
+    return rootDirectory.addSources(relativePath, levelsUp, sources);
 }
 
 function getFileContent(relativePath, condition) {

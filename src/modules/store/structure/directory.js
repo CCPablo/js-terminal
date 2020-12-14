@@ -30,9 +30,9 @@ export class Directory {
         }
     }
 
-    addSources = function(rawRelativePath = "", sources) {
+    addSources = function(rawRelativePath = "", levelsUp = 0, sources) {
         const path = this.getPath(rawRelativePath);
-        return this.getParentFolder(path).addSources(sources);
+        return this.getFolder(path, levelsUp).addSources(sources);
     }
 
     getSources = function (rawRelativePath = "", levelsUp = 0, condition = () => true) {

@@ -32,13 +32,13 @@ export const linuxSharedCommands = {
         manMv.All,
         (argumentList, parameterList) => {
             const target = argumentList.splice(-1)[0];
-            const deleted = argumentList.flatMap(path => removeSources(path), asteriskCondition);
+            const deleted = argumentList.flatMap(path => removeSources(path, asteriskCondition));
             if(deleted.length === 1) {
                 const child = new Path().appendRelative(target).getChild();
                 deleted[0].name = child;
-                addSources(target, deleted);
+                addSources(target, 1, deleted);
             } else {
-                addSources(target, deleted);
+                addSources(target, 0, deleted);
             }
         }
     ),
@@ -50,7 +50,7 @@ export const linuxSharedCommands = {
                 return getSources().map(source => source.name).join(' ');
             } else {
                 return argumentList.map(path => {
-                    getSources(path).map(source => source.name).join(' ')
+                    return getSources(path).map(source => source.name).join(' ')
                 }).join('<br>');
             }
         }
