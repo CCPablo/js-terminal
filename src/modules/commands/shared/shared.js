@@ -6,6 +6,18 @@ import { decodeMark } from "../../util/decode.js";
 import { Command } from "../model/command.js";
 import { commandList } from "../commands.js";
 
+
+
+function appendOutput(text) {
+    if(text) {
+        const output = document.createElement('div');
+        output.classList.add('terminal__output')
+        output.innerHTML = text;
+        terminalBody.appendChild(output);
+    }
+}
+
+
 export const sharedCommands = {
     mkdir: new Command(
         'mkdir - make directories',
@@ -70,8 +82,7 @@ export const sharedCommands = {
                 for (let command in commandsList) {
                     let descriptions = commandsList[command].manRef;
                     //commandsList.help.manRef
-                    console.log(descriptions)
-                    return descriptions;
+                    appendOutput(descriptions)
                     }
                     
             } else {
@@ -88,9 +99,9 @@ export const sharedCommands = {
                 let cl = "";
                 for (let command in commandsList) {
                     let cl = commandsList[command].description;
-                    console.log(cl);
-                    console.log(parent);
-                    //appendOutput(cl);
+                   
+                    
+                    appendOutput(cl);
                     //return cl
                 }
             } else {
