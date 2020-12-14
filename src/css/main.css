@@ -155,5 +155,11 @@ body {
 .ls__output__table{
     font-weight: 400;
     text-align:center;
-    width: 30%;
+}
+.ls__output__table th{
+    padding: 0 1.2em;
+}
+.ls__output__table td{
+    padding: 0 0.9em;
+    width: initial;
 }
