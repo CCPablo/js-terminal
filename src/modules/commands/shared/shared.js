@@ -1,4 +1,4 @@
-import { manCat, manClear, manEcho, manHelp, manMan, manMkdir } from '../../manual/manFileReferenceCaller.js';
+import { manCat, manClear, manEcho, manHelp, manMan, manMkdir, manTouch } from '../../manual/manFileReferenceCaller.js';
 import { appendFileContent, createFolder, getFileContent, setFileContent } from "../../store/root.js";
 import { setTerminal } from "../../store/theme.js";
 import { clearOutput } from "../../terminal/access.js";
@@ -32,6 +32,15 @@ export const sharedCommands = {
             } else {
                 return argumentList.map(path => getFileContent(path, asteriskCondition).join('<br>')).join('<br>');
             }
+        }
+    ),
+    touch: new Command(
+        'touch -- change file access and modification times',
+        manTouch.All,
+        (argumentList, parameterList) => {
+            argumentList.forEach(file => {
+                return createFile(file)
+            });
         }
     ),
     echo: new Command(

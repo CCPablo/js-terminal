@@ -86,6 +86,7 @@ const rm = new Command(
                 removeFilesThatStartsWith(file)
             }
         })
+        
         // rm fileName removes that file name
         argumentList.forEach(argument => {removeFile(argument);})
     }

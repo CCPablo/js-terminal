@@ -1,8 +1,9 @@
 import { Command } from "../../commands/model/command.js";
 
 import { manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan, manTouch} from '../../manual/manFileReferenceCaller.js';
-import { changePath, getPath, getSources, removeSources } from "../../store/root.js";
+import { changePath, createFile, getPath, getSources, removeSources } from "../../store/root.js";
 import { Folder } from "../../store/structure/folder.js";
+import { Directory } from "../../store/structure/directory.js";
 
 export const linuxSharedCommands = {
     cd: new Command(
@@ -24,6 +25,15 @@ export const linuxSharedCommands = {
                 }
             }));
             console.log(deleted)
+        }
+    ),
+    touch: new Command(
+        'touch -- change file access and modification times',
+        manTouch.All,
+        (argumentList, parameterList) => {
+            argumentList.forEach(file => {
+                return createFile(file)
+            });
         }
     ),
     mv: new Command(

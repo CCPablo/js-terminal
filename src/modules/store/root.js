@@ -91,6 +91,7 @@ export {
     changePath,
     createFolder,
     removeSources,
+    createFile,
     getFileContent,
     setFileContent,
     appendFileContent,
