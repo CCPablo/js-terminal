@@ -13,6 +13,8 @@
     --close-dot-icon: #FC615D;
     --close-dot-hover: #4C0102;
     --buttons-border-radius: 50%;
+    --cross-button-margin-left: 0px 5px;
+    --cross-button-margin-left2: 10px;
 
 }
 /* WINDOWS*/
@@ -28,6 +30,8 @@
     --close-dot-icon: #000000;
     --close-dot-hover: #fd0000;
     --middle-button-position: 2;
+    --cross-button-margin-left: 0px 5px;
+    --cross-button-margin-left2: 5px;
 }
 /* LINUX*/
 
@@ -41,6 +45,8 @@
     --close-dot-normal:#fa4c46;
     --close-dot-icon: #fa4c46;
     --close-dot-hover: #4C0102;
+    --cross-button-margin-left: 0px 5px;
+    --cross-button-margin-left2: 10px;
 
 }
 
@@ -69,14 +75,15 @@
 }
 .dot:first-child {
     background-color:var(--close-dot-normal);
-    margin-left: 10px;
+    margin-left: var(--cross-button-margin-left2);
 }
 .dot:first-child:active {
     background-color: #fff;
-    margin-left: 10px;
+    margin-left: 5px;
 }
 .dot .cross {
     color: var(--close-dot-icon);
+
 }
 .dot .cross:hover {
     color: var(--close-dot-hover);
