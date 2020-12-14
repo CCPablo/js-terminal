@@ -2,7 +2,7 @@
 
 /* APPLE*/
 
-.apple {
+.mac {
     --max-dot-normal: #34C84A;
     --max-dot-icon: #34C84A;
     --max-dot-hover: #0A630C;
@@ -31,15 +31,15 @@
 }
 /* LINUX*/
 
-.linux{
-    --max-dot-normal: #34C84A;
-    --max-dot-icon: #34C84A;
-    --max-dot-hover: #0A630C;
-    --min-dot-normal: #FDBC40;
-    --min-dot-icon: #FDBC40;
-    --min-dot-hover: #985813;
-    --close-dot-normal:#FC615D;
-    --close-dot-icon: #FC615D;
+.debian{
+    --max-dot-normal: #ffffff;
+    --max-dot-icon: #ffffff;
+    --max-dot-hover: #000000;
+    --min-dot-normal: #a3a3a3;
+    --min-dot-icon: #a3a3a3;
+    --min-dot-hover: #303030;
+    --close-dot-normal:#fa4c46;
+    --close-dot-icon: #fa4c46;
     --close-dot-hover: #4C0102;
 
 }
