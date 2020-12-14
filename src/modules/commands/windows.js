@@ -21,3 +21,7 @@ export const windowsCommands = {
         }
     )
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> c44212d5e9781b1b9a68b8bb623d7456bc34569c

@@ -12,10 +12,11 @@ class Path {
     getParentPath = function() {
         return getPath(1);
     }
-
+//Here to change the initial join
     getRawPath() {
-        return `/${this.path.join('/')}`;
+        return `${this.path.join('/')}`;
     }
+//above to change the initial dot.
 
     getChild = function() {
         return this.path[this.path.length-1];
