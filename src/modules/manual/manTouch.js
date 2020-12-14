@@ -30,29 +30,8 @@ export const manTouch = new manFile(
     (`
     <div  class = 'h2Item'>
     <h2>Options</h2>
-    <dt><b>-a</b>
-    <dd>change only the access time
-    <dt><b>-c, --no-create</b>
-    <dd>do not create any files
-    <dt><b>-d, --date=,STRING/</b>
-    <dd>parse STRING and use it instead of current time
-    <dt><b>-f</i>
-    <dd>(ignored)
-    <dt><b>-h, --no-dereference</b>
-    <dd>affect each symbolic link instead of any referenced file (useful only on systems that can change the timestamps of a symlink)
-    <dt><b>-m</b>
-    <dd>change only the modification time
-    <dt><b>-r, --reference=,FILE/</b>
-    <dd>do not remove '/' (default)
-    <dt><b>-t STAMP</b>
-    <dd>use [[CC]YY]MMDDhhmm[.ss] instead of current time
-    <dt><b>--time=,WORD/</b>
-    <dd>change the specified time: WORD is access, atime, or use: equivalent to <b>-a</b> WORD is modify or mtime: equivalent to <b>-m</b>
     <dt><b>--help</b>
     <dd>display this help and exit
-    <dt><b>--version</b>
-    <dd>output version information and exit</dl>
-    <p>Note that the <b>-d</b> and <b>-t</b> options accept different time-date formats.</p>
     </div>
     `),
 

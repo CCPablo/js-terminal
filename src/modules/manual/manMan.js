@@ -76,5 +76,3 @@ export const manMan = new manFile (
         `)
     );
 
-//module.exports = { manClear };
-
