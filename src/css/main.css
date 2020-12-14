@@ -150,3 +150,10 @@ body {
 .terminal__input:active {
     outline: none;
 }
+
+/*ls -l table*/
+.ls__output__table{
+    font-weight: 400;
+    text-align:center;
+    width: 30%;
+}
