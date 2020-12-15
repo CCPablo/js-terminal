@@ -14,7 +14,9 @@ export const linuxSharedCommands = {
         'cd - change the shell working directory.',
         manCd.All,
         (argumentList) => {
-            changePath(argumentList[0]);
+            if (argumentList.length <= 0) {
+                changePath('/');
+            } changePath(argumentList[0]);
         }
     ),
     rm: new Command(
@@ -141,6 +143,23 @@ export const linuxSharedCommands = {
                 if (a.name < b.name) {return -1;}
                 return 0;
             }
+        }
+    ),
+    cowsay: new Command(
+        'cowsay - surprise',
+        'no man for cowsay',
+        () => {
+            return String.raw`<pre> ________________
+< i love windows >
+ ----------------
+      \                _
+       \              (_)
+        \   ^__^       / \
+         \  (oo)\_____/_\ \
+            (__)\       ) /
+                ||----w ((
+                ||     ||>>
+</pre>`;
         }
     ),
     pwd: new Command(
