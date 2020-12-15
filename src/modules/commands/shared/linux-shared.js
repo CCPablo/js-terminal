@@ -1,7 +1,7 @@
 import { Command } from "../../commands/model/command.js";
 import { COMMAND_MSG_ERROR, Fail, IS_DIR_FAIL } from "../../fail/fail.js";
 
-import { manCd, manLs, manMv, manPwd, manRm} from '../../manual/manFileReferenceCaller.js';
+import { manCd, manLs, manMv, manPwd, manRm, manTouch} from '../../manual/manFileReferenceCaller.js';
 import { changePath, getPath, getSources, removeSources, addSources } from "../../store/root.js";
 import { Folder } from "../../store/structure/folder.js";
 import { Path } from "../../store/structure/path.js";
@@ -12,7 +12,7 @@ export const linuxSharedCommands = {
     cd: new Command(
         'cd - change the shell working directory.',
         manCd.All,
-        (argumentList) =>  {
+        (argumentList) => {
             changePath(argumentList[0]);
         }
     ),
@@ -37,7 +37,22 @@ export const linuxSharedCommands = {
                     fail.addMessage('rm');
                     appendOutput(fail.getFailMessage())
                 }
-            });
+            })
+        }
+    ),
+    touch: new Command(
+        'touch -- change file access and modification times',
+        manTouch.All,
+        (argumentList, parameterList) => {
+            argumentList.forEach(file => {
+                try {
+                    createFile(file)
+                } catch(fail) {
+                    fail.addMessage(COMMAND_MSG_ERROR('touch', path))
+                    fail.addMessage('touch');
+                    appendOutput(fail.getFailMessage())
+                }
+            })
         }
     ),
     mv: new Command(
@@ -90,8 +105,8 @@ export const linuxSharedCommands = {
     ls: new Command(
         'ls - list directory contents',
         manLs.All,
-        (argumentList, parameterList) =>  {
-            if(argumentList.length === 0) {
+        (argumentList, parameterList) => {
+            if (argumentList.length === 0) {
                 return getSources().map(source => source.name).join(' ');
             } else {
                 return argumentList.map(path => {

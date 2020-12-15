@@ -2,6 +2,8 @@ import { getInputValue, focusInput, appendOutput, setNewInput } from '../termina
 import { addToHistory } from '../store/history.js';
 import { decodeInstruction } from '../util/decode.js';
 import { getCommand, getCommandList } from '../store/theme.js'
+import { commandList } from '../commands/commands.js';
+import { COMMAND_NOT_FOUND_FAIL, Fail } from '../fail/fail.js';
 
 document.addEventListener('keydown', e => {
     if (e.key === "Enter") {
@@ -21,7 +23,13 @@ function process(rawInput) {
 }
 
 function runCommand(com, argumentList = [], parametersList = []) {
-    const output = getCommand(com).run(argumentList, parametersList);
-    appendOutput(output);
-    setNewInput();
+    if(getCommandList().hasOwnProperty(com)) {
+        const output = getCommand(com).run(argumentList, parametersList);
+        appendOutput(output);
+        setNewInput();
+    } else {
+        appendOutput(COMMAND_NOT_FOUND_FAIL(com).getFailMessage());
+        setNewInput();
+    }
+
 }

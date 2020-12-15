@@ -80,4 +80,6 @@ const COMMAND_MSG_ERROR = (command, argument) => {
     }
 };
 
-export { Fail, IS_DIR_FAIL, NO_SOURCE_FAIL, ALREADY_EXIST_FAIL, COMMAND_MSG_ERROR }
+const COMMAND_NOT_FOUND_FAIL = (command) => new Fail(command, 'command not found');
+
+export { Fail, IS_DIR_FAIL, NO_SOURCE_FAIL, ALREADY_EXIST_FAIL, COMMAND_MSG_ERROR, COMMAND_NOT_FOUND_FAIL }

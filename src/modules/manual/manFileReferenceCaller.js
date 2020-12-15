@@ -11,8 +11,9 @@ import {manPwd} from './manPwd.js';
 import {manRm} from './manRm.js';
 import {manHelp} from './manHelp.js';
 import {manMan} from './manMan.js';
+import {manTouch} from './manTouch.js';
 
-export {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan};
+export {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan, manTouch};
 
 // USE TO IMPORT
 // import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm} from './manFileReferenceCaller.js';
