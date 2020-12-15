@@ -1,7 +1,12 @@
-import { manCat, manClear, manEcho, manHelp, manMan, manMkdir } from '../../manual/manFileReferenceCaller.js';
+import { manCat, manClear, manEcho, manHelp, manMan, manMkdir, manTouch } from '../../manual/manFileReferenceCaller.js';
 import { appendFileContent, createFolder, getFileContent, setFileContent } from "../../store/root.js";
+<<<<<<< HEAD
+import { setTerminal } from "../../store/theme.js";
+import { setNewInput, clearOutput, getInputValue } from "../../terminal/access.js";
+=======
 import { getCommandList, setTerminal, getCommand} from "../../store/theme.js";
 import { clearOutput } from "../../terminal/access.js";
+>>>>>>> c44212d5e9781b1b9a68b8bb623d7456bc34569c
 import { decodeMark } from "../../util/decode.js";
 import { Command } from "../model/command.js";
 
@@ -19,19 +24,40 @@ export const sharedCommands = {
         manCat.All,
         (argumentList, parameterList) => {
             const decoded = decodeMark(argumentList);
-            console.log(decoded);
             if(decoded) {
+                if (decoded.source.length === 0) {
+                    document.addEventListener('keydown', e => {
+                        if (e.ctrlKey && e.key === "d") {
+                            e.preventDefault();
+                            const originText = getInputValue();
+                            console.log(originText);
+                            decoded.target.map(path => {
+                                if(decoded.mark === '>') {
+                                    return setFileContent(path, originText, asteriskCondition);
+                                } else if(decoded.mark === '>>') {
+                                    return appendFileContent(path, originText, asteriskCondition);
+                                }
+                            });
+                            setNewInput();
+                        }
+                    });
+
+                }
                 const originText = decoded.source.reduce((acc, path) => acc + getFileContent(path, asteriskCondition).join(' '), '');
-                decoded.target.map(path => {
-                    if(decoded.mark === '>') {
-                        return setFileContent(path, originText, asteriskCondition);
-                    } else if(decoded.mark === '>>') {
-                        return appendFileContent(path, originText, asteriskCondition);
-                    }
-                });
+
             } else {
+                console.log(argumentList);
                 return argumentList.map(path => getFileContent(path, asteriskCondition).join('<br>')).join('<br>');
             }
+        }
+    ),
+    touch: new Command(
+        'touch -- change file access and modification times',
+        manTouch.All,
+        (argumentList, parameterList) => {
+            argumentList.forEach(file => {
+                return createFile(file)
+            });
         }
     ),
     echo: new Command(
