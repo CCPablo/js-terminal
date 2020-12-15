@@ -2,6 +2,7 @@ import { getInputValue, focusInput, appendOutput, setNewInput } from '../termina
 import { addToHistory } from '../store/history.js';
 import { decodeInstruction } from '../util/decode.js';
 import { getCommand, getCommandList } from '../store/theme.js'
+import { COMMAND_NOT_FOUND_FAIL } from '../fail/fail.js';
 
 document.addEventListener('keydown', e => {
     if (e.key === "Enter") {
@@ -17,15 +18,23 @@ document.addEventListener('click', () => {
 function process(rawInput) {
     addToHistory(rawInput);
     const decoded = decodeInstruction(rawInput)
-    try {
-        runCommand(decoded.command, decoded.argumentList, decoded.parameters);
-    } catch(error) {
-        alert(error)
-    }
+    runCommand(decoded.command, decoded.argumentList, decoded.parameters);
 }
 
 function runCommand(com, argumentList = [], parametersList = []) {
-    const output = getCommand(com).run(argumentList, parametersList);
-    appendOutput(output);
-    setNewInput();
+    if(getCommandList().hasOwnProperty(com)) {
+        try {
+            const output = getCommand(com).run(argumentList, parametersList);
+            appendOutput(output);
+            setNewInput();
+        } catch(fail) {
+            fail.addMessage(com)
+            appendOutput(fail.getFailMessage());
+            setNewInput();
+        }
+    } else {
+        appendOutput(COMMAND_NOT_FOUND_FAIL(com).getFailMessage());
+        setNewInput();
+    }
+
 }

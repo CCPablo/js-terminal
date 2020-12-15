@@ -14,7 +14,7 @@ class Path {
     }
 //Here to change the initial join
     getRawPath() {
-        return `${this.path.join('/')}`;
+        return this.path.join('/');
     }
 //above to change the initial dot.
 

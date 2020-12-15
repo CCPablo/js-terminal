@@ -7,7 +7,7 @@ import { getCommandList, setTerminal, getCommand} from "../../store/theme.js";
 
 import { decodeMark } from "../../util/decode.js";
 import { Command } from "../model/command.js";
-
+import { asteriskCondition } from '../util/condition.js'
 
 export const sharedCommands = {
     mkdir: new Command(
@@ -49,31 +49,33 @@ export const sharedCommands = {
             }
         }
     ),
-    touch: new Command(
-        'touch -- change file access and modification times',
-        manTouch.All,
-        (argumentList, parameterList) => {
-            argumentList.forEach(file => {
-                return createFile(file)
-            });
-        }
-    ),
     echo: new Command(
-        'echo - Write arguments to the standard output.',
-        '',
+        'cat - concatenate files and print on the standard output',
         manEcho.All,
         (argumentList, parameterList) => {
-            if (argumentList[argumentList.indexOf('>')]) {
-                let indexOfBiggerThan = argumentList.indexOf('>')
-                let stringToEcho = argumentList.slice(0, indexOfBiggerThan)
-                argumentList.splice(indexOfBiggerThan, 1);
-                let nameOfFiles = argumentList.slice(indexOfBiggerThan, argumentList.length)
-                stringToEcho = stringToEcho.join(' ');
-                nameOfFiles.forEach(name => {
-                    getFolder().addFile(name, stringToEcho)
-                })
+            const decoded = decodeMark(argumentList);
+            if(decoded) {
+                if (decoded.source.length === 0) {
+                    document.addEventListener('keydown', e => {
+                        if (e.ctrlKey && e.key === "d") {
+                            e.preventDefault();
+                            const originText = getInputValue();
+                            decoded.target.map(path => {
+                                if(decoded.mark === '>') {
+                                    return setFileContent(path, originText, asteriskCondition);
+                                } else if(decoded.mark === '>>') {
+                                    return appendFileContent(path, originText, asteriskCondition);
+                                }
+                            });
+                            setNewInput();
+                        }
+                    });
+
+                }
+                const originText = decoded.source.reduce((acc, path) => acc + getFileContent(path, asteriskCondition).join(' '), '');
+
             } else {
-                return argumentList.join(' ');
+                return argumentList.map(path => path.join(' ')).join('<br>');
             }
         }
     ),
@@ -84,7 +86,6 @@ export const sharedCommands = {
             clearOutput();
         }
     ),
-    
     man: new Command(
         'man - an interface to the system reference manuals.',
         manMan.All,
@@ -107,8 +108,6 @@ export const sharedCommands = {
                 return commandsList.map( command => command.description).join("<br>");
             } else {
                 return getCommand(argumentList).description
-                //return commandsList[argumentList].description;
-
             }
         }
     ),
@@ -136,13 +135,4 @@ export const sharedCommands = {
             clearOutput();
         }
     )
-}
-
-const asteriskCondition = (name, _, child) => {
-    const manyCondition = 
-        child.includes("*")
-        && name.startsWith(child.slice(0, child.indexOf("*"))) 
-        && name.endsWith(child.slice(child.indexOf("*") + 1));
-
-    return child === name || manyCondition;
 }

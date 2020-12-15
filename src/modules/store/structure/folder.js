@@ -1,18 +1,6 @@
-import {createFolder} from '../root.js';
+import { ALREADY_EXIST_FAIL, NO_SOURCE_FAIL } from '../../fail/fail.js';
 import {File} from './file.js'
 export {Folder}
-
-const FOLDER_EXISTS_MSG = function (folderName) {
-    return `A folder with name ${folderName} already exists in directory`;
-}
-
-const FOLDER_DOES_NOT_EXIST_MSG = function (folderName) {
-    return `Folder with name ${folderName} does not exists in directory`;
-}
-
-const FILE_EXISTS_MSG = function (fileName) {
-    return `A file with name ${fileName} already exists in directory`;
-}
 
 class Folder {
     constructor(files = {}, folders = {}, timestamp = Date.now(), lastModified = Date.now()) {
@@ -22,33 +10,48 @@ class Folder {
         this.lastModified = lastModified;
     }
 
-    addFolder = function (name, files = {}, folders = {}, timestamp = Date.now(), lastModified = Date.now()) {
+    createFolder = function (name, files = {}, folders = {}, timestamp = Date.now(), lastModified = Date.now()) {
         if (this.hasFolder(name)) {
-            throw FOLDER_EXISTS_MSG(name);
+            throw ALREADY_EXIST_FAIL(name);
         }
         this.folders[name] = new Folder(files, folders, timestamp, lastModified);
-
         return this.folders[name];
     }
 
-    addFile = function (name, content = '', timestamp = Date.now(), lastModified = Date.now()) {
+    createFile = function (name, content = '', timestamp = Date.now(), lastModified = Date.now()) {
         if (this.hasFile(name)) {
-            return this.files[name];
+            throw ALREADY_EXIST_FAIL(name);  
         }
         this.files[name] = new File(name, content, timestamp, lastModified);
         return this.files[name];
     }
 
+    addFolder = function (name, folder) {
+        if (this.hasFolder(name)) {
+            throw ALREADY_EXIST_FAIL(name);
+        }
+        this.folders[name] = folder;
+        return this.folders[name];
+    }
+
+    addFile = function (name, file) {
+        if (this.hasFile(name)) {
+            throw ALREADY_EXIST_FAIL(name);
+        }
+        this.files[name] = file;
+        return this.files[name];
+    }
+
     getFolder = function (name) {
-        if (!this.hasFolder(name)) {
-            throw FOLDER_DOES_NOT_EXIST_MSG(name);
+        if(!this.hasFolder(name)) {
+            throw NO_SOURCE_FAIL(name);
         }
         return this.folders[name];
     }
 
     getFile = function (name) {
-        if (!this.hasFile(name)) {
-            throw FOLDER_DOES_NOT_EXIST_MSG(name);
+        if(!this.hasFile(name)) {
+            throw NO_SOURCE_FAIL(name);
         }
         return this.files[name];
     }
@@ -90,6 +93,22 @@ class Folder {
 
     addSources = function (sources) {
         sources.forEach(source => {
+            if(source.value instanceof Folder) {
+                this.addFolder(source.name, source.value)
+            } else if(source.value instanceof File) {
+                this.addFile(source.name, source.value)
+            }
+        })
+    }
+
+    createSources = function(sources) {
+        sources.forEach(source => {
+            if(source.value instanceof Folder) {
+                this.createFolder(source.name, source.value.files, source.value.folders, source.value.timestamp, source.value.lastModified);
+            } else if(source.value instanceof File) {
+                this.createFile(source.name, source.content, source.timestamp, source.lastModified);
+            }
+                
             if (source.value instanceof Folder) {
                 this.addFolder(source.name, source.value.files, source.value.folders, source.value.timestamp, source.value.lastModified);
             } else if (source.value instanceof File) {
@@ -117,6 +136,9 @@ class Folder {
                 });
                 delete this.folders[name];
             }
+        }
+        if(deleted.length === 0) {
+            throw NO_SOURCE_FAIL();
         }
         return deleted;
     }
@@ -158,7 +180,7 @@ class Folder {
         return folders;
 
         function forEach(folder, folderName = []) {
-            for (let name in folder.folders) {
+            for(let name in folder.folders) {
                 folderPath.push(name);
                 forEach(folder.folders[name], name);
                 folderPath.pop();
