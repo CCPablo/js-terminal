@@ -3,10 +3,18 @@
 
 :root {
     --background-principal: #181818;
-    --background-terminal: #282828;
+    --background-terminal: #ffffff;
     --background-header: linear-gradient(354deg, rgba(216,216,216,1) 0%, rgba(238,238,238,1) 49%, rgba(216,216,216,1) 100%);
-    --color-text-principal: #d8d8d8;
-    --background-body: url(https://i.pinimg.com/originals/52/4c/e1/524ce152036f33b5527e4dd736ced5f5.jpg);
+    --color-text-principal: #292525;
+    --color-text-input: #352c2c;
+    --background-body: url(https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/245f4571-14d4-4069-90a7-259b2971229f/dd8hkax-2446974f-4e52-4f85-8fb0-314ca6328ae8.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvMjQ1ZjQ1NzEtMTRkNC00MDY5LTkwYTctMjU5YjI5NzEyMjlmXC9kZDhoa2F4LTI0NDY5NzRmLTRlNTItNGY4NS04ZmIwLTMxNGNhNjMyOGFlOC5qcGcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.9ss8h5pb16YQ51TiWA1lLgYOx9DZCs8xT7Lnh4oIgGE);
+    --header-flex-direction: row;
+    --command-caret-color: rgba(0, 0, 0, 0.308);
+    --header-text:"-zsh";
+    --header-command-visibility: ;
+    --path-text: ' %';
+    --path-symbol: '-';
+    --powerShell-visibility:none ;
 }
 
 * {
@@ -19,11 +27,16 @@
     --background-principal: #181818;
     --background-terminal: #ffffff;
     --background-header: linear-gradient(354deg, rgba(216,216,216,1) 0%, rgba(238,238,238,1) 49%, rgba(216,216,216,1) 100%);
-    --color-text-principal: #585252;
-    --color-text-input: #3d3131;
+    --color-text-principal: #292525;
+    --color-text-input: #352c2c;
     --background-body: url(https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/245f4571-14d4-4069-90a7-259b2971229f/dd8hkax-2446974f-4e52-4f85-8fb0-314ca6328ae8.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvMjQ1ZjQ1NzEtMTRkNC00MDY5LTkwYTctMjU5YjI5NzEyMjlmXC9kZDhoa2F4LTI0NDY5NzRmLTRlNTItNGY4NS04ZmIwLTMxNGNhNjMyOGFlOC5qcGcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.9ss8h5pb16YQ51TiWA1lLgYOx9DZCs8xT7Lnh4oIgGE);
     --header-flex-direction: row;
     --command-caret-color: rgba(0, 0, 0, 0.308);
+    --header-text:"-zsh";
+    --header-command-visibility: ;
+    --path-text: ' %';
+    --path-symbol: '-';
+    --powerShell-visibility:none ;
 }
 
 .windows {
@@ -32,20 +45,30 @@
     --background-header: white;
     --color-text-principal: white;
     --color-text-input: yellow;
-    --background-body: url(http://getwallpapers.com/wallpaper/full/2/5/4/727006-best-windows-xp-desktop-backgrounds-3840x2160.jpg);
+    --background-body: url(https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/d09f28b5-68af-4d30-9026-3a12c82d58d0/dadcrkd-d1a25711-7293-48c6-8cb7-196fe188c11f.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvZDA5ZjI4YjUtNjhhZi00ZDMwLTkwMjYtM2ExMmM4MmQ1OGQwXC9kYWRjcmtkLWQxYTI1NzExLTcyOTMtNDhjNi04Y2I3LTE5NmZlMTg4YzExZi5qcGcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.-KUEANU-tr3uaFkmlqvvE9oGCSIvfIry2XS5qhHlXBU);
     --header-flex-direction: row-reverse;
     --command-caret-color: rgba(255, 255, 255, 0.308);
+    --header-text: 'Windows PowerShell' ;
+    --header-command-visibility: none;
+    --path-text: '> ';
+    --path-symbol: "\\";
+    --powerShell-visibility: ;
 }
 
 .debian{
-    --background-principal: rgb(61, 52, 52);
-    --background-terminal: rgb(61, 52, 52);
-    --background-header: linear-gradient(354deg, rgba(216,216,216,1) 0%, rgba(238,238,238,1) 49%, rgba(216,216,216,1) 100%);
+    --background-principal: rgba(61, 52, 52, 0.5);
+    --background-terminal: rgba(61, 52, 52, 0.5);
+    --background-header: linear-gradient(300deg, rgb(238, 235, 235) 0%, rgba(84, 84, 84, 0.618) 49%, rgba(17, 17, 17, 0.713) 100%);
     --color-text-principal: #d8d8d8;
-    --color-text-input: rgb(255, 102, 0);
-    --background-body: url(https://preview.redd.it/vfz1blyegd231.png?width=960&crop=smart&auto=webp&s=d53725ff48b98fed1d609ad76063a4f13b7d3101);
+    --color-text-input: rgb(255, 255, 255);
+    --background-body: url(https://wallpaperaccess.com/full/814814.jpg);
     --header-flex-direction: row;
     --command-caret-color: rgba(255, 255, 255, 0.308);
+    --header-text: "Debian Console" ;
+    --header-command-visibility: none;
+    --path-text: ' >>>';
+    --path-symbol: '/';
+    --powerShell-visibility:none ;
 }
 
 
@@ -105,7 +128,21 @@ body {
     display: flex;
     flex-flow: row;
     flex-direction: var(--header-flex-direction);
+}
+.header__comand{
+    display: var(--header-command-visibility);
+    padding-right: 0.5em;
+}
 
+p.header__title::after{
+    content: var(--header-text);
+    padding-right: 1em;
+    padding-left: 0.5em;
+    font-weight: bold;
+}
+
+p.header__title{
+    display: hidden;
 }
 .terminal__body {
     position: relative;
@@ -127,26 +164,44 @@ body {
 .terminal__input-wrapper {
     width: 100%;
     padding: 4px 10px;
-    font-size: 18px;
+    font-size: 14px;
     position: relative;
+    
 }
 .terminal__path {
     position: absolute;
-    padding-top: 4px;
+    padding-top: 1px;
     font-size: 12px;
     color: var(--color-text-principal);
 }
+
+.terminal__path::before {
+    content:var(--path-symbol);
+}
+
 .terminal__input {
     width: 100%;
     cursor: default;
     caret-color: var(--command-caret-color);
     text-indent: 90px;
     color: var(--color-text-input);
-    background-color: var(--background-terminal);
+    vertical-align: middle;
+}
+
+span.terminal__path::after {
+    content: var(--path-text);
 }
 
 .terminal__input:focus,
 .terminal__input:hover,
 .terminal__input:active {
     outline: none;
+}
+
+.powerShellIcon {
+    width: 1.2em;
+    display: inline;
+    vertical-align: middle;
+    margin-left:0.5em;
+    display:var(--powerShell-visibility);
 }

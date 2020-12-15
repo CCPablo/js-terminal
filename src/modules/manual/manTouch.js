@@ -30,6 +30,7 @@ export const manTouch = new manFile(
     (`
     <div  class = 'h2Item'>
     <h2>Options</h2>
+<<<<<<< HEAD
     <dt><b>-a</b>
     <dd>change only the access time
     <dt><b>-c, --no-create</b>
@@ -53,6 +54,10 @@ export const manTouch = new manFile(
     <dt><b>--version</b>
     <dd>output version information and exit</dl>
     <p>Note that the <b>-d</b> and <b>-t</b> options accept different time-date formats.</p>
+=======
+    <dt><b>--help</b>
+    <dd>display this help and exit
+>>>>>>> 5ef5505d4223c9d027f1b49261f77b71ad34d166
     </div>
     `),
 

@@ -22,7 +22,7 @@ export const manHelp = new manFile (
         <pre>
         The help command alone gives a user a brief description of all the commands available
         in your Terminal and a brief explanation of each one.
-        
+
         Placing help + the command will give you the description of the specified command.
         </pre>
         </div>
@@ -45,6 +45,4 @@ export const manHelp = new manFile (
         </div>
         `)
     );
-
-//module.exports = { manClear };
 
