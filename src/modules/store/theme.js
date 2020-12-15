@@ -24,8 +24,6 @@ function setTerminal(theme) {
             let fullscreen = document.querySelector('.fullscreen')
             fullscreen.className = "far fa-square fa-xs fullscreen";
         }
-    } else {
-        throw 'not available terminal';
     }
 }
 
