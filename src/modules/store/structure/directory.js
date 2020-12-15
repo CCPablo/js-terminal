@@ -15,12 +15,12 @@ export class Directory {
 
     createFolder = function (rawRelativePath = "") {
         const path = this.getPath(rawRelativePath);
-        return this.getParentFolder(path).addFolder(path.getChild());
+        return this.getParentFolder(path).createFolder(path.getChild());
     }
 
     createFile = function (rawRelativePath = "") {
         const path = this.getPath(rawRelativePath);
-        return this.getParentFolder(path).addFile(path.getChild());
+        return this.getParentFolder(path).createFile(path.getChild());
     }
 
     enterFolder = function (rawRelativePath = "") {
@@ -67,8 +67,12 @@ export class Directory {
     removeSources = function (rawRelativePath = "",  condition = (name,_,child) => name === child) {
         const path = this.getPath(rawRelativePath);
         const child = path.getChild();
-        return this.getParentFolder(path)
-            .removeSources((name, value) => condition(name, value, child));
+        return {
+            sources: this.getParentFolder(path)
+                .removeSources((name, value) => condition(name, value, child)),
+            absolutPath: path,
+            rawRelative: rawRelativePath
+        }
     }
 
     getRawPath = function () {

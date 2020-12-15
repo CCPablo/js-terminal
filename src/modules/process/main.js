@@ -17,11 +17,7 @@ document.addEventListener('click', () => {
 function process(rawInput) {
     addToHistory(rawInput);
     const decoded = decodeInstruction(rawInput)
-    try {
-        runCommand(decoded.command, decoded.argumentList, decoded.parameters);
-    } catch(error) {
-        alert(error)
-    }
+    runCommand(decoded.command, decoded.argumentList, decoded.parameters);
 }
 
 function runCommand(com, argumentList = [], parametersList = []) {

@@ -12,12 +12,14 @@ const asteriskCondition = (name, _, child) => {
     if(asteriskIndexes.length === 1) {
         manyCondition = name.startsWith(child.slice(0, asteriskIndexes[0])) 
             && name.endsWith(child.slice(asteriskIndexes[0] + 1));
-    } else {
+    } else if(asteriskIndexes.length > 1) {
         manyCondition = name.includes(child.substring(
             child.indexOf("*") + 1, 
             child.lastIndexOf("*")
         ))
+    } else {
+        manyCondition = false;
     }
-    
+
     return child === name || manyCondition;
 }

@@ -45,7 +45,7 @@ export const sharedCommands = {
                 let nameOfFiles = argumentList.slice(indexOfBiggerThan, argumentList.length)
                 stringToEcho = stringToEcho.join(' ');
                 nameOfFiles.forEach(name => {
-                    getFolder().addFile(name, stringToEcho)
+                    getFolder().createFile(name, stringToEcho)
                 })
             } else {
                 return argumentList.join(' ');

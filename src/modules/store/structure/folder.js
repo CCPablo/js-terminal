@@ -1,5 +1,4 @@
-import { EXIST_ERROR, NOT_EXIST_ERROR } from '../../error/exceptions.js';
-import { createFolder } from '../root.js';
+import { ALREADY_EXIST_FAIL, Fail, NO_SOURCE_FAIL } from '../../fail/fail.js';
 import {File} from './file.js'
 export {Folder}
 
@@ -11,32 +10,48 @@ class Folder {
         this.lastModified = lastModified;
     }
 
-    addFolder = function (name, files = {}, folders = {}, timestamp = Date.now(), lastModified = Date.now()) {
+    createFolder = function (name, files = {}, folders = {}, timestamp = Date.now(), lastModified = Date.now()) {
         if (this.hasFolder(name)) {
-            throw EXIST_ERROR(name, this.folders[name]);
+            throw ALREADY_EXIST_FAIL(name);
         }
         this.folders[name] = new Folder(files, folders, timestamp, lastModified);
         return this.folders[name];
     }
 
-    addFile = function (name, content = '', timestamp = Date.now(), lastModified = Date.now()) {
+    createFile = function (name, content = '', timestamp = Date.now(), lastModified = Date.now()) {
         if (this.hasFile(name)) {
-            throw EXIST_ERROR(name, this.folders[name]);
+            throw ALREADY_EXIST_FAIL(name);  
         }
         this.files[name] = new File(name, content, timestamp, lastModified);
         return this.files[name];
     }
 
+    addFolder = function (name, folder) {
+        if (this.hasFolder(name)) {
+            throw ALREADY_EXIST_FAIL(name);
+        }
+        this.folders[name] = folder;
+        return this.folders[name];
+    }
+
+    addFile = function (name, file) {
+        if (this.hasFile(name)) {
+            throw ALREADY_EXIST_FAIL(name);
+        }
+        this.files[name] = file;
+        return this.files[name];
+    }
+
     getFolder = function (name) {
         if(!this.hasFolder(name)) {
-            throw NOT_EXIST_ERROR(name, this.folders[name]);
+            throw NO_SOURCE_FAIL(name);
         }
         return this.folders[name];
     }
 
     getFile = function (name) {
         if(!this.hasFile(name)) {
-            throw NOT_EXIST_ERROR(name, this.files[name]);
+            throw NO_SOURCE_FAIL(name);
         }
         return this.files[name];
     }
@@ -70,9 +85,19 @@ class Folder {
     addSources = function(sources) {
         sources.forEach(source => {
             if(source.value instanceof Folder) {
-                this.addFolder(source.name, source.value.files, source.value.folders, source.value.timestamp, source.value.lastModified);
+                this.addFolder(source.name, source.value)
             } else if(source.value instanceof File) {
-                this.addFile(source.name, source.content, source.timestamp, source.lastModified);
+                this.addFile(source.name, source.value)
+            }
+        })
+    }
+
+    createSources = function(sources) {
+        sources.forEach(source => {
+            if(source.value instanceof Folder) {
+                this.createFolder(source.name, source.value.files, source.value.folders, source.value.timestamp, source.value.lastModified);
+            } else if(source.value instanceof File) {
+                this.createFile(source.name, source.content, source.timestamp, source.lastModified);
             }
         })
     }
@@ -96,6 +121,9 @@ class Folder {
                 });
                 delete this.folders[name];
             }
+        }
+        if(deleted.length === 0) {
+            throw NO_SOURCE_FAIL();
         }
         return deleted;
     }
@@ -128,15 +156,17 @@ class Folder {
 
     map = function (callback) {
         let folderPath = [];
-        return map(this.clone(), callback);
+        let folders = [];
+        forEach(this);
+        return folders;
 
-        function map(folder, folderName = []) {
+        function forEach(folder, folderName = []) {
             for(let name in folder.folders) {
                 folderPath.push(name);
-                folder.folders[name] = map(folder.folders[name].clone(), name);
+                forEach(folder.folders[name], name);
                 folderPath.pop();
             }
-            return callback(folder, folderName, folderPath);
+            folders.push(callback(folder, folderName, folderPath))
         }
     }
 
