@@ -34,8 +34,12 @@ document.addEventListener('keydown', (event) => {
 
 function autocomplete(relativePath = "") {
     const letters = new Path().appendRelative(relativePath, true).getChild();
+    console.log(relativePath)
+    console.log(letters)
 
-    let equivalences = getSources(relativePath, !letters ? 0 : 1, (source) => source[0].startsWith(letters)).sources;
+    console.log(getSources(relativePath, !letters ? 0 : 1, (source) => source.startsWith(letters)))
+
+    let equivalences = getSources(relativePath, !letters ? 0 : 1, (source) => source.startsWith(letters)).sources;
     if (equivalences.length === 0) {
         return '';
     } else if (equivalences.length === 1) {

@@ -2,19 +2,11 @@ import { Command } from "../../commands/model/command.js";
 import { COMMAND_MSG_ERROR, Fail, IS_DIR_FAIL } from "../../fail/fail.js";
 
 import { manCd, manLs, manMv, manPwd, manRm, manTouch} from '../../manual/manFileReferenceCaller.js';
-import { changePath, getPath, getSources, removeSources, addSources } from "../../store/root.js";
+import { changePath, getPath, getSources, removeSources, addSources, getAllSources } from "../../store/root.js";
 import { Folder } from "../../store/structure/folder.js";
 import { Path } from "../../store/structure/path.js";
 import { appendOutput } from "../../terminal/access.js";
 import { asteriskCondition } from '../util/condition.js'
-import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan, manTouch} from '../../manual/manFileReferenceCaller.js';
-import {Folder} from "../../store/structure/folder.js";
-import {Directory} from "../../store/structure/directory.js";
-
-import {changePath, getPath, getSources, removeSources, addSources, getAllSources} from "../../store/root.js";
-
-import {Path} from "../../store/structure/path.js";
-import {appendOutput} from "../../terminal/access.js"
 
 export const linuxSharedCommands = {
     cd: new Command(
@@ -151,7 +143,7 @@ export const linuxSharedCommands = {
                 } else if (showRecursive) {
                     let sources = getAllSources();
                     return sources.map(source => {
-                        const path = source.path
+                        const path = source.path;
                         const fileNames = Object.keys(source.folder.files).join('  ')
                         const output = `<br><br><span class="ls__output__recursive">${path}:</span><br>${fileNames}`
                         return output;

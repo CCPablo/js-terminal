@@ -107,6 +107,8 @@ class Folder {
                 this.createFolder(source.name, source.value.files, source.value.folders, source.value.timestamp, source.value.lastModified);
             } else if(source.value instanceof File) {
                 this.createFile(source.name, source.content, source.timestamp, source.lastModified);
+            }
+                
             if (source.value instanceof Folder) {
                 this.addFolder(source.name, source.value.files, source.value.folders, source.value.timestamp, source.value.lastModified);
             } else if (source.value instanceof File) {
