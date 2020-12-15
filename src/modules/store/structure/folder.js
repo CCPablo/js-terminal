@@ -79,6 +79,15 @@ class Folder {
         return this.getFolders(condition).concat(this.getFiles(condition));
     }
 
+    getAllSources = function (condition = () => true) {
+        return this.map((folder, _, path) => {
+            return {
+                path: path.join('/'),
+                folder: folder,
+            }
+        })
+    }
+
     addSources = function (sources) {
         sources.forEach(source => {
             if (source.value instanceof Folder) {
@@ -144,15 +153,17 @@ class Folder {
 
     map = function (callback) {
         let folderPath = [];
-        return map(this.clone(), callback);
+        let folders = [];
+        forEach(this);
+        return folders;
 
-        function map(folder, folderName = []) {
+        function forEach(folder, folderName = []) {
             for (let name in folder.folders) {
                 folderPath.push(name);
-                folder.folders[name] = map(folder.folders[name].clone(), name);
+                forEach(folder.folders[name], name);
                 folderPath.pop();
             }
-            return callback(folder, folderName, folderPath);
+            folders.push(callback(folder, folderName, [...folderPath]))
         }
     }
 

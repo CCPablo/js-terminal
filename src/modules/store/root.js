@@ -41,6 +41,10 @@ function getSources(relativePath = "", levelsUp = 0, condition = () => true) {
     return rootDirectory.getSources(relativePath, levelsUp, condition);
 }
 
+function getAllSources(relativePath = "", levelsUp = 0, condition = () => true) {
+    return rootDirectory.getAllSources(relativePath, levelsUp, condition);
+}
+
 function changePath(relativePath = "") {
     rootDirectory.enterFolder(relativePath)
 }
@@ -100,6 +104,7 @@ export {
     setFileContent,
     appendFileContent,
     getPath,
-    getSources
+    getSources,
+    getAllSources
 }
 

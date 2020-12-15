@@ -211,6 +211,10 @@ span.terminal__path::after {
     width: initial;
 }
 
+.ls__output__recursive {
+    font-weight: bold;
+}
+
 /*themes*/
 .powerShellIcon {
     width: 1.2em;

@@ -1,7 +1,7 @@
 import {Command} from "../../commands/model/command.js";
 
 import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan} from '../../manual/manFileReferenceCaller.js';
-import {changePath, getPath, getSources, removeSources, addSources} from "../../store/root.js";
+import {changePath, getPath, getSources, removeSources, addSources, getAllSources} from "../../store/root.js";
 
 import {Folder} from "../../store/structure/folder.js";
 import {Path} from "../../store/structure/path.js";
@@ -51,6 +51,7 @@ export const linuxSharedCommands = {
             let sortedCondition = orderByName;
             let showDetailed = false;
             let showRecursive = false;
+            let headerTable = `<table class="ls__output__table" ><tr><th>Size</th><th>Date Modified</th><th>Name</th></tr></table>`
 
             if (parameterList.includes('-S')) {
                 sortedCondition = orderBySize;
@@ -60,7 +61,6 @@ export const linuxSharedCommands = {
 
             if (parameterList.includes('-l')) {
                 showDetailed = true;
-                appendOutput(`<table class="ls__output__table" ><tr><th>Size</th><th>Date Modified</th><th>Name</th></tr></table>`)
             }
 
             if (parameterList.includes('-R')) {
@@ -69,7 +69,7 @@ export const linuxSharedCommands = {
 
             if (argumentList.length === 0) {
                 if (showDetailed) {
-                    return getSources().sources.sort(sortedCondition).map((source => {
+                    return headerTable + '<br>' + getSources().sources.sort(sortedCondition).map((source => {
                         let date = new Date(source.value.lastModified);
                         const monthNames = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
                         let dayAndMonth = date.getDay() + ' ' + monthNames[date.getMonth()];
@@ -81,7 +81,13 @@ export const linuxSharedCommands = {
                         return `<table class="ls__output__table"> <tr><td>${size}</td><td>${dayAndMonth}   ${time}</td><td>${source.name}</td></tr></table>`
                     })).join(' ');
                 } else if (showRecursive) {
-
+                    let sources = getAllSources();
+                    return sources.map(source => {
+                        const path = source.path
+                        const fileNames = Object.keys(source.folder.files).join('  ')
+                        const output = `<br><br><span class="ls__output__recursive">${path}:</span><br>${fileNames}`
+                        return output;
+                    });
                 } else {
                     return getSources().sources.sort(sortedCondition).map((source => source.name)).join(' ');
                 }
