@@ -1,8 +1,9 @@
 import {Command} from "../../commands/model/command.js";
 
-import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan} from '../../manual/manFileReferenceCaller.js';
-import {changePath, getPath, getSources, removeSources} from "../../store/root.js";
+import {manCat, manCd, manClear, manEcho, manLs, manMkdir, manMv, manPwd, manRm, manHelp, manMan, manTouch} from '../../manual/manFileReferenceCaller.js';
+import {changePath, getPath, getSources, removeSources, addSources} from "../../store/root.js";
 import {Folder} from "../../store/structure/folder.js";
+import {Directory} from "../../store/structure/directory.js";
 
 export const linuxSharedCommands = {
     cd: new Command(
@@ -23,13 +24,31 @@ export const linuxSharedCommands = {
                     return asteriskCondition(name, value, child);
                 }
             }));
-            console.log(deleted)
+        }
+    ),
+    touch: new Command(
+        'touch -- change file access and modification times',
+        manTouch.All,
+        (argumentList, parameterList) => {
+            argumentList.forEach(file => {
+                return createFile(file)
+            });
         }
     ),
     mv: new Command(
         'mv - move (rename) files ',
         manMv.All,
-        (argumentList, parameterList) => {}
+        (argumentList, parameterList) => {
+            const target = argumentList.splice(-1)[0];
+            const deleted = argumentList.flatMap(path => removeSources(path, asteriskCondition));
+            if (deleted.length === 1) {
+                const child = new Path().appendRelative(target).getChild();
+                deleted[0].name = child;
+                addSources(target, 1, deleted);
+            } else {
+                addSources(target, 0, deleted);
+            }
+        }
     ),
     ls: new Command(
         'ls - list directory contents',

@@ -1,3 +1,4 @@
+import { createFolder } from '../root.js';
 import {File} from './file.js'
 export {Folder}
 
@@ -21,19 +22,20 @@ class Folder {
         this.lastModified = lastModified;
     }
 
-    addFolder = function (name, files = {}, folders = {}) {
+    addFolder = function (name, files = {}, folders = {}, timestamp = Date.now(), lastModified = Date.now()) {
         if (this.hasFolder(name)) {
             throw FOLDER_EXISTS_MSG(name);
         }
-        this.folders[name] = new Folder(files, folders);
+        this.folders[name] = new Folder(files, folders, timestamp, lastModified);
+
         return this.folders[name];
     }
 
-    addFile = function (name, content = '') {
+    addFile = function (name, content = '', timestamp = Date.now(), lastModified = Date.now()) {
         if (this.hasFile(name)) {
             return this.files[name];
         }
-        this.files[name] = new File(name, content);
+        this.files[name] = new File(name, content, timestamp, lastModified);
         return this.files[name];
     }
 
@@ -74,7 +76,18 @@ class Folder {
     }
 
     getSources = function(condition = () => true) {
+
         return this.getFolders(condition).concat(this.getFiles(condition));
+    }
+
+    addSources = function(sources) {
+        sources.forEach(source => {
+            if(source.value instanceof Folder) {
+                this.addFolder(source.name, source.value.files, source.value.folders, source.value.timestamp, source.value.lastModified);
+            } else if(source.value instanceof File) {
+                this.addFile(source.name, source.content, source.timestamp, source.lastModified);
+            }
+        })
     }
 
     removeSources = function (condition = () => true) {

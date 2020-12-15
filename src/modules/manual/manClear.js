@@ -35,17 +35,7 @@ export const manClear = new manFile (
         (`
         <div  class = 'h2Item'>
         <h2>OPTIONS</h2>
-        <pre>-T type
-            indicates the type of terminal.  Normally this option is  unneces‐
-            sary,  because  the default is taken from the environment variable
-            TERM.  If -T is specified, then the shell variables LINES and COL‐
-            UMNS will also be ignored.
-
-        -V   reports the version of ncurses which was used in this program, and
-            exits.  The options are as follows:
-
-        -x   do not attempt to clear the terminal's scrollback buffer using the
-            extended “E3” capability.
+        <pre>Shortcut with ctrol+L
         </pre>
         </div>
         `),
@@ -75,6 +65,4 @@ export const manClear = new manFile (
         </div>
         `)
     );
-
-//module.exports = { manClear };
 
