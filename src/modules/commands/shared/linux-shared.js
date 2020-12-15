@@ -117,6 +117,23 @@ export const linuxSharedCommands = {
             }
         }
     ),
+    cowsay: new Command(
+        'cowsay - surprise',
+        'no man for cowsay',
+        () => {
+            return String.raw`<pre> ________________
+< i love windows >
+ ----------------
+      \                _
+       \              (_)
+        \   ^__^       / \
+         \  (oo)\_____/_\ \
+            (__)\       ) /
+                ||----w ((
+                ||     ||>>
+</pre>`;
+        }
+    ),
     pwd: new Command(
         'print name of current/working directory',
         manPwd.All,
