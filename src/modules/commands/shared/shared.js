@@ -1,12 +1,10 @@
 import { manCat, manClear, manEcho, manHelp, manMan, manMkdir, manTouch } from '../../manual/manFileReferenceCaller.js';
 import { appendFileContent, createFolder, getFileContent, setFileContent } from "../../store/root.js";
-<<<<<<< HEAD
-import { setTerminal } from "../../store/theme.js";
+
 import { setNewInput, clearOutput, getInputValue } from "../../terminal/access.js";
-=======
+
 import { getCommandList, setTerminal, getCommand} from "../../store/theme.js";
-import { clearOutput } from "../../terminal/access.js";
->>>>>>> c44212d5e9781b1b9a68b8bb623d7456bc34569c
+
 import { decodeMark } from "../../util/decode.js";
 import { Command } from "../model/command.js";
 
