@@ -198,6 +198,24 @@ span.terminal__path::after {
     outline: none;
 }
 
+/*ls -l table*/
+.ls__output__table{
+    font-weight: 400;
+    text-align:center;
+}
+.ls__output__table th{
+    padding: 0 0.75em;
+}
+.ls__output__table td{
+    padding: 0 0.9em;
+    width: initial;
+}
+
+.ls__output__recursive {
+    font-weight: bold;
+}
+
+/*themes*/
 .powerShellIcon {
     width: 1.2em;
     display: inline;

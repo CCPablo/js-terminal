@@ -41,6 +41,10 @@ function getSources(relativePath = "", levelsUp = 0, condition = () => true) {
     return rootDirectory.getSources(relativePath, levelsUp, condition);
 }
 
+function getAllSources(relativePath = "", levelsUp = 0, condition = () => true) {
+    return rootDirectory.getAllSources(relativePath, levelsUp, condition);
+}
+
 function changePath(relativePath = "") {
     rootDirectory.enterFolder(relativePath)
 }
@@ -50,10 +54,10 @@ function getPath() {
 }
 
 function constructFolder(folder) {
-    for(let fold in folder.folders) {
+    for (let fold in folder.folders) {
         folder.folders[fold] = constructFolder(folder.folders[fold]);
     }
-    for(let fil in folder.files) {
+    for (let fil in folder.files) {
         folder.files[fil] = createFile(folder.files[fil])
     }
     return new Folder(folder.files, folder.folders);
@@ -64,22 +68,22 @@ function constructFolder(folder) {
 }
 
 createFile('root.js')
-for(let g = 0; g<5; g++) {
+for (let g = 0; g < 5; g++) {
     createFolder(`folder${g}`)
     changePath(`folder${g}`);
-    for(let j = 0; j<5; j++) {
+    for (let j = 0; j < 5; j++) {
         createFile(`file${g}${String.fromCharCode(j + 97)}.js`).setContent(`file${g}${String.fromCharCode(j + 97)}.js`)
     }
-    for(let i = 0; i<5; i++) {
+    for (let i = 0; i < 5; i++) {
         createFolder(`folder${g}-${i}`)
         changePath(`folder${g}-${i}`);
-        for(let j = 0; j<20; j++) {
+        for (let j = 0; j < 20; j++) {
             createFile(`file${g}-${i}${String.fromCharCode(j + 97)}.js`).setContent(`file${g}-${i}${String.fromCharCode(j + 97)}.js`)
         }
-        for(let k = 0; k<20; k++) {
+        for (let k = 0; k < 20; k++) {
             createFolder(`folder${g}-${i}-${k}`)
             changePath(`folder${g}-${i}-${k}`);
-            for(let j = 0; j<30; j++) {
+            for (let j = 0; j < 30; j++) {
                 createFile(`file${g}-${i}-${k}${String.fromCharCode(j + 97)}.js`).setContent(Array(201).join(`file${g}-${i}-${k}${String.fromCharCode(j + 97)}.js`))
             }
             changePath("..");
@@ -100,5 +104,7 @@ export {
     setFileContent,
     appendFileContent,
     getPath,
-    getSources }
+    getSources,
+    getAllSources
+}
 
