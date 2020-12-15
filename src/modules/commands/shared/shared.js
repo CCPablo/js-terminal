@@ -1,7 +1,12 @@
 import { manCat, manClear, manEcho, manHelp, manMan, manMkdir, manTouch } from '../../manual/manFileReferenceCaller.js';
 import { appendFileContent, createFolder, getFileContent, setFileContent } from "../../store/root.js";
+<<<<<<< HEAD
 import { setTerminal } from "../../store/theme.js";
 import { setNewInput, clearOutput, getInputValue } from "../../terminal/access.js";
+=======
+import { getCommandList, setTerminal, getCommand} from "../../store/theme.js";
+import { clearOutput } from "../../terminal/access.js";
+>>>>>>> c44212d5e9781b1b9a68b8bb623d7456bc34569c
 import { decodeMark } from "../../util/decode.js";
 import { Command } from "../model/command.js";
 
@@ -81,17 +86,17 @@ export const sharedCommands = {
             clearOutput();
         }
     ),
+    
     man: new Command(
         'man - an interface to the system reference manuals.',
         manMan.All,
         (argumentList, parameterList) => {
+            let commandsList = Object.values(getCommandList());
             if (argumentList.length === 0) {
-                for (let command in commandsList) {
-                    const descriptions = commandsList[command].manRef;
-                    appendOutput(descriptions);
-                }
+                return commandsList.map( command => command.manRef).join("<br>");
+
             } else {
-                return commandsList[argumentList].manRef;
+                return getCommand(argumentList).manRef;
             }
         }
     ),
@@ -99,14 +104,12 @@ export const sharedCommands = {
         'help - Display information about builtin commands.',
         manHelp.All,
         (argumentList, parameterList) => {
+            let commandsList = Object.values(getCommandList());
             if (argumentList.length === 0) {
-                let cl = "";
-                for (let command in commandsList) {
-                    const cl = commandsList[command].description;
-                    appendOutput(cl);
-                }
+                return commandsList.map( command => command.description).join("<br>");
             } else {
-                return commandsList[argumentList[0]].description;
+                return getCommand(argumentList).description
+                //return commandsList[argumentList].description;
 
             }
         }

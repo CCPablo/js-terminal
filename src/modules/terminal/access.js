@@ -1,6 +1,6 @@
 import { getPath } from "../store/root.js";
 
-const terminalBody = document.querySelector('.terminal__body');
+export const terminalBody = document.querySelector('.terminal__body');
 let activeInput;
 
 function getInputValue() {
@@ -58,7 +58,7 @@ function createNewInput() {
     activeInput.setAttribute('spellcheck', false);
     activeInput.classList.add('terminal__input', 'active');
     const path = document.createElement('span');
-    path.innerHTML = getPath() + ' >>>';
+    path.innerHTML = getPath() + '';
     path.classList.add('terminal__path');
     inputWrapper.appendChild(path);
     inputWrapper.appendChild(activeInput);
