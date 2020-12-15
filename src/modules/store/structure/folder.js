@@ -1,4 +1,4 @@
-import { ALREADY_EXIST_FAIL, Fail, NO_SOURCE_FAIL } from '../../fail/fail.js';
+import { ALREADY_EXIST_FAIL, NO_SOURCE_FAIL } from '../../fail/fail.js';
 import {File} from './file.js'
 export {Folder}
 
@@ -56,10 +56,10 @@ class Folder {
         return this.files[name];
     }
 
-    getFolders = function(condition = () => true) {
+    getFolders = function (condition = () => true) {
         return Object.entries(this.folders)
             .filter(condition)
-            .map(entry =>  {
+            .map(entry => {
                 return {
                     name: entry[0],
                     value: entry[1]
@@ -67,22 +67,31 @@ class Folder {
             });
     }
 
-    getFiles = function(condition = () => true) {
+    getFiles = function (condition = () => true) {
         return Object.entries(this.files)
             .filter(condition)
-            .map(entry =>  {
+            .map(entry => {
                 return {
-                    name: entry[0], 
+                    name: entry[0],
                     value: entry[1]
                 }
             });
     }
 
-    getSources = function(condition = () => true) {
+    getSources = function (condition = () => true) {
         return this.getFolders(condition).concat(this.getFiles(condition));
     }
 
-    addSources = function(sources) {
+    getAllSources = function (condition = () => true) {
+        return this.map((folder, _, path) => {
+            return {
+                path: path.join('/'),
+                folder: folder,
+            }
+        })
+    }
+
+    addSources = function (sources) {
         sources.forEach(source => {
             if(source.value instanceof Folder) {
                 this.addFolder(source.name, source.value)
@@ -98,14 +107,18 @@ class Folder {
                 this.createFolder(source.name, source.value.files, source.value.folders, source.value.timestamp, source.value.lastModified);
             } else if(source.value instanceof File) {
                 this.createFile(source.name, source.content, source.timestamp, source.lastModified);
+            if (source.value instanceof Folder) {
+                this.addFolder(source.name, source.value.files, source.value.folders, source.value.timestamp, source.value.lastModified);
+            } else if (source.value instanceof File) {
+                this.addFile(source.name, source.content, source.timestamp, source.lastModified);
             }
         })
     }
 
     removeSources = function (condition = () => true) {
         const deleted = [];
-        for(let name in this.files) {
-            if(condition(name, this.files[name])) {
+        for (let name in this.files) {
+            if (condition(name, this.files[name])) {
                 deleted.push({
                     name: name,
                     value: this.files[name]
@@ -113,8 +126,8 @@ class Folder {
                 delete this.files[name];
             }
         }
-        for(let name in this.folders) {
-            if(condition(name, this.folders[name])) {
+        for (let name in this.folders) {
+            if (condition(name, this.folders[name])) {
                 deleted.push({
                     name: name,
                     value: this.folders[name]
@@ -129,7 +142,11 @@ class Folder {
     }
 
     getSize = function () {
-        return this.reduce((acc, folder) => acc + folder.getFiles().reduce((acc, file) => acc+file.getSize(), 0))
+        return this.reduce((acc, folder) => {
+            return acc + folder.getFiles().reduce((acc, file) => {
+                return acc + file.value.getSize();
+            }, 0);
+        }, 0)
     }
 
     hasFolder = function (folderName) {
@@ -145,7 +162,7 @@ class Folder {
         forEach(this);
 
         function forEach(folder, folderName = []) {
-            for(let name in folder.folders) {
+            for (let name in folder.folders) {
                 folderPath.push(name);
                 forEach(folder.folders[name], name);
                 folderPath.pop();
@@ -166,16 +183,16 @@ class Folder {
                 forEach(folder.folders[name], name);
                 folderPath.pop();
             }
-            folders.push(callback(folder, folderName, folderPath))
+            folders.push(callback(folder, folderName, [...folderPath]))
         }
     }
 
-    reduce = function(callback, accumulated = 0) {
+    reduce = function (callback, accumulated = 0) {
         let folderPath = [];
         return reduce(this);
 
         function reduce(folder, folderName = []) {
-            for(let name in folder.folders) {
+            for (let name in folder.folders) {
                 folderPath.push(name);
                 reduce(folder.folders[name], name);
                 folderPath.pop();
@@ -192,12 +209,12 @@ class Folder {
         return validFolders;
 
         function filter(folder, folderName = []) {
-            for(let name in folder.folders) {
+            for (let name in folder.folders) {
                 folderPath.push(name);
                 filter(folder.folders[name], name);
                 folderPath.pop();
             }
-            if(callback(folder, folderName, folderPath)) {
+            if (callback(folder, folderName, folderPath)) {
                 validFolders.push(folder);
             }
         }
@@ -208,8 +225,8 @@ class Folder {
         return filterStructure(this.clone());
 
         function filterStructure(folder, folderName = []) {
-            for(let name in folder.folders) {
-                if(callback(folder.folders[name], folderName, folderPath)) {
+            for (let name in folder.folders) {
+                if (callback(folder.folders[name], folderName, folderPath)) {
                     folderPath.push(name);
                     folder.folders[name] = filterStructure(folder.folders[name].clone(), name);
                     folderPath.pop();
@@ -220,10 +237,10 @@ class Folder {
             return folder;
         }
     }
-    
+
     clone = function () {
         const filesClone = {};
-        for(const name in this.files) {
+        for (const name in this.files) {
             filesClone[name] = new File(this.files[name].name, this.files[name].content);
         }
         const foldersClone = {...this.folders};
