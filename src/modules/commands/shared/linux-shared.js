@@ -13,7 +13,9 @@ export const linuxSharedCommands = {
         'cd - change the shell working directory.',
         manCd.All,
         (argumentList) => {
-            changePath(argumentList[0]);
+            if (argumentList.length <= 0) {
+                changePath('/');
+            } changePath(argumentList[0]);
         }
     ),
     rm: new Command(
