@@ -49,18 +49,9 @@ export const sharedCommands = {
             }
         }
     ),
-    touch: new Command(
-        'touch -- change file access and modification times',
-        manTouch.All,
-        (argumentList, parameterList) => {
-            argumentList.forEach(file => {
-                return createFile(file)
-            });
-        }
-    ),
-    cat: new Command(
+    echo: new Command(
         'cat - concatenate files and print on the standard output',
-        manCat.All,
+        manEcho.All,
         (argumentList, parameterList) => {
             const decoded = decodeMark(argumentList);
             if(decoded) {
@@ -69,7 +60,6 @@ export const sharedCommands = {
                         if (e.ctrlKey && e.key === "d") {
                             e.preventDefault();
                             const originText = getInputValue();
-                            console.log(originText);
                             decoded.target.map(path => {
                                 if(decoded.mark === '>') {
                                     return setFileContent(path, originText, asteriskCondition);
@@ -85,8 +75,7 @@ export const sharedCommands = {
                 const originText = decoded.source.reduce((acc, path) => acc + getFileContent(path, asteriskCondition).join(' '), '');
 
             } else {
-                console.log(argumentList);
-                return argumentList.map(path => getFileContent(path, asteriskCondition).join('<br>')).join('<br>');
+                return argumentList.map(path => path.join(' ')).join('<br>');
             }
         }
     ),
@@ -97,7 +86,6 @@ export const sharedCommands = {
             clearOutput();
         }
     ),
-    
     man: new Command(
         'man - an interface to the system reference manuals.',
         manMan.All,
@@ -120,8 +108,6 @@ export const sharedCommands = {
                 return commandsList.map( command => command.description).join("<br>");
             } else {
                 return getCommand(argumentList).description
-                //return commandsList[argumentList].description;
-
             }
         }
     ),
